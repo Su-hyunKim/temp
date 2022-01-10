@@ -20,7 +20,11 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
-	 * Simply selects the home view to render by returning its name.
+<<<<<<< HEAD
+	 *   Simply selects the home view to render by returning its name.
+=======
+	 * Simply selects the home view to render by returning its name..
+>>>>>>> branch 'master' of https://github.com/Su-hyunKim/temp.git
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
