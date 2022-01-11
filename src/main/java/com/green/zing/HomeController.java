@@ -21,7 +21,7 @@ public class HomeController {
 	
 	/**
 <<<<<<< HEAD
-	 *   Simply selects the home view to render by returning its name.
+	 *   Simply selects tthe home view to render by returning its name.
 =======  
 	 * Simply selects the home view to render by returning its name..
 >>>>>>> branch 'master' of https://github.com/Su-hyunKim/temp.git
