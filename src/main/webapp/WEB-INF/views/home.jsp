@@ -51,7 +51,7 @@ function jsBDetail1(seq) {
 </head>
 <body>
 <div id="home"><a href="home"><img src="resources/image/home.png" width="30" height="30"></a></div>
-<div id="settings"><a href="#"><img src="resources/image/setting.png" width="30" height="30"></a></div>
+<div id="settings"><a href="#"><img src="resources/image/login.png" width="30" height="30"></a></div>
 <div class="menu">
 <ul>
 	<div id="d1">
