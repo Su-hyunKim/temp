@@ -6,20 +6,33 @@
 	<meta charset="UTF-8">
 	<title>Home</title>
 	<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
-	<script src="resources/myLib/jquery-3.2.1.min.js"></script> 
+	<script src="resources/lib/jquery-3.2.1.min.js"></script> 
 <script>
-function jsBDetail1(seq) {
-	$.ajax({
-		type:"Get",
-		url:"mypage?id="+id,
-		success:function(resultData) {
-			$('#container').html(resultData.content);
-		},
-		error:function() {
-			alert("~~ 서버오류 !!! 잠시후 다시 하세요 ~~");
-		}
-	}); //ajax
-} //jsBDetail1
+$(function(){
+	
+	$('#loginBt').hover(function(){
+		$(this).css({
+			cursor:"pointer"
+		}); //css
+	}, function(){
+		$(this).css({
+			cursor:"default"
+		}); //css
+	}).click(function(e){
+		
+		$.ajax({
+			type:"Get",
+			url:"loginf",
+			success:function(resultPage) {
+				$('#container').html(resultPage);	
+			},
+			error:function() {
+				alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
+			}
+		}); //ajax
+	}) //loginBt
+	
+}); //ready
 </script>
 <style>
 	* { padding:3px; }
@@ -38,7 +51,7 @@ function jsBDetail1(seq) {
 	ul li a:hover { color:green; }	
 	.footer a { color: black ; text-decoration: none }
 	#home {position:fixed; left:10px; top:10px;}
-	#settings {position:fixed; left:92%; top:10px;}
+	#loginBt {position:fixed; left:92%; top:10px;}
 	body @font-face {
     font-family: 'Arita-dotum-Medium';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Arita-dotum-Medium.woff') format('woff');
@@ -51,7 +64,7 @@ function jsBDetail1(seq) {
 </head>
 <body>
 <div id="home"><a href="home"><img src="resources/image/home.png" width="30" height="30"></a></div>
-<div id="settings"><a href="#"><img src="resources/image/login.png" width="30" height="30"></a></div>
+<div id="loginBt"><img src="resources/image/login.png" width="30" height="30"></div>
 <div class="menu">
 <ul>
 	<div id="d1">
@@ -90,7 +103,6 @@ function jsBDetail1(seq) {
 <img src="resources/image/stars.png" width="100%" height="100%">
 </div>
 <div id="container">
-
 </div>
 
 <div class="footer">
