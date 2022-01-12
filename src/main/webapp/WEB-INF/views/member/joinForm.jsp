@@ -12,7 +12,7 @@
 <script src="resources/myLib/axTest01.js"></script>
 
 <script>
-//1) 개별적 오류 확인을 위한 switch 변수 (전역)	
+// 1) 개별적 오류 확인을 위한 switch 변수 (전역)
   var iCheck=false;
   var pCheck=false;	
   var nCheck=false;
