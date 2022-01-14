@@ -35,6 +35,7 @@ public class HomeController {
 		mv.setViewName("member/loginForm");
 		return mv;
 	}
+	
 	@RequestMapping(value = "/joinf")
 	public ModelAndView join(ModelAndView mv) {
 		mv.setViewName("member/joinForm");
