@@ -30,21 +30,5 @@ public class HomeController {
 		
 		return "home";
 	}
-	@RequestMapping(value = "/loginf")
-	public ModelAndView loginf(ModelAndView mv) {
-		mv.setViewName("member/loginForm");
-		return mv;
-	}
-	
-	@RequestMapping(value = "/joinf")
-	public ModelAndView join(ModelAndView mv) {
-		mv.setViewName("member/joinForm");
-		return mv;
-	}
-	
-	@RequestMapping(value = "/mypage")
-	public ModelAndView mypage(ModelAndView mv) {
-		mv.setViewName("member/memberDetail");
-		return mv;
-	}
+
 } //Class
