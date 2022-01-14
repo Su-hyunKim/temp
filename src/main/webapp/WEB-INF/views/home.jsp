@@ -8,8 +8,28 @@
 	<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
 	<script src="resources/lib/jquery-3.2.1.min.js"></script> 
 <script>
-$(function(){
+$(function(){	
 	$('#home').hover(function(){
+		$(this).css({
+			transform:"scale(1.2)",
+			cursor:"pointer"
+		}); //css
+	}, function(){
+		$(this).css({
+			transform:"scale(1)",
+			cursor:"default"
+		}); //css
+	}) //home
+
+	if(document.getElementById("loginID")){
+		$('#loginBt').hide();
+		$('#logoutBt').show();
+	}else{
+		$('#loginBt').show();
+		$('#logoutBt').hide();
+	}
+	
+	$('#logoutBt').hover(function(){
 		$(this).css({
 			transform:"scale(1.2)",
 			cursor:"pointer"
@@ -22,15 +42,16 @@ $(function(){
 	}).click(function(e){		
 		$.ajax({
 			type:"Get",
-			url:"",
-			success:function(resultPage) {
-				$('#container').html(resultPage);	
+			url:"logout",
+			success:function(resultData) {
+				location.reload();
+				alert(resultData.message);				
 			},
 			error:function() {
 				alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
 			}
 		}); //ajax
-	}) //home
+	}) //logoutBt
 	
 	$('#loginBt').hover(function(){
 		$(this).css({
@@ -73,9 +94,13 @@ $(function(){
 		$('.banner').css({display:"none"});
 		$.ajax({
 			type:"Get",
-			url:"mypage?member_id="+"'1'",
+			url:"mdetail?member_id="+$('#loginID').val(),
 			success:function(resultPage) {
-				$('#container').html(resultPage);	
+				var html = resultPage;				
+				var body = html.substring(html.lastIndexOf('<body>')+6,html.lastIndexOf('</body>'));
+				if(body.indexOf("<P>HOME</P>")!=-1) html = body.substring(body.indexOf('<P>HOME</P>'),
+						body.indexOf('<div class="footer">'));
+				$('#container').html(html);	
 			},
 			error:function() {
 				alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
@@ -87,7 +112,8 @@ $(function(){
 </head>
 <body>
 <div id="home"><a href=""><img src="resources/image/home.png" width="30" height="30"></a></div>
-<div id="loginBt"><img src="resources/image/login.png" width="35" height="35"></div>
+<img  id="loginBt" src="resources/image/login.png" width="35" height="35">
+<img  id="logoutBt" src="resources/image/logout.png" width="35" height="35">
 <div class="menu">
 <ul>
 	<div id="d1">
@@ -123,6 +149,13 @@ $(function(){
 <div id="container">
 <P>HOME</P>
 <P>${serverTime}</P>
+<c:if test="${not empty loginID}">
+<input type="hidden" id="loginID" value="${loginID}">
+<span>${loginName}님 환영합니다.</span>
+</c:if>
+<c:if test="${not empty message}">
+<span>${message}</span>
+</c:if>
 </div>
 
 <div class="footer">
