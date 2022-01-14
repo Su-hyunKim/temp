@@ -31,6 +31,7 @@ $(function(){
 			}
 		}); //ajax
 	}) //home
+	
 	$('#loginBt').hover(function(){
 		$(this).css({
 			transform:"scale(1.2)",
@@ -53,6 +54,7 @@ $(function(){
 			}
 		}); //ajax
 	}) //loginBt
+	
 	$('#joinf').click(function(e){
 		$('.banner').css({display:"none"});
 		$.ajax({
@@ -66,6 +68,20 @@ $(function(){
 			}
 		}); //ajax
 	}) //joinf	
+	
+	$('#mypage').click(function(e){
+		$('.banner').css({display:"none"});
+		$.ajax({
+			type:"Get",
+			url:"mypage",
+			success:function(resultPage) {
+				$('#container').html(resultPage);	
+			},
+			error:function() {
+				alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
+			}
+		}); //ajax
+	}) //joinf
 }); //ready
 </script>
 </head>
@@ -93,7 +109,7 @@ $(function(){
 	<div id="d3">
 	<li class="title">회 원
 	<ul>
-		<li><span>마이페이지</span>
+		<li id="mypage"><span>마이페이지</span>
 		<li id="joinf"><span>회원가입</span>
 		<li><span>내정보수정</span>
 		<li><span>회원탈퇴</span>

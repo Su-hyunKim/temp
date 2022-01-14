@@ -41,5 +41,10 @@ public class HomeController {
 		mv.setViewName("member/joinForm");
 		return mv;
 	}
-}
-//jjh_test
+	
+	@RequestMapping(value = "/mypage")
+	public ModelAndView mypage(ModelAndView mv) {
+		mv.setViewName("member/memberDetail");
+		return mv;
+	}
+} //Class
