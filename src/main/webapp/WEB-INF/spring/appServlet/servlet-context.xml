@@ -38,6 +38,12 @@
 		<beans:property name="password" value="oracle"/>
 	</beans:bean>
 	
-	
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	** BeanNameResolver   -->	
+	<beans:bean id="viewResolver" 
+			class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="1" />
+	</beans:bean>
+	<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView" /> 
 	
 </beans:beans>

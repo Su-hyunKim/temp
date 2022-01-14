@@ -22,7 +22,7 @@ ul li:hover {color:black; cursor:pointer; background:#f0f0f0;}
 ul li span:hover{color:black; font-weight:bold;}
 .footer a { color: black; text-decoration: none }
 #home {position:fixed; left:10px; top:10px; z-index:1;}
-#loginBt {position:fixed; left:92%; top:10px; z-index:1;}
+#loginBt,#logoutBt {position:fixed; left:92%; top:10px; z-index:1;}
 .banner{opacity:0.5; height:250px; width:100%; padding:0; border:0;}
 #container{width:100%;}
 

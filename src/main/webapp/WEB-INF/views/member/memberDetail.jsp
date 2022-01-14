@@ -112,10 +112,10 @@
     </a>
   </div>
   <div class="infoContainer">
-    <a href="mdetail?jcode=U&id=${apple.id}" class="item">
+    <a href="mdetail?jcode=U&id=${apple.member_id}" class="item">
       <div><h3>내 정보수정</h3></div>
     </a>    
-    <a href="mdelete?id=${apple.id}" class="item">
+    <a href="mdelete?id=${apple.member_id}" class="item">
       <div><h3>회원탈퇴</h3></div>
     </a>    
     <a href="home" class="item">

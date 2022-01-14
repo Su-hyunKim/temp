@@ -14,13 +14,13 @@
  	</select>
  
  	<select id="selectOne" resultType="vo.MemberVO">
-		select * from member where member_id=#{member_id}
+		select * from member where member_id = #{member_id}
 	</select>
 	<!-- #{id} : parameter 로 전달된 vo 의 id 라는 컬럼의 value 가 전달됨 -->
 
 	<insert id="insert">
 		insert into member(member_id,name,password,gender,birthday,address1,address2,address3,email,phone,interest,sns,profile)
-values('1','2','3','4','5','6','7','8','9','10','11','12','13');
+values('1','2','3','4','5','6','7','8','9','10','11','12','13')
 	</insert>
 	
 	<update id="update">
