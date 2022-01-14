@@ -7,8 +7,8 @@
 <title>로그인</title>
 	<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
 	<script src="resources/lib/jquery-3.2.1.min.js"></script>
-	<script src="resources/lib/axTest01.js"></script>
-</head>
+<!-- 	<script src="resources/lib/axTest01.js"></script>
+ --></head>
 <body>
 <form action="login" method="post">
 <table>
