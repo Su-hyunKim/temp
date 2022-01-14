@@ -73,7 +73,7 @@ $(function(){
 		$('.banner').css({display:"none"});
 		$.ajax({
 			type:"Get",
-			url:"mypage",
+			url:"mypage?member_id="+"'1'",
 			success:function(resultPage) {
 				$('#container').html(resultPage);	
 			},
