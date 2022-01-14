@@ -12,9 +12,9 @@
 <body>
 <form action="login" method="post">
 <table>
-	<tr><td bgcolor="PaleTurquoise">I D</td>
+	<tr><td bgcolor="gray">I D</td>
 		<td><input type="text" name="id" id="id" value="banana"></td></tr>
-	<tr><td bgcolor="PaleTurquoise ">Password</td>
+	<tr><td bgcolor="gray">Password</td>
 		<td><input type="password" name="password" id="password" value="12345"></td></tr>
 	<tr><td></td>
 		<td><input type="submit" value="Login">&nbsp; 
