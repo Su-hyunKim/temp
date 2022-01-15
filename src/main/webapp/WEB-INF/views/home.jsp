@@ -9,7 +9,7 @@
 	<script src="resources/lib/jquery-3.2.1.min.js"></script> 
 <script>
 $(function(){
-
+	
 	if(document.getElementById("loginID")){
 		$('#loginBt').hide();
 		$('#logoutBt').show();
@@ -18,50 +18,65 @@ $(function(){
 		$('#logoutBt').hide();
 	}
 	
-	fixedBnts.forEach(ajaxRequest);
-	
-	$('#mypage').click(function(e){
-		$('.banner').css({display:"none"});
-		$.ajax({
-			type:"Get",
-			url:"mdetail?member_id="+$('#loginID').val(),
-			success:function(resultPage) {
-				var html = resultPage;				
-				var body = html.substring(html.lastIndexOf('<body>')+6,html.lastIndexOf('</body>'));
-				if(body.indexOf("<P>HOME</P>")!=-1) html = body.substring(body.indexOf('<P>HOME</P>'),
-						body.indexOf('<div class="footer">'));
-				$('#container').html(html);	
-			},
-			error:function() {
-				alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
+	ajaxBnts.forEach(function(ajaxButton){
+		if(ajaxButton.opt.includes('scale')) scale(ajaxButton.id);
+		if(ajaxButton.url!=null){
+			let success;
+			let url = ajaxButton.url;
+			if(ajaxButton.opt.includes('loginID')) url = url+$('#loginID').val();
+			if(ajaxButton.convey=='data'){
+				success = function(resultData) {
+								location.reload();
+								alert(resultData.message);				
+							};
+			}else if(ajaxButton.convey=='page'){
+				success = function(resultPage) {
+								let body = resultPage.substring(resultPage.lastIndexOf('<body>')+6,resultPage.lastIndexOf('</body>'));
+								if(body.indexOf("<P>HOME</P>")!=-1) resultPage = body.substring(body.indexOf('<P>HOME</P>'),
+								body.indexOf('<div class="footer">'));
+								$('#container').html(resultPage);	
+							};
 			}
-		}); //ajax
-	}) //joinf
+			$('#'+ajaxButton.id).click(function(e){	
+ 				if(ajaxButton.opt.includes('banner')) banner();
+				$.ajax({
+					type:ajaxButton.method,
+					url:url,
+					success:success,
+					error:function() {
+								alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
+							}
+				}); //ajax
+			}); //click
+		} //if
+	});
 }); //ready
-
-class FixedButton{
-	constructor(opt,id,url,convey){
+class AjaxButton{
+	constructor(opt,id,url,method,convey){
 		this.opt=opt;
 		this.id=id;
 		this.url=url;
+		this.method=method;
 		this.convey=convey;
 	}
 }
 
-class Home extends FixedButton{}
-class LoginBt extends FixedButton{}
-class LogoutBt extends FixedButton{}
-class Joinf extends FixedButton{}
-class Comment extends FixedButton{}
+class Home extends AjaxButton{}
+class LoginBt extends AjaxButton{}
+class LogoutBt extends AjaxButton{}
+class Joinf extends AjaxButton{}
+class Comment extends AjaxButton{}
+class Mypage extends AjaxButton{}
 
-const fixedBnts = [new Home('scale','home',null,null),
-					new LoginBt('scale','loginBt','loginf','page'),
-					new LogoutBt('scale','logoutBt','logout','data'),
-					new Joinf('banner','joinf','joinf','page'),
-					new Comment('banner','comment','comment','page')];
+const ajaxBnts = [new Home(['scale'],'home',null,null,null),
+					new LoginBt(['scale'],'loginBt','loginf','get','page'),
+					new LogoutBt(['scale'],'logoutBt','logout','get','data'),
+					new Joinf(['banner'],'joinf','joinf','get','page'),
+					new Comment(['banner'],'comment','comment','get','page'),
+					new Mypage(['banner','loginID'],'mypage','mdetail?member_id=','get','page')];
 
-function scale(fixedButton){
-	$('#'+fixedButton.id).hover(function(){
+function scale(id){
+	$('#'+id).hover(function(){
 		$(this).css({
 			transform:"scale(1.2)",
 			cursor:"pointer"
@@ -71,47 +86,13 @@ function scale(fixedButton){
 			transform:"scale(1)",
 			cursor:"default"
 		}); //css
-	});
+	}); //hover
 }
+
 function banner(){
 	$('.banner').css({display:"none"});
 }
-function ajaxRequest(fixedButton){
-	switch(fixedButton.opt){
-	case 'scale': scale(fixedButton); break;
-	case 'banner': banner(); break;
-	}
-	if(fixedButton.url!=null){
-		if(fixedButton.convey=='data'){
-			$('#'+fixedButton.id).click(function(e){		
-				$.ajax({
-					type:"Get",
-					url:fixedButton.url,
-					success:function(resultData) {
-						location.reload();
-						alert(resultData.message);				
-					},
-					error:function() {
-						alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
-					}
-				}); //ajax
-			})
-		}else if(fixedButton.convey=='page'){
-			$('#'+fixedButton.id).click(function(e){
-				$.ajax({
-					type:"Get",
-					url:fixedButton.url,
-					success:function(resultPage) {
-						$('#container').html(resultPage);	
-					},
-					error:function() {
-						alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
-					}
-				}); //ajax
-			})
-		}
-	}
-}
+
 </script>
 </head>
 <body>
