@@ -8,18 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
 	<script src="resources/lib/jquery-3.2.1.min.js"></script> 
 <script>
-$(function(){	
-	$('#home').hover(function(){
-		$(this).css({
-			transform:"scale(1.2)",
-			cursor:"pointer"
-		}); //css
-	}, function(){
-		$(this).css({
-			transform:"scale(1)",
-			cursor:"default"
-		}); //css
-	}) //home
+$(function(){
 
 	if(document.getElementById("loginID")){
 		$('#loginBt').hide();
@@ -29,66 +18,7 @@ $(function(){
 		$('#logoutBt').hide();
 	}
 	
-	$('#logoutBt').hover(function(){
-		$(this).css({
-			transform:"scale(1.2)",
-			cursor:"pointer"
-		}); //css
-	}, function(){
-		$(this).css({
-			transform:"scale(1)",
-			cursor:"default"
-		}); //css
-	}).click(function(e){		
-		$.ajax({
-			type:"Get",
-			url:"logout",
-			success:function(resultData) {
-				location.reload();
-				alert(resultData.message);				
-			},
-			error:function() {
-				alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
-			}
-		}); //ajax
-	}) //logoutBt
-	
-	$('#loginBt').hover(function(){
-		$(this).css({
-			transform:"scale(1.2)",
-			cursor:"pointer"
-		}); //css
-	}, function(){
-		$(this).css({
-			transform:"scale(1)",
-			cursor:"default"
-		}); //css
-	}).click(function(e){		
-		$.ajax({
-			type:"Get",
-			url:"loginf",
-			success:function(resultPage) {
-				$('#container').html(resultPage);	
-			},
-			error:function() {
-				alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
-			}
-		}); //ajax
-	}) //loginBt
-	
-	$('#joinf').click(function(e){
-		$('.banner').css({display:"none"});
-		$.ajax({
-			type:"Get",
-			url:"joinf",
-			success:function(resultPage) {
-				$('#container').html(resultPage);	
-			},
-			error:function() {
-				alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
-			}
-		}); //ajax
-	}) //joinf	
+	fixedBnts.forEach(ajaxRequest);
 	
 	$('#mypage').click(function(e){
 		$('.banner').css({display:"none"});
@@ -108,6 +38,80 @@ $(function(){
 		}); //ajax
 	}) //joinf
 }); //ready
+
+class FixedButton{
+	constructor(opt,id,url,convey){
+		this.opt=opt;
+		this.id=id;
+		this.url=url;
+		this.convey=convey;
+	}
+}
+
+class Home extends FixedButton{}
+class LoginBt extends FixedButton{}
+class LogoutBt extends FixedButton{}
+class Joinf extends FixedButton{}
+class Comment extends FixedButton{}
+
+const fixedBnts = [new Home('scale','home',null,null),
+					new LoginBt('scale','loginBt','loginf','page'),
+					new LogoutBt('scale','logoutBt','logout','data'),
+					new Joinf('banner','joinf','joinf','page'),
+					new Comment('banner','comment','comment','page')];
+
+function scale(fixedButton){
+	$('#'+fixedButton.id).hover(function(){
+		$(this).css({
+			transform:"scale(1.2)",
+			cursor:"pointer"
+		}); //css
+	}, function(){
+		$(this).css({
+			transform:"scale(1)",
+			cursor:"default"
+		}); //css
+	});
+}
+function banner(){
+	$('.banner').css({display:"none"});
+}
+function ajaxRequest(fixedButton){
+	switch(fixedButton.opt){
+	case 'scale': scale(fixedButton); break;
+	case 'banner': banner(); break;
+	}
+	if(fixedButton.url!=null){
+		if(fixedButton.convey=='data'){
+			$('#'+fixedButton.id).click(function(e){		
+				$.ajax({
+					type:"Get",
+					url:fixedButton.url,
+					success:function(resultData) {
+						location.reload();
+						alert(resultData.message);				
+					},
+					error:function() {
+						alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
+					}
+				}); //ajax
+			})
+		}else if(fixedButton.convey=='page'){
+			$('#'+fixedButton.id).click(function(e){
+				$.ajax({
+					type:"Get",
+					url:fixedButton.url,
+					success:function(resultPage) {
+						$('#container').html(resultPage);	
+					},
+					error:function() {
+						alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
+					}
+				}); //ajax
+			})
+		}
+	}
+}
 </script>
 </head>
 <body>
@@ -121,6 +125,7 @@ $(function(){
 	<ul>
 		<li><span>전체글조회</span>
 		<li><span>홍보글조회</span>
+		<li id="comment"><span>리뷰작성</span>
 		<li><span>리뷰글조회</span>
 	</ul>
 	</div>
@@ -143,6 +148,9 @@ $(function(){
 	</div>
 </ul>
 </div>
+<c:if test="${not empty loginID}">
+<input type="hidden" id="loginID" value="${loginID}">
+</c:if>
 <div class="banner">
 <img src="resources/image/stars.png" width="100%" height="100%">
 </div>
@@ -150,7 +158,6 @@ $(function(){
 <P>HOME</P>
 <P>${serverTime}</P>
 <c:if test="${not empty loginID}">
-<input type="hidden" id="loginID" value="${loginID}">
 <span>${loginName}님 환영합니다.</span>
 </c:if>
 <c:if test="${not empty message}">
