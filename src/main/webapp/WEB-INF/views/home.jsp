@@ -37,20 +37,6 @@ $(function(){
 			}
 		}); //ajax
 	}) //joinf
-	
-	$('#comment').click(function(e){
-		$('.banner').css({display:"none"});
-		$.ajax({
-			type:"Get",
-			url:"comment",
-			success:function(resultPage) {
-				$('#container').html(resultPage);	
-			},
-			error:function() {
-				alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
-			}
-		}); //ajax
-	}) //joinf	
 }); //ready
 
 class FixedButton{

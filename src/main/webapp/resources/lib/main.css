@@ -1,5 +1,11 @@
 @charset "UTF-8";
-* { padding:3px; }
+@font-face {
+		    font-family: 'KOTRAHOPE';
+		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+		    font-weight: normal;
+		    font-style: normal;
+}
+* { padding:3px; font-family: "KOTRAHOPE";}
 body{background: #f0f0f0;}
 .menu div { overflow:auto; position:absolute; top:10px; z-index:1;}
 #d1 { left:20%; }
@@ -10,7 +16,7 @@ ul { list-style:none; }
 ul span { 
 	font-size:18px; line-height:30px; color:gray;
 }
-ul ul { display:none; clear:both; font-family:'Arita-dotum-Medium';}
+ul ul { display:none; clear:both;}
 ul li:hover ul { display:block;}
 ul li:hover {color:black; cursor:pointer; background:#f0f0f0;}	
 ul li span:hover{color:black; font-weight:bold;}
@@ -38,12 +44,3 @@ ul li span:hover{color:black; font-weight:bold;}
         opacity: 0.5;
     }
 }
-@font-face {
-		    font-family: 'KOTRAHOPE';
-		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
-		    font-weight: normal;
-		    font-style: normal;
-		}
-* {
-			font-family: "KOTRAHOPE";
-		}
