@@ -6,10 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>징검다리 : 회원가입</title>
-<!-- <link rel="stylesheet" type="text/css" href="resources/myLib/myStyle.css"> -->
 <script src="resources/lib/jquery-3.2.1.min.js"></script>
 <script src="resources/lib/inCheck.js"></script>
-<!--<script src="resources/lib/axTest01.js"></script> -->
 
 <style>
 	.wrap { 
