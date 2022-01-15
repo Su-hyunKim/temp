@@ -107,6 +107,20 @@ $(function(){
 			}
 		}); //ajax
 	}) //joinf
+	
+	$('#comment').click(function(e){
+		$('.banner').css({display:"none"});
+		$.ajax({
+			type:"Get",
+			url:"comment",
+			success:function(resultPage) {
+				$('#container').html(resultPage);	
+			},
+			error:function() {
+				alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
+			}
+		}); //ajax
+	}) //joinf	
 }); //ready
 </script>
 </head>
@@ -121,6 +135,7 @@ $(function(){
 	<ul>
 		<li><span>전체글조회</span>
 		<li><span>홍보글조회</span>
+		<li id="comment"><span>리뷰작성</span>
 		<li><span>리뷰글조회</span>
 	</ul>
 	</div>
