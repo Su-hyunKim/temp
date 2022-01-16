@@ -7,6 +7,11 @@
 ** interface 를 통해 ~Mapper 접근
 => interface ~Mapper.java 의 패키지명과 화일명과  
    ~Mapper.xml 의 패키지명, 화일명, namespace 값은 같아야됨. -->  
+
+	<!-- 로그아웃 -->
+	<update id="updateLastAccess">
+		update member set last_access=sysdate where member_id=#{member_id}
+	</update>
  	
  	<!-- ** CRUD 기본 ** -->
  	<select id="selectList" resultType="vo.MemberVO">

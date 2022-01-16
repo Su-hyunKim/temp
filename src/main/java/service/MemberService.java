@@ -6,6 +6,10 @@ import vo.MemberVO;
 
 
 public interface MemberService {
+	
+	int updateLastAccess(MemberVO vo);
+	
+	// 기본 CRUD
 	List<MemberVO> selectList(); //selectList
 	MemberVO selectOne(MemberVO vo); //selectOne
 	int insert(MemberVO vo); //insert

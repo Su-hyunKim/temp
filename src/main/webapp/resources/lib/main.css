@@ -25,7 +25,10 @@ ul li span:hover{color:black; font-weight:bold;}
 #loginBt,#logoutBt {position:fixed; left:92%; top:10px; z-index:1;}
 .banner{opacity:0.5; height:250px; width:100%; padding:0; border:0;}
 #container{width:100%;}
-
+.modal{z-index:2; display:none;}
+.modal_content{z-index:3; display:none;}
+.modalClose{position:absolute;top:0px;right:10px;z-index:4;}
+.modalClose:hover{cursor:pointer;}
 .banner{
     animation: fadein 3s;
     -webkit-animation: fadein 3s;

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>** Spring Mybatis MemberDetail **</title>
+<title>** My Page **</title>
 <link rel="stylesheet" type="text/css" href="resources/lib/myinfo.css">
 </head>
 <body>
