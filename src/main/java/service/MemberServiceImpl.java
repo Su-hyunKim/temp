@@ -30,6 +30,11 @@ public class MemberServiceImpl implements MemberService {
 	// 단, 설정화일에 <mybatis-spring:scan base-package="mapperInterface"/> 추가해야함
 	
 	@Override
+	public int updateLastAccess(MemberVO vo) {
+		return dao.updateLastAccess(vo);
+	}
+	
+	@Override
 	public List<MemberVO> selectList() {
 		return dao.selectList();
 	} //selectList
