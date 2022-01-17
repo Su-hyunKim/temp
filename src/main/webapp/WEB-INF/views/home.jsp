@@ -154,7 +154,7 @@ function banner(){
 			<ul>
 				<li><span>전체글조회</span>
 				<li><span>홍보글조회</span>
-				<li id="comment"><span>리뷰작성</span>
+				<li id="comment"><span>댓글작성</span>
 				<li><span>리뷰글조회</span>
 			</ul>
 		</div>

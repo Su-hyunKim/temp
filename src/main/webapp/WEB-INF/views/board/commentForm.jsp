@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리뷰 작성</title>
+<title>댓글 작성</title>
 <link rel="stylesheet" href="resources/lib/comment.css"/>
 <!-- <script type="text/javascript" src="resources/lib/comment.js"></script> -->
 <script src="resources/lib/jquery-3.2.1.min.js"></script>
@@ -13,10 +13,10 @@
 </head>
 <body>
     <div class="wrap">
-        <h1>후기</h1>
+        <h1>댓글</h1>
         <form name="reviewform" class="reviewform" method="post" action="/save">
             <input type="hidden" name="rate" id="rate" value="0"/>
-            <p class="title_star">별점과 이용경험을 남겨주세요.</p>
+            <p class="title_star">리뷰에 대한 평가를 남겨주세요.</p>
 			<div class="star-rating space-x-4 mx-auto">
 				<input type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
 				<label for="5-stars" class="star pr-4">★</label>
