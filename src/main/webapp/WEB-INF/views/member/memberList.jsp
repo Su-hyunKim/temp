@@ -13,6 +13,18 @@
 <c:if test="${not empty message}">
 => ${message}<br>
 </c:if>
+<div id="searchBar">
+	<form action="mchecklist" method="get">
+		<b>Level : </b>
+		<input type="checkbox" name="check" value="플레인">플레인&nbsp;
+		<input type="checkbox" name="check" value="브론즈">브론즈&nbsp;
+		<input type="checkbox" name="check" value="실버">실버&nbsp;
+		<input type="checkbox" name="check" value="골드">골드&nbsp;&nbsp;
+<!-- 		<input type="submit" value="검색">&nbsp; -->
+		<button id="mchecklist">검색</button>&nbsp;
+		<input type="reset" value="취소">
+	</form>
+</div><br>
 <hr>
 <table width=100%>
 <tr height="30" bgcolor="pink">
@@ -38,7 +50,7 @@
 </table>
 <hr>
 
-<a href="" >[Home]</a>
+<a href="home" >[Home]</a>
 
 </body>
 </html>
