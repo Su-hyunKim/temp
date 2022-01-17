@@ -19,6 +19,7 @@ $(function(){
 	}
 	
 	ajaxBnts.forEach(function(ajaxButton){
+		$('.modal,.modal_content').hide();
 		if(ajaxButton.opt.includes('scale')) scale(ajaxButton.id);
 		if(ajaxButton.url!=null){
 			let success;
@@ -40,7 +41,7 @@ $(function(){
 										resultPage.lastIndexOf('</body>'));
 								if(body.indexOf("<P>징검다리</P>")!=-1)
 									resultPage = body.substring(body.indexOf('<P>징검다리</P>'),
-										body.indexOf('<div class="footer">'));
+										body.indexOf('<div class="modal">'));
 								$(container).html(resultPage);	
 							};
 			}
@@ -193,9 +194,7 @@ function banner(){
 <span>${message}</span>
 </c:if>
 </div>
-
 <div class="modal"></div><div class="modal_content"></div>
-
 <div class="footer">
  <hr>
  <center>
