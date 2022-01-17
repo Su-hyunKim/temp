@@ -114,9 +114,9 @@ function modal(button,width,height){
 			position:"fixed",
 			top:0,
 			left:0,
-			background:"rgba(255,255,255,0.5)",
 			width:"100%",
-			height:"100%",
+			height:"100%", 
+			background:"rgba(0,0,0,0.5)",
 			display:"block"
 		});
 		$('.modal_content').css({
@@ -127,7 +127,8 @@ function modal(button,width,height){
 			left:(window.innerWidth-width)/2,
 			background:"white",
 			display:"block",
-			border:"3px solid gray"
+			border:"0px solid gray",
+			borderRadius:"5px 5px",
 		});
 		e.stopPropagation();
 	}); //button_click
