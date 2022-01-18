@@ -12,16 +12,6 @@
 			where rnum between #{sno} and #{eno}
 	</select>
 
-<!-- ** 답글입력 ~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->	
-	
-	<insert id="replyInsert">
-		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
-			select nvl(max(seq),0)+1 from comments
-		</selectKey>
-		insert into comments values (
-			#{reply_seq},#{root_seq},#{member_id},SYSDATE,#{texts},#{fileupload},#{rating},#{status})
-	</insert>  
-
 <!-- ** PageList ~~~~~~~~~~~~~~~~~~~~~~-->
 	
 	<select id="pageList" resultType="vo.CommentsVO">
@@ -36,7 +26,7 @@
 	</select>
 	
 	<select id="selectOne" resultType="vo.CommentsVO">
-		select * from comments where seq = #{seq}
+		select * from comments where reply_seq = #{reply_seq}
 	</select>
 	
 	<!-- 원글입력 -->
@@ -54,10 +44,7 @@
 	
 	<delete id="delete">
 		DELETE from comments
-		<if test="seq==root">where root=#{seq}</if> 
-		<!-- 원글삭제 : 동일한 root를 가진 글들은 모두 삭제 -->
-		<if test="seq!=root">where seq=#{seq}</if> 
-		<!-- 답글삭제 -->
+		<if test="seq!=root">where reply_seq=#{reply_seq}</if> 
 	</delete>
 
 </mapper>
