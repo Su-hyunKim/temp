@@ -1,4 +1,4 @@
-package critetia;
+package criteria;
 
 import lombok.Getter;
 import lombok.ToString;

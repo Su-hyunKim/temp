@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import critetia.SearchCriteria;
+import criteria.SearchCriteria;
 import mapperInterface.CommentsMapper;
 import vo.CommentsVO;
 import vo.PageVO;
