@@ -22,7 +22,7 @@
 			<ul>
 				<li><span>전체글조회</span>
 				<li><span>홍보글조회</span>
-				<li id="comment"><span>댓글작성</span>
+				<li id="comment"><span>리뷰작성</span>
 				<li><span>리뷰글조회</span>
 			</ul>
 		</div>
@@ -49,18 +49,50 @@
 <c:if test="${not empty loginID}">
 <input type="hidden" id="loginID" value="${loginID}">
 </c:if>
-<div class="banner">
-<img src="resources/image/stars.png" width="100%" height="100%">
-</div>
 <div id="container">
-<P>징검다리</P>
-<P>${serverTime}</P>
-<c:if test="${not empty loginID}">
-<span>${loginName}님 환영합니다.</span>
-</c:if>
+<h3>** 멤버리스트 **</h3>
+<br>
 <c:if test="${not empty message}">
-<span>${message}</span>
+=> ${message}<br>
 </c:if>
+<div id="searchBar">
+	<form action="mchecklist" method="get">
+		<b>Level : </b>
+		<input type="checkbox" name="check" value="플레인">플레인&nbsp;
+		<input type="checkbox" name="check" value="브론즈">브론즈&nbsp;
+		<input type="checkbox" name="check" value="실버">실버&nbsp;
+		<input type="checkbox" name="check" value="골드">골드&nbsp;&nbsp;
+		<button id="mchecklist">검색</button>&nbsp;
+		<input type="reset" value="취소">
+	</form>
+</div><br>
+<hr>
+<table width=100%>
+<tr height="30" bgcolor="pink">
+	<th>I D</th><th>Password</th><th>Name</th><th>Gender</th>
+	<th>Birthday</th><th>Email</th><th>Phone</th><th>Interest</th><th>Last Access</th>
+</tr>	
+<c:forEach var="list" items="${banana}">
+<tr  height="30" align="center">
+	<td> <!-- 관리자 기능 추가하기 -->
+	<c:if test="${loginID=='1'}">
+		<a href="mdetail?member_id=${list.member_id}">${list.member_id}</a>
+	</c:if>
+	<c:if test="${loginID!='1'}">
+		${list.member_id} 
+	</c:if>
+	</td>
+	<td>${list.password}</td><td>${list.name}</td><td>${list.gender}</td>
+	<td>${list.birthday}</td><td>${list.email}</td>
+	<td>${list.phone}</td><td>${list.interest}</td>
+	<td>${list.last_access}</td>
+</tr>
+</c:forEach>
+</table>
+<hr>
+
+<a href="home" >[Home]</a>
+
 </div>
 <div class="modal"></div><div class="modal_content"></div>
 <div class="footer">
