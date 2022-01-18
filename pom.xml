@@ -130,16 +130,7 @@
 			<scope>test</scope>
 		</dependency>  
 		
-		<!-- 5. JDBC 추가 
-			 5.1) MySQL 8 
-			https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-		<dependency>
-    		<groupId>mysql</groupId>
-    		<artifactId>mysql-connector-java</artifactId>
-    		<version>8.0.16</version>
-		</dependency>
-		
-		<!-- 5.2) ORACLE 11g driver -->
+		<!-- 5. JDBC 추가 ORACLE 11g driver -->
 		<dependency>
         	<groupId>com.oracle.database.jdbc</groupId>
         	<artifactId>ojdbc6</artifactId>
@@ -231,14 +222,6 @@
 			<version>${org.springframework-version}</version>
 			<scope>test</scope>
 		</dependency>    
-		      
-		<!-- Spring WebSocket 
-		     => Servlet version 3.~~ 확인  --> 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-websocket</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>      
 		      
 	</dependencies>
 	
