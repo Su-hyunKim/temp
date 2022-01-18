@@ -28,6 +28,11 @@ public class MemberServiceImpl implements MemberService {
 	MemberMapper dao;
 	// MemberMapper 의 인스턴스를 스프링이 생성 해주고 이를 주입받아 실행함
 	// 단, 설정화일에 <mybatis-spring:scan base-package="mapperInterface"/> 추가해야함
+
+	@Override
+	public List<MemberVO> checkList(MemberVO vo) {
+		return dao.checkList(vo);
+	}
 	
 	@Override
 	public int updateLastAccess(MemberVO vo) {
