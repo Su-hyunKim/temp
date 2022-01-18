@@ -80,7 +80,7 @@ public class MemberController {
 		HttpSession session = request.getSession(false);
     	if (session!=null) session.invalidate();
     	mv.addObject("message", "~~ 로그아웃 되었습니다 ~~");
-    	mv.setViewName("jsonView");
+    	mv.setViewName("home");
 		return mv;
 	} //logout	
 	
@@ -134,7 +134,8 @@ public class MemberController {
 		// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
 		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
 		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");
-			
+		
+		//mv.setViewName("member/memberList");
 		mv.setViewName("member/memberList");
 		return mv;
 	} //mchecklist
