@@ -4,6 +4,44 @@
 <mapper namespace="mapperInterface.CommentsMapper">
 
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+   <sql id="search">
+      <if test="keyword != null">
+         <bind name="keyVal" value="'%'+keyword+'%'"/>
+      </if>
+      <choose>
+         <when test="searchType=='t'.toString()">
+            and title LIKE #{keyVal} )
+         </when>
+         <when test="searchType=='c'.toString()">
+              and content Like #{keyVal} )
+           </when>
+           <when test="searchType=='i'.toString()">
+              and id Like #{keyVal} )
+           </when>
+           <when test="searchType=='tc'.toString()">
+              and title Like #{keyVal} 
+              or content Like #{keyVal} )
+           </when>
+           <when test="searchType=='ti'.toString()">
+              and title Like #{keyVal} 
+              or id Like #{keyVal} )
+           </when>
+           <when test="searchType=='tci'.toString()">
+              and title Like #{keyVal}
+              or content Like #{keyVal} 
+              or id Like #{keyVal} )
+           </when>
+           <otherwise>)</otherwise>
+      </choose>
+   </sql>
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<select id="searchRowsCount" resultType="int">
+		select count(*) from comments where ( reply_seq>0 
+		<include refid="search"></include>	
+	</select>
+	
  	<select id="searchList" resultType="vo.CommentsVO">
  		select reply_seq,root_seq,member_id,regdate,texts,fileupload,rating,status from 
 			(select c.*,ROW_NUMBER() OVER(order by root desc, step asc) rnum from comments c 

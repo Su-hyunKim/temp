@@ -24,7 +24,7 @@ public class CommentsServiceimpl implements CommentsService{
 	@Override
 	public List<CommentsVO> searchList(SearchCriteria cri) {
 		return dao.searchList(cri) ;
-	}
+	} 
 
 	@Override
 	public PageVO<CommentsVO> pageList(PageVO<CommentsVO> pvo) {
