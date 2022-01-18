@@ -6,6 +6,8 @@ import vo.MemberVO;
 
 public interface MemberMapper {
 	
+	List<MemberVO> checkList(MemberVO vo);
+	
 	int updateLastAccess(MemberVO vo);
 	
 	// 기본 CRUD

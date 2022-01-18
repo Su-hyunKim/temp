@@ -37,7 +37,7 @@
 					$('#message').html("~~ Ajax_jslogin Test Error ~~");
 				}
 			}); //ajax
-			e.stopPropagation();
+			return false;
 		}); //jslogin_click 
 		
 	$('.modalClose').click(function(e){

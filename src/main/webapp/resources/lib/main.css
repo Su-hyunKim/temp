@@ -7,6 +7,7 @@
 }
 * { padding:3px; font-family: "KOTRAHOPE";}
 body{background: #f0f0f0;}
+a {text-decoration-line:none; padding:0;}
 .menu div { overflow:auto; position:absolute; top:10px; z-index:1;}
 #d1 { left:20%; }
 #d2 { left:47%; }
@@ -16,7 +17,7 @@ ul { list-style:none; }
 ul span { 
 	font-size:18px; line-height:30px; color:gray;
 }
-ul ul { display:none; clear:both;}
+ul ul { display:none; clear:both;} 
 ul li:hover ul { display:block;}
 ul li:hover {color:black; cursor:pointer; background:#f0f0f0;}	
 ul li span:hover{color:black; font-weight:bold;}

@@ -80,7 +80,7 @@ public class MemberController {
 		HttpSession session = request.getSession(false);
     	if (session!=null) session.invalidate();
     	mv.addObject("message", "~~ 로그아웃 되었습니다 ~~");
-    	mv.setViewName("jsonView");
+    	mv.setViewName("home");
 		return mv;
 	} //logout	
 	
@@ -113,4 +113,30 @@ public class MemberController {
 		mv.setViewName("member/memberList");
 		return mv;
 	} //mlist
+	
+	// ** Member Check List ******************************
+	@RequestMapping(value = "/mchecklist")
+	public ModelAndView mchecklist(ModelAndView mv, MemberVO vo) {			
+		// 1) Check_Box 처리
+		// String[] check = request.getParameterValues("check");
+		// => vo 에 배열 Type의 check 컬럼을 추가하면 편리
+			
+		// 2) Service 실행
+		// => 선택하지 않은경우 : selectList() 
+		// => 선택을 한 경우 : 조건별 검색 checkList(vo) -> 추가
+		List<MemberVO> list = null;
+			
+		//if ( vo.getCheck() != null && vo.getCheck().length > 0 ) {...}
+		// => 배열Type의 경우 선택하지 않으면 check=null 이므로 길이 비교 필요없음. 
+		if ( vo.getCheck() != null ) list = service.checkList(vo) ;
+		else list = service.selectList();
+			
+		// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
+		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
+		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");
+		
+		//mv.setViewName("member/memberList");
+		mv.setViewName("member/memberList");
+		return mv;
+	} //mchecklist
 }
