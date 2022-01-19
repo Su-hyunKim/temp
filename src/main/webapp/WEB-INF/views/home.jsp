@@ -49,6 +49,9 @@
 <c:if test="${not empty loginID}">
 <input type="hidden" id="loginID" value="${loginID}">
 </c:if>
+<c:if test="${not empty R}">
+<input type="hidden" id="R" value="${R}">
+</c:if>
 <div class="banner">
 <img src="resources/image/stars.png" width="100%" height="100%">
 </div>

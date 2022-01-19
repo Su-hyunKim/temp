@@ -52,9 +52,9 @@
 <form action="login" method="post" id="modal_form">
 <table>
 	<tr><td bgcolor="gray">I D</td>
-		<td><input type="text" name="member_id" id="member_id" value="1"></td></tr>
+		<td><input type="text" name="member_id" id="member_id" value="admin"></td></tr>
 	<tr><td bgcolor="gray">Password</td>
-		<td><input type="password" name="password" id="password" value="3"></td></tr>
+		<td><input type="password" name="password" id="password" value="1"></td></tr>
 	<tr><td></td>
 		<td><button id="login">Login</button>&nbsp; 
 			<input type="reset" value="Reset">&nbsp;
