@@ -26,7 +26,7 @@
 					// => 성공시 : 성공message, 새로고침
 					//    실패시 : 실패message, 재로그인 유도;
 					if (resultData.loginSuccess=='T') {
-						location.reload();
+						location.href="home";
 						alert("~~ Login 성공 ~~");
 					}else {
 						$('#message').html(resultData.message);

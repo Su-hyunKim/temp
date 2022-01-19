@@ -20,8 +20,8 @@ $(function(){
 			}
 			if(ajaxButton.convey=='data'){
 				success = function(resultData) {
-								location.reload();
-								alert(resultData.message);				
+								location.href="home";
+								alert(resultData.message);			
 							}
 			}else if(ajaxButton.convey=='page'){
 				success = function(resultPage) {
@@ -34,7 +34,8 @@ $(function(){
 							}
 			}
 			$('#'+ajaxButton.id).click(function(e){	
-					if(ajaxButton.opt.includes('banner')) banner();
+					if(ajaxButton.opt.includes('banner')) $('.banner').css({display:"block"});
+					else if(ajaxButton.opt.includes('hideBanner')) $('.banner').css({display:"none"});
 				$.ajax({
 					type:ajaxButton.method,
 					url:url,
@@ -82,12 +83,12 @@ class Joinf extends AjaxButton{}
 class Comment extends AjaxButton{}
 class Mypage extends AjaxButton{}
 
-const ajaxBnts = [new Home(['scale'],'home',null,null,null),
+const ajaxBnts = [new Home(['scale','banner'],'home','home','get','page'),
 				new LoginBt(['scale','modal'],'loginBt','loginf','get','page'),
-				new LogoutBt(['scale','loginID'],'logoutBt','logout?member_id=','get','page'),
-				new Joinf(['banner'],'joinf','joinf','get','page'),
-				new Comment(['banner'],'comment','comment','get','page'),
-				new Mypage(['banner','loginID'],'mypage','mdetail?member_id=','get','page')
+				new LogoutBt(['scale','loginID'],'logoutBt','logout?member_id=','get','data'),
+				new Joinf(['hideBanner'],'joinf','joinf','get','page'),
+				new Comment(['hideBanner'],'comment','comment','get','page'),
+				new Mypage(['hideBanner','loginID'],'mypage','mdetail?member_id=','get','page')
 				];
 
 function scale(id){
@@ -129,7 +130,3 @@ function modal(button,width,height){
 		e.stopPropagation();
 	}); //button_click
 } //modal
-
-function banner(){
-	$('.banner').css({display:"none"});
-}
