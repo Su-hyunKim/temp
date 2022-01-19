@@ -1,5 +1,4 @@
-$(function(){
-	
+$(function(){	
 	if(document.getElementById("loginID")){
 		$('#loginBt').hide();
 		$('#logoutBt').show();
@@ -53,6 +52,16 @@ $(function(){
 		$('.modal,.modal_content').hide();
 		e.stopPropagation();
 	});
+	
+		
+	if(document.getElementById("R")){
+		let R = $('#R').val();
+		console.log(R);
+		switch(R){
+			case 'login': $('#loginBt').trigger('click'); break;
+			case 'joinf': $('#joinf').trigger('click'); break;
+		}
+	}
 	
 }); //ready
 

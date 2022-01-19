@@ -1,5 +1,6 @@
 package com.green.zing;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -9,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -21,6 +24,8 @@ import vo.MemberVO;
 public class MemberController {
 	@Autowired
 	MemberService service;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@RequestMapping(value = "/loginf")
 	public ModelAndView loginf(ModelAndView mv) {
@@ -44,7 +49,7 @@ public class MemberController {
 		vo = service.selectOne(vo);
 		if ( vo != null ) { 
 		// ID 는 일치 -> Password 확인
-			if ( vo.getPassword().equals(password) ) {
+			if ( passwordEncoder.matches(password, vo.getPassword()) ) {
 				// Login 성공 -> login 정보 session에 보관, home (새로고침)
 				mv.addObject("loginSuccess", "T");
 				request.getSession().setAttribute("loginID", id);
@@ -85,7 +90,7 @@ public class MemberController {
 	} //logout	
 	
 	@RequestMapping(value = "/joinf")
-	public ModelAndView join(ModelAndView mv) {
+	public ModelAndView joinf(ModelAndView mv) {
 		mv.setViewName("member/joinForm");
 		return mv;
 	}
@@ -104,15 +109,6 @@ public class MemberController {
 		mv.setViewName(uri);
 		return mv;
 	}
-
-	@RequestMapping(value = "/mlist")
-	public ModelAndView mlist(ModelAndView mv) {		
-		List<MemberVO> list = service.selectList();
-		if(list != null) mv.addObject("banana",list);
-		else mv.addObject("message","~~ 출력할 자료가 1건도 없습니다 ~~");
-		mv.setViewName("member/memberList");
-		return mv;
-	} //mlist
 	
 	// ** Member Check List ******************************
 	@RequestMapping(value = "/mchecklist")
@@ -139,4 +135,87 @@ public class MemberController {
 		mv.setViewName("member/memberList");
 		return mv;
 	} //mchecklist
+	
+	// ** Join
+	// Spring AOP Transaction 적용됨
+	@RequestMapping(value = "/join")
+	public ModelAndView join(HttpServletRequest request, ModelAndView mv, MemberVO vo,
+			RedirectAttributes rttr) 
+					 	throws IOException {
+		// 1. 요청처리 
+		// => parameter : 매개변수로 ...
+		// => 한글: web.xml 에서 <Filter> 로 ...
+		
+		// ** Uploadfile (Image) 처리
+		// => MultipartFile 타입의 uploadfilef 의 정보에서 
+		//    upload된 image 와 화일명을 get 처리,
+		// => upload된 image 를 서버의 정해진 폴더 (물리적위치)에 저장 하고,  -> file1
+		// => 이 위치에 대한 정보를 table에 저장 (vo의 UploadFile 에 set) -> file2
+		// ** image 화일명 중복시 : 나중 이미지로 update 됨.  
+		
+		// ** Image 물리적위치 에 저장
+		// 1) 현재 웹어플리케이션의 실행 위치 확인 : 
+		// => eslipse 개발환경 (배포전)
+		//    D:\MTest\MyWork\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Spring03\
+		// => 톰캣서버에 배포 후 : 서버내에서의 위치가 됨
+		//    D:\MTest\IDESet\apache-tomcat-9.0.41\webapps\Spring02\
+		String realPath = request.getRealPath("/"); // deprecated Method
+		System.out.println("** realPath => "+realPath);
+		
+		// 2) 위 의 값을 이용해서 실제저장위치 확인 
+		// => 개발중인지, 배포했는지 에 따라 결정
+		if (realPath.contains(".eclipse."))
+	//		 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+			realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+		else realPath += "resources\\uploadImage\\";
+		
+		// ** 폴더 만들기 (File 클래스활용)
+		// => 위의 저장경로에 폴더가 없는 경우 (uploadImage가 없는경우)  만들어 준다
+		File f1 = new File(realPath);
+		if ( !f1.exists() ) f1.mkdir();
+		// realPath 디렉터리가 존재하는지 검사 (uploadImage 폴더 존재 확인)
+		// => 존재하지 않으면 디렉토리 생성
+		
+		// ** 기본 이미지 지정하기 
+		String file1, file2="resources/uploadImage/basicman1.jpg";
+		
+		// ** MultipartFile
+		// => 업로드한 파일에 대한 모든 정보를 가지고 있으며 이의 처리를 위한 메서드를 제공한다.
+		//    -> String getOriginalFilename(), 
+		//    -> void transferTo(File destFile),
+		//    -> boolean isEmpty()
+		
+		MultipartFile profilef = vo.getProfilef();
+		if ( profilef !=null && !profilef.isEmpty() ) {
+			// Image 를 선택했음 -> Image 처리 (realPath+화일명)
+			// 1) 물리적 위치에 Image 저장 
+			file1=realPath + profilef.getOriginalFilename(); //  전송된File명 추출 & 연결
+			profilef.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
+			// 2) Table 저장위한 경로 
+			file2 = "resources/uploadImage/"+ profilef.getOriginalFilename();
+		}
+		vo.setProfile(file2);
+		
+		// ** Password 암호화
+		// => BCryptPasswordEncoder 적용
+		//    encode(rawData) -> digest 생성 & vo 에 set
+		vo.setPassword(passwordEncoder.encode(vo.getPassword()));
+		
+		// 2. Service 처리
+		String uri = "redirect:home";  
+		
+		int cnt = service.insert(vo);
+		
+		if ( cnt > 0 ) {
+			 // insert 성공
+			 rttr.addFlashAttribute("message", "~~ 회원가입 완료!!, 로그인 후 이용하세요 ~~");
+			 rttr.addFlashAttribute("R","login"); // 성공시 홈으로 이동 후 로그인form 클릭
+		 }else { 
+			 // insert 실패
+			 rttr.addFlashAttribute("message", "~~ 회원가입 실패!!, 다시 하세요 ~~");
+			 rttr.addFlashAttribute("R","loginf");
+		 }
+		mv.setViewName(uri);
+		return mv;
+	} //join
 }

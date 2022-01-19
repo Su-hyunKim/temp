@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>징검다리 : 회원가입</title>
 <script src="resources/lib/jquery-3.2.1.min.js"></script>
-<script src="resources/lib/inCheck.js"></script>
+<!-- <script src="resources/lib/inCheck.js"></script> -->
 
 <style>
 	.wrap { 
@@ -25,7 +25,7 @@
 </style>
 
 <script>
-// 1) 개별적 오류 확인을 위한 switch 변수 (전역)
+ // 1) 개별적 오류 확인을 위한 switch 변수 (전역)
   var iCheck=false;
   var pCheck=false;	
   var nCheck=false;
@@ -35,7 +35,8 @@
 
 // 2) 개별적 오류점검위한 focusout 이벤트 핸들러 : JQuery
   $(function() {
-	  $('#id').focus();
+	  
+/* 	  $('#id').focus();
 	  $('#id').keydown(function(e){
 		  // enter 누르면 다음 으로 이동
 			if (e.which==13) {
@@ -63,10 +64,10 @@
 	  }); //point_focusout
 	  
 	  $('#weight').focusout(function(){
-			wCheck=weCheck();		  
-	  }); //weight_focusout
+			wCheck=weCheck();	  
+	  }); //weight_focusout */	
   }); //ready
-
+  /*
 
 // 3) submit 여부를 판단 & 실행 : JS 의 function
   function inCheck(){
@@ -117,7 +118,7 @@
 				'toolbar=no,menubar=yes,scrollbars=yes,resizable=yes,width=400,height=300');
 	}  
   } //idDupCheck
-  
+   */
 </script>
 
 </head>
@@ -133,24 +134,12 @@
 	 -->
 	<form action="join" method="post" enctype="multipart/form-data" id="myForm">
 	<style>
-		@font-face {
+/* 		@font-face {
 		    font-family: 'KyoboHandwriting2020A';
 		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/KyoboHandwriting2020A.woff') format('woff');
 		    font-weight: normal;
 		    font-style: normal;
-		}
-		@font-face {
-		    font-family: 'KOTRAHOPE';
-		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
-		    font-weight: normal;
-		    font-style: normal;
-		}
-		* {
-			font-family: "KOTRAHOPE";
-		}
-		.input_div {
-			
-		}
+		}*/
 		.input_div span {
 			display: block;
 			font-weight: bold;
@@ -166,9 +155,9 @@
 		
 	</style>
 	<div class="input_div">
-		<label for="id">
+		<label for="member_id">
 			<span>아이디</span>
-			<input type="text" name="id" id="id" value="testid" size="20" style="width:61%">&nbsp;
+			<input type="text" name="member_id" id="member_id" placeholder="4자 이상 영문" size="20" style="width:61%">&nbsp;
 			<input type="button" value="ID중복확인" id="idDup" onclick="idDupCheck()"style="width:30%"><br>
 			<span id="iMessage" class="eMessage"></span>
 		</label>
@@ -330,10 +319,10 @@
 			<input type="text" name="sns" id="sns" value="https://instagram:id"><br>
 		</label>
 	</div>		
-		<!-- 팔로워 수를 가져올 수 있다.
-		 SELECT COUNT(*) FROM follow WHERE follower = 2 -->
+
 	<div class="input_div">
 		<input type="submit" value="가입" onclick="return inCheck()" id="submit" style="width:46%" disabled>&nbsp;&nbsp;
+		<button>가입</button>
 		<input type="reset" value="취소" style="width:46%">&nbsp;&nbsp;
 		<span id="axjoin" class="textLink">AxJoin</span>
 	</div>	

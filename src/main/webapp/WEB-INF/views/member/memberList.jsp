@@ -49,6 +49,9 @@
 <c:if test="${not empty loginID}">
 <input type="hidden" id="loginID" value="${loginID}">
 </c:if>
+<c:if test="${not empty R}">
+<input type="hidden" id="R" value="${R}">
+</c:if>
 <div id="container">
 <h3>** 멤버리스트 **</h3>
 <br>
@@ -75,10 +78,10 @@
 <c:forEach var="list" items="${banana}">
 <tr  height="30" align="center">
 	<td> <!-- 관리자 기능 추가하기 -->
-	<c:if test="${loginID=='1'}">
+	<c:if test="${loginID=='admin'}">
 		<a href="mdetail?member_id=${list.member_id}">${list.member_id}</a>
 	</c:if>
-	<c:if test="${loginID!='1'}">
+	<c:if test="${loginID!='admin'}">
 		${list.member_id} 
 	</c:if>
 	</td>
