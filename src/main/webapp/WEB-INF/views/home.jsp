@@ -10,7 +10,7 @@
 	<script src="resources/lib/menu.js"></script>
 </head>
 <body>
-<div id="home"><a href="home"><img src="resources/image/home.png" width="30" height="30"></a></div>
+<div id="home"><img src="resources/image/home.png" width="30" height="30"></div>
 <div>
 	<img  id="loginBt" src="resources/image/login.png" width="35" height="35">
 	<img  id="logoutBt" src="resources/image/logout.png" width="35" height="35">

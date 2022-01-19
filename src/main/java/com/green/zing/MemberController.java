@@ -85,7 +85,7 @@ public class MemberController {
 		HttpSession session = request.getSession(false);
     	if (session!=null) session.invalidate();
     	mv.addObject("message", "~~ 로그아웃 되었습니다 ~~");
-    	mv.setViewName("home");
+    	mv.setViewName("jsonView");
 		return mv;
 	} //logout	
 	
