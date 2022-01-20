@@ -53,7 +53,7 @@
 <input type="hidden" id="R" value="${R}">
 </c:if>
 <div class="banner">
-<img src="resources/image/stars.png" width="100%" height="100%">
+<img src="resources/image/steppingStone.jpg" width="100%" height="100%">
 </div>
 <div id="container">
 <P>징검다리</P>

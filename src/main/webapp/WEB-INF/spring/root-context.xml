@@ -8,5 +8,18 @@
 	<!--스프링시큐리티 라이브러리 BcryptPasswordEncoder -->	
 	<bean id="bCryptPasswordEncoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+	<!-- DB dataSource -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe"/>
+		<property name="username" value="zing"/>
+		<property name="password" value="oracle"/>
+	</bean>
+
+	<!-- Mybatis SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 	
 </beans>

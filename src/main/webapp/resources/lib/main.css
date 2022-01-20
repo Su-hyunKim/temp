@@ -6,9 +6,10 @@
 		    font-style: normal;
 }
 * { padding:3px; font-family: "KOTRAHOPE";}
-body{background: #f0f0f0;}
+body,img{background: #f0f0f0; padding:0; border:0; margin:0;}
 a {text-decoration-line:none; padding:0;}
-.menu div { overflow:auto; position:absolute; top:10px; z-index:1;}
+.menu {position:fixed; top:0px; width:100%; z-index:1; background:#f0f0f0;}
+.menu div { overflow:auto; position:absolute; top:10px; z-index:2;}
 #d1 { left:20%; }
 #d2 { left:47%; }
 #d3 { left:70%; }
@@ -22,17 +23,17 @@ ul li:hover ul { display:block;}
 ul li:hover {color:black; cursor:pointer; background:#f0f0f0;}	
 ul li span:hover{color:black; font-weight:bold;}
 .footer a { color: black; text-decoration: none }
-#home {position:fixed; left:10px; top:10px; z-index:1;}
-#loginBt,#logoutBt {position:fixed; left:92%; top:10px; z-index:1;}
-.banner{opacity:0.5; height:250px; width:100%; padding:0; border:0;}
-#container{width:100%;}
-.modal{z-index:2; display:none;	}
-.modal_content{z-index:3; display:none;}
-.modalClose{position:absolute;top:0px;right:10px;z-index:4;}
+#home {position:fixed; left:10px; top:10px; z-index:2;}
+#loginBt,#logoutBt {position:fixed; left:92%; top:10px; z-index:2;}
+#container{width:100%; margin:50px 0; padding:0; border:0;}
+.modal{z-index:3; display:none;	}
+.modal_content{z-index:4; display:none;}
+.modalClose{position:absolute;top:0px;right:10px;z-index:5;}
 .modalClose:hover{cursor:pointer;}
 .banner{
-    animation: fadein 3s;
-    -webkit-animation: fadein 3s;
+	opacity:0.5; height:250px; width:100%; padding:0; border:0; margin:50px 0;
+    animation: fadein 5s;
+    -webkit-animation: fadein 5s;
 }@keyframes fadein{
     from{
         opacity: 0;
