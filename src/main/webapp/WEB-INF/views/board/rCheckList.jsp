@@ -5,36 +5,48 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>** RootList **</title>
-<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
+<title>** Root Check List **</title>
+	<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
 </head>
 <body>
-<h3>** RootList **</h3>
+<h3>** Root Check List **</h3>
 <br>
 <c:if test="${not empty message}">
 => ${message}<br>
 </c:if>
 <hr>
+<div id="searchBar">
+	<form action="rchecklist" method="get">
+		<b>Level : </b>
+		<input type="checkbox" name="check" value="admin">관리자&nbsp;
+		<input type="checkbox" name="check" value="apple">Apple&nbsp;
+		<input type="checkbox" name="check" value="banana">Banana&nbsp;
+		<input type="checkbox" name="check" value="green">Green&nbsp;&nbsp;
+		<input type="submit" value="검색">&nbsp;
+		<input type="reset" value="취소">
+	</form>
+</div><br>
+<hr>
 <table width=100%>
-<tr height="30" bgcolor="GreenYellow">
-	<th>Root_seq</th><th>Title</th><th>Member_Id</th><th>RegDate</th><th>조회수</th> 
+<tr height="30" bgcolor="HoneyDew">
+	<th>Root_Seq</th><th>Title</th><th>Id</th><th>RegDate</th><th>조회수</th> 
 </tr>	
 <c:forEach var="list" items="${banana}">
 <tr  height="30" align="center">
-	<td>${list.seq}</td>
-	<td align="left"> -
-	 <!-- 답글 등록후 indent 에 따른 들여쓰기 
+	<td>${list.root_seq}</td>
+	<td align="left">
+	<%--  <!-- 답글 등록후 indent 에 따른 들여쓰기 
 			=> 답글인 경우에만 적용  -->
-	<%-- <c:if test="${list.indent>0}">
+	<c:if test="${list.indent>0}">
 		<c:forEach begin="1" end="${list.indent}">
 			<span>&nbsp;&nbsp;</span>
 		</c:forEach>
 		<span style="color:purple">re..</span>
-	</c:if>  --%>
+	</c:if> --%>
 	
 	 <!-- 글내용보기 기능 추가하기 -> login한 경우에만 허용 -->
 	<c:if test="${not empty loginID}">
-		<a href="rdetail?root_seq=${list.root_seq}">${list.title}</a>
+		<a href="rdetail?seq=${list.root_seq}">${list.title}</a>
 	</c:if>
 	<c:if test="${empty loginID}">
 		${list.title} 

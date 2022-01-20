@@ -27,7 +27,5 @@ public interface RootService {
 	int delete(RootVO vo); //delete
 	// ** 조회수증가
 	int countUp(RootVO vo); //countUp
-	// ** 답글입력
-	//int rinsert(RootVO vo);
-
+	
 }

@@ -10,13 +10,13 @@
    		<foreach collection="check" item="it" open="(" close=")" separator=",">
    			#{it}
    		</foreach>
-   		order by root_seq asc
+   		order by root_seq desc
    </select>
 
 <!-- ** Ajax id_BoardList -->
 	<select id="aidBList" resultType="vo.RootVO">
-		select * from root where id=#{member_id} 
-		order by root_seq asc
+		select * from root where member_id=#{member_id} 
+		order by root_seq desc
 	</select>
 
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -57,7 +57,7 @@
 	</select>
  	<select id="searchList" resultType="vo.RootVO">
  		select root_seq,title,member_id,RegDate,cnt,good,status from 
-			(select r.*,ROW_NUMBER() OVER(order by root_seq asc) rnum from Root r 
+			(select r.*,ROW_NUMBER() OVER(order by root_seq desc) rnum from root r 
 			where root_seq>0 
 			<include refid="search"></include>
 			where rnum between #{sno} and #{eno}
@@ -84,7 +84,7 @@
 	
 	<select id="pageList" resultType="vo.RootVO">
 		select root_seq,title,member_id,RegDate,cnt,good,status from 
-		(select r.* , ROW_NUMBER() OVER(order by root_seq asc) rnum from root r) 
+		(select r.* , ROW_NUMBER() OVER(order by root_seq desc) rnum from root r) 
 		where rnum between #{sno} and #{eno}
 	</select>
 
@@ -107,8 +107,8 @@
 			select nvl(max(root_seq),0)+1 from root
 		</selectKey>
 		insert into root values ( 
-			#{root_seq},#{title},#{member_id},#{content},SYSDATE,0,
-			#{root_seq},0,0)
+			#{root_seq},ad,#{title},#{member_id},SYSDATE,#{content},#{files},#{product_id}
+			#{good},#{status},#{cnt})
 	</insert>
 	
 	<update id="update">
