@@ -91,7 +91,7 @@
 	<td>${list.name}</td><td>${list.gender}</td><td>${list.birthday}</td>
 	<td>${list.address1}${list.address2}${list.address3}</td>
 	<td>${list.email}</td><td>${list.phone}</td><td>${list.interest}</td>
-	<td>${list.sns}</td><td>${list.profile}</td>
+	<td>${list.sns}</td><td><img src=${list.profile}></td>
 	<td>${list.last_access}</td>
 </tr>
 </c:forEach>
