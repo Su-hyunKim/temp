@@ -81,7 +81,7 @@
  	
  	<!-- ** CRUD 기본 ** -->
  	<select id="selectList" resultType="vo.MemberVO">
- 		select member_id,name,gender,birthday,address1,address2,address3,email,phone,interest,sns,profile from member
+ 		select member_id,name,gender,birthday,address1,address2,address3,email,phone,interest,sns,profile,last_access from member
  	</select>
  
  	<select id="selectOne" resultType="vo.MemberVO">
