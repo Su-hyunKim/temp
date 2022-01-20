@@ -165,8 +165,8 @@ public class MemberController {
 		// 2) 위 의 값을 이용해서 실제저장위치 확인 
 		// => 개발중인지, 배포했는지 에 따라 결정
 		if (realPath.contains(".eclipse."))
-	//		 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
-			realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+			 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+	//		realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
 		else realPath += "resources\\uploadImage\\";
 		
 		// ** 폴더 만들기 (File 클래스활용)
@@ -177,7 +177,7 @@ public class MemberController {
 		// => 존재하지 않으면 디렉토리 생성
 		
 		// ** 기본 이미지 지정하기 
-		String file1, file2="resources/uploadImage/basicman1.jpg";
+		String file1, file2="resources/uploadImage/basicman.png";
 		
 		// ** MultipartFile
 		// => 업로드한 파일에 대한 모든 정보를 가지고 있으며 이의 처리를 위한 메서드를 제공한다.
@@ -209,7 +209,7 @@ public class MemberController {
 		if ( cnt > 0 ) {
 			 // insert 성공
 			 rttr.addFlashAttribute("message", "~~ 회원가입 완료!!, 로그인 후 이용하세요 ~~");
-			 rttr.addFlashAttribute("R","login"); // 성공시 홈으로 이동 후 로그인form 클릭
+			 rttr.addFlashAttribute("R","login"); // 성공시 홈으로 이동 후 로그인 form 클릭
 		 }else { 
 			 // insert 실패
 			 rttr.addFlashAttribute("message", "~~ 회원가입 실패!!, 다시 하세요 ~~");

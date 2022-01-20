@@ -36,8 +36,7 @@
 // 2) 개별적 오류점검위한 focusout 이벤트 핸들러 : JQuery
   $(function() {
 	  
-/* 	  $('#id').focus();
-	  $('#id').keydown(function(e){
+/* 	  $('#member_id').focus().keydown(function(e){
 		  // enter 누르면 다음 으로 이동
 			if (e.which==13) {
 				e.preventDefault(); 
@@ -45,7 +44,7 @@
 			}
 	  }).focusout(function() {
 		 	iCheck=idCheck();
-	  }); //id_focusout
+	  }); //member_id_focusout
 	  
 	  $('#password').focusout(function(){
 			pCheck=pwCheck();		  
@@ -152,7 +151,9 @@
 			width: 100%;
 			border: 1px solid #ddd;
 		}
-		
+		#sns, #sns_id{
+			width: 45%;
+		}		
 	</style>
 	<div class="input_div">
 		<label for="member_id">
@@ -160,6 +161,46 @@
 			<input type="text" name="member_id" id="member_id" placeholder="4자 이상 영문" size="20" style="width:61%">&nbsp;
 			<input type="button" value="ID중복확인" id="idDup" onclick="idDupCheck()"style="width:30%"><br>
 			<span id="iMessage" class="eMessage"></span>
+		</label>
+	</div>
+
+	<div class="input_div">
+		<label for="password">
+			<span>비밀번호</span>
+			<input type="password" name="password" id="password" value="12345" size="20"><br>
+			<span id="pMessage" class="eMessage"></span>
+		</label>
+	</div>
+	
+	<div class="input_div">
+		<label for="profilef">
+			<span>프로필 사진</span>
+			<img src="resources/uploadImage/basicman.png" class="select_img" width="100" height="100"><br>
+			<input type="file" name="profilef" id="profilef">
+			<script>
+			// 해당 파일의 서버상의 경로를 src로 지정하는것으로는 클라이언트 영역에서 이미지는 표시될수 없기 때문에
+			// 이를 해결하기 위해 FileReader이라는 Web API를 사용
+			// => 이 를 통해 url data를 얻을 수 있음.
+			//    ( https://developer.mozilla.org/ko/docs/Web/API/FileReader)
+			// ** FileReader
+			// => 웹 애플리케이션이 비동기적으로 데이터를 읽기 위하여 읽을 파일을 가리키는File
+			//    혹은 Blob 객체를 이용해 파일의 내용을(혹은 raw data버퍼로) 읽고 
+			//    사용자의 컴퓨터에 저장하는 것을 가능하게 해줌.	
+			// => FileReader.onload 이벤트의 핸들러.
+			//    읽기 동작이 성공적으로 완료 되었을 때마다 발생.
+			// => e.target : 이벤트를 유발시킨 DOM 객체
+	  		
+				$('#profilef').change(function(){
+					if(this.files && this.files[0]) {
+						var reader = new FileReader;
+				 			reader.onload = function(e) {
+			 				$(".select_img").attr("src", e.target.result)
+			 					.width(100).height(100); 
+			 				} // onload_function
+			 				reader.readAsDataURL(this.files[0]);
+			 		} // if
+				}); // change			
+			</script>
 		</label>
 	</div>
 	
@@ -172,31 +213,31 @@
 	</div>
 	
 	<div class="input_div">
-		<label for="password">
-			<span>비밀번호</span>
-			<input type="password" name="password" id="password" value="12345" size="20"><br>
-			<span id="pMessage" class="eMessage"></span>
-		</label>
-	</div>
-	
-	<div class="input_div">
 		<span>성별</span>
 			<label for="man">남자</label>
-			<input type="radio" name="gender" class="gender_radio" id="man" value="M">
+			<input type="radio" name="gender" class="gender_radio" id="man" value="M" checked>
 			<label for="woman">여자</label>
 			<input type="radio" name="gender" class="gender_radio" id="woman" value="F">
 			<label for="what">N?</label>
-			<input type="radio" name="gender" class="gender_radio" id="what" value="N">
+			<input type="radio" name="gender" class="gender_radio" id="none" value="N">
 	</div>
+	
+	<div class="input_div">
+		<label for="birthday">
+			<span>생년월일</span>
+			<input type="date" name="birthday" id="birthday"><br>
+			<span id="bMessage" class="eMessage"></span>
+		</label>
+	</div>	
 	
 	<div class="input_div">
 		<label>
 			<span>주소지</span>
-				<input type="text" id="sample2_postcode" placeholder="우편번호" style="width:61%">
-				<input type="button" onclick="sample2_execDaumPostcode()" value="우편번호 찾기" style="width:30%"><br>
-				<input type="text" id="sample2_address" placeholder="주소"><br>
-				<input type="text" id="sample2_detailAddress" placeholder="상세주소">
-				<input type="text" id="sample2_extraAddress" placeholder="참고항목">
+				<input type="text" name="address1" id="address1" placeholder="우편번호" style="width:61%">
+				<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" style="width:30%"><br>
+				<input type="text" name="address2" id="address2" placeholder="주소"><br>
+				<input type="text" name="address3" id="address3" placeholder="상세주소">
+				<input type="text" name="extraAddress" id="extraAddress" placeholder="참고항목">
 				
 				<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
 				<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
@@ -213,7 +254,7 @@
 				        element_layer.style.display = 'none';
 				    }
 				
-				    function sample2_execDaumPostcode() {
+				    function execDaumPostcode() {
 				        new daum.Postcode({
 				            oncomplete: function(data) {
 				                // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -246,17 +287,17 @@
 				                        extraAddr = ' (' + extraAddr + ')';
 				                    }
 				                    // 조합된 참고항목을 해당 필드에 넣는다.
-				                    document.getElementById("sample2_extraAddress").value = extraAddr;
+				                    document.getElementById("extraAddress").value = extraAddr;
 				                
 				                } else {
-				                    document.getElementById("sample2_extraAddress").value = '';
+				                    document.getElementById("extraAddress").value = '';
 				                }
 				
 				                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-				                document.getElementById('sample2_postcode').value = data.zonecode;
-				                document.getElementById("sample2_address").value = addr;
+				                document.getElementById('address1').value = data.zonecode;
+				                document.getElementById("address2").value = addr;
 				                // 커서를 상세주소 필드로 이동한다.
-				                document.getElementById("sample2_detailAddress").focus();
+				                document.getElementById("address3").focus();
 				
 				                // iframe을 넣은 element를 안보이게 한다.
 				                // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
@@ -278,14 +319,16 @@
 				    // resize이벤트나, orientationchange이벤트를 이용하여 값이 변경될때마다 아래 함수를 실행 시켜 주시거나,
 				    // 직접 element_layer의 top,left값을 수정해 주시면 됩니다.
 				    function initLayerPosition(){
-				        var width = 300; //우편번호서비스가 들어갈 element의 width
+				        var width = 400; //우편번호서비스가 들어갈 element의 width
 				        var height = 400; //우편번호서비스가 들어갈 element의 height
-				        var borderWidth = 5; //샘플에서 사용하는 border의 두께
+				        var borderWidth = 1; //샘플에서 사용하는 border의 두께
 				
 				        // 위에서 선언한 값들을 실제 element에 넣는다.
+				        element_layer.style.padding = "0"
 				        element_layer.style.width = width + 'px';
 				        element_layer.style.height = height + 'px';
-				        element_layer.style.border = borderWidth + 'px solid';
+				        element_layer.style.border = borderWidth + 'px solid snow';
+				        element_layer.style.borderRadius = "5px 5px";
 				        // 실행되는 순간의 화면 너비와 높이 값을 가져와서 중앙에 뜰 수 있도록 위치를 계산한다.
 				        element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width)/2 - borderWidth) + 'px';
 				        element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
@@ -293,20 +336,23 @@
 				</script>
 		</label>
 	</div>
+		
 	<div class="input_div">
-		<label for="birthd">
-			<span>생년월일</span>
-			<input type="date" name="birthd" id="birthd"><br>
-			<span id="bMessage" class="eMessage"></span>
+		<label for="email">
+			<span>이메일</span>
+			<input type="text" name="email" id="email"><br>
+			<span id="pMessage" class="eMessage"></span>
 		</label>
-	</div>		
+	</div>
+	
 	<div class="input_div">
 		<label for="phone">
 			<span>핸드폰번호</span>
-			<input type="text" name="phone" id="phone"><br>
+			<input type="text" name="phone" id="phone" placeholder='"-" 없이 번호만 입력해주세요'><br>
 			<span id="pMessage" class="eMessage"></span>
 		</label>
 	</div>		
+		
 	<div class="input_div">
 		<label for="interest">
 			<span>관심사</span>
@@ -316,7 +362,8 @@
 	<div class="input_div">
 		<label for="sns">
 			<span>SNS</span>
-			<input type="text" name="sns" id="sns" value="https://instagram:id"><br>
+			<input type="text" name="sns" id="sns" placeholder="예: instagram">
+			<input type="text" name="sns_id" id="sns_id" placeholder="계정 아이디"><br>
 		</label>
 	</div>		
 
@@ -324,7 +371,6 @@
 		<input type="submit" value="가입" onclick="return inCheck()" id="submit" style="width:46%" disabled>&nbsp;&nbsp;
 		<button>가입</button>
 		<input type="reset" value="취소" style="width:46%">&nbsp;&nbsp;
-		<span id="axjoin" class="textLink">AxJoin</span>
 	</div>	
 	</form>
 	<c:if test="${not empty message}">

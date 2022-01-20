@@ -71,9 +71,12 @@
 </div><br>
 <hr>
 <table width=100%>
-<tr height="30" bgcolor="pink">
-	<th>I D</th><th>Password</th><th>Name</th><th>Gender</th>
-	<th>Birthday</th><th>Email</th><th>Phone</th><th>Interest</th><th>Last Access</th>
+<tr height="30" bgcolor="RosyBrown">
+	<th>I D</th><th>Name</th><th>Gender</th><th>Birthday</th>
+	<th>Address</th>
+	<th>Email</th><th>Phone</th><th>Interest</th>
+	<th>SNS</th><th>Profile</th>
+	<th>Last Access</th>
 </tr>	
 <c:forEach var="list" items="${banana}">
 <tr  height="30" align="center">
@@ -85,16 +88,15 @@
 		${list.member_id} 
 	</c:if>
 	</td>
-	<td>${list.password}</td><td>${list.name}</td><td>${list.gender}</td>
-	<td>${list.birthday}</td><td>${list.email}</td>
-	<td>${list.phone}</td><td>${list.interest}</td>
+	<td>${list.name}</td><td>${list.gender}</td><td>${list.birthday}</td>
+	<td>${list.address1}${list.address2}${list.address3}</td>
+	<td>${list.email}</td><td>${list.phone}</td><td>${list.interest}</td>
+	<td>${list.sns}</td><td>${list.profile}</td>
 	<td>${list.last_access}</td>
 </tr>
 </c:forEach>
 </table>
 <hr>
-
-<a href="home" >[Home]</a>
 
 </div>
 <div class="modal"></div><div class="modal_content"></div>
