@@ -7,13 +7,19 @@ import org.springframework.stereotype.Service;
 
 import criteria.SearchCriteria;
 import mapperInterface.RootMapper;
-//import util.RootDAO;
 import vo.RootVO;
 import vo.PageVO;
 
 //** interface 자동완성 
 //=> Alt + Shift + T  
 //=> 또는 마우스우클릭 PopUp Menu 의  Refactor - Extract Interface...
+
+//** Interface 를 이용한 Mapper 접근 
+//=> DAO 를 사용하지않고 interface MemberMapper 를 통해 MemberMapper 에 접근
+//=> 주의) 이전 DAO의 pageList 메서드 에서 totalRowCount() 와 pageList(pvo) 
+// 처리하고 pvo 를 return 했지만, interface의 메서드는 mapper 의 id 
+// 와 같은 이름으로 1:1 매칭되기 때문에 이부분을 ServiceImpl 에서 처리해야함
+// -> 아래 PageVO<MemberVO> pageList(PageVO<MemberVO> pvo) 확인
 
 @Service
 public class RootServiceImpl implements RootService {

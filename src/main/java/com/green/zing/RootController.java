@@ -1,5 +1,7 @@
 package com.green.zing;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -16,8 +19,9 @@ import criteria.PageMaker;
 import criteria.SearchCriteria;
 import lombok.extern.log4j.Log4j;
 import service.RootService;
-import vo.RootVO;
+import vo.MemberVO;
 import vo.PageVO;
+import vo.RootVO;
 
 @Log4j
 @Controller
@@ -186,7 +190,7 @@ public class RootController {
 		mv.addObject("totalPageNo",totalPageNo);
 		mv.addObject("banana", pvo.getList());
 		
-		mv.setViewName("board/pageRList");
+		mv.setViewName("root/pageRList");
 		return mv;
 	}//rpagelist
 	
@@ -276,8 +280,9 @@ public class RootController {
 	
 	@RequestMapping(value = "/rinsert")
 	public ModelAndView rinsert(ModelAndView mv, RootVO vo, RedirectAttributes rttr) {
-		
+
 		String uri = "redirect:rlist";
+		
 		if ( service.insert(vo) > 0 ) { 
     		// 글등록 성공 -> blist , redirect
     		rttr.addFlashAttribute("message", "~~ 새글 등록 완료 !!! ~~");
@@ -298,7 +303,7 @@ public class RootController {
     		rttr.addFlashAttribute("message", "~~ 글수정 성공 !!! ~~");
     	}else {
     		rttr.addFlashAttribute("message", "~~ 글수정 실패 !!! 다시 하세요 ~~");
-    		uri = "redirect:bdetail?jcode=U&seq="+vo.getRoot_seq();
+    		uri = "redirect:bdetail?jcode=U&root_seq="+vo.getRoot_seq();
     	}
 		mv.setViewName(uri);
 		return mv;
