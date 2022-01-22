@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class MemberVO {
+	private int point;
 	private String member_id;
 	private String name;
 	private String password;
@@ -19,12 +20,11 @@ public class MemberVO {
 	private String interest;
 	private String sns;
 	private String profile;
-	private MultipartFile profilef;
-	private int point;
 	private String last_access;
 	private String status;
 	private String remarks;
-	
+	private MultipartFile profilef;	
+	private String[] interestArray;	
 	private String[] check;
 	// ** 배열타입 (CheckBox 처리) 
 	// => 배열타입 검색조건 처리

@@ -49,6 +49,8 @@
  	</script>
 </head>
 <body>
+<div class="wrapped">
+<h1>로그인</h1>
 <form action="login" method="post" id="modal_form">
 <table>
 	<tr><td bgcolor="gray">I D</td>
@@ -65,11 +67,9 @@
 </form>
 <div class="modalClose">X</div>
 <span id="message"></span><br>
-<hr>
-<a href="**join**">[회원가입]</a>
+<a href="joinf?R=joinf">[회원가입]</a>
 <a href="**findid**">[아이디 찾기]</a>
 <a href="**findpw**">[비밀번호 찾기]</a>
-
-
+</div>
 </body>
 </html> 

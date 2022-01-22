@@ -4,13 +4,15 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,
+	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
 	<title>필요한 이를 이어주는 징검다리</title>
 	<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
 	<script src="resources/lib/jquery-3.2.1.min.js"></script> 
 	<script src="resources/lib/menu.js"></script>
 </head>
 <body>
-<div id="home"><img src="resources/image/home.png" width="30" height="30"></div>
+<a id="home" href="home"><img src="resources/image/home.png" width="30" height="30"></a>
 <div>
 	<img  id="loginBt" src="resources/image/login.png" width="35" height="35">
 	<img  id="logoutBt" src="resources/image/logout.png" width="35" height="35">
@@ -41,7 +43,7 @@
 				<li id="joinf"><span>회원가입</span>
 				<li><span>내정보수정</span>
 				<li><span>회원탈퇴</span>
-				<li><a href="mchecklist"><span>회원검색</span></a>
+				<li id="mlist"><span>회원검색</span>
 			</ul>
 		</div>
 	</ul>
@@ -56,7 +58,7 @@
 <img src="resources/image/steppingStone.jpg" width="100%" height="100%">
 </div>
 <div id="container">
-<P>징검다리</P>
+<img src="resources/image/logo.png" width="125px" height="75px">
 <P>${serverTime}</P>
 <c:if test="${not empty loginID}">
 <span>${loginName}님 환영합니다.</span>

@@ -7,15 +7,19 @@ $(function(){
 		$('#logoutBt').hide();
 	}
 	
+	// 스크롤 초기화
+	window.scrollTo(0,0);
+	
+	// 서버 통신용 버튼에 click이벤트를 연결(AjaxBnt객체 배열의 forEach)
 	ajaxBnts.forEach(function(ajaxButton){
 		if(ajaxButton.opt.includes('scale')) scale(ajaxButton.id);
 		if(ajaxButton.url!=null){
 			let success;
 			let url = ajaxButton.url;
-			let container = '#container'
+			let container = '#container';
 			if(ajaxButton.opt.includes('loginID')) url = url+$('#loginID').val();
 			if(ajaxButton.opt.includes('modal')){
-				modal('#'+ajaxButton.id,300,300);
+				modal('#'+ajaxButton.id,300,350);
 				container = '.modal_content';
 			}
 			if(ajaxButton.convey=='data'){
@@ -27,8 +31,8 @@ $(function(){
 				success = function(resultPage) {
 								let body = resultPage.substring(resultPage.lastIndexOf('<body>')+6,
 										resultPage.lastIndexOf('</body>'));
-								if(body.indexOf("<P>징검다리</P>")!=-1)
-									resultPage = body.substring(body.indexOf('<P>징검다리</P>'),
+								if(body.indexOf('<img src="resources/image/logo.png"')!=-1)
+									resultPage = body.substring(body.indexOf('<img src="resources/image/logo.png"'),
 										body.indexOf('<div class="modal">'));
 								$(container).html(resultPage);	
 							}
@@ -46,24 +50,23 @@ $(function(){
 				}); //ajax
 				e.stopPropagation();
 			}); //click
-		} //if
+		}
 	}); //ajaxBnts_forEach
 	
+	// modal창 실행 후 배경 누르면 창닫기
 	$('.modal').click(function(e){
 		$('.modal,.modal_content').hide();
 		e.stopPropagation();
 	});
 	
-		
+	// 요청처리 후 특정페이지로 연결		
 	if(document.getElementById("R")){
 		let R = $('#R').val();
-		console.log(R);
 		switch(R){
 			case 'login': $('#loginBt').trigger('click'); break;
 			case 'joinf': $('#joinf').trigger('click'); break;
 		}
-	}
-	
+	}	
 }); //ready
 
 class AjaxButton{
@@ -76,20 +79,15 @@ class AjaxButton{
 	}
 }
 
-class Home extends AjaxButton{}
-class LoginBt extends AjaxButton{}
-class LogoutBt extends AjaxButton{}
-class Joinf extends AjaxButton{}
-class Comment extends AjaxButton{}
-class Mypage extends AjaxButton{}
-
-const ajaxBnts = [new Home(['scale','banner'],'home','home','get','page'),
-				new LoginBt(['scale','modal'],'loginBt','loginf','get','page'),
-				new LogoutBt(['scale','loginID'],'logoutBt','logout?member_id=','get','data'),
-				new Joinf(['hideBanner'],'joinf','joinf','get','page'),
-				new Comment(['hideBanner'],'comment','comment','get','page'),
-				new Mypage(['hideBanner','loginID'],'mypage','mdetail?member_id=','get','page')
-				];
+const ajaxBnts = [
+	new AjaxButton(['scale','banner'],'home',null,null,null),
+	new AjaxButton(['scale','modal'],'loginBt','loginf','get','page'),
+	new AjaxButton(['scale','loginID'],'logoutBt','logout?member_id=','get','data'),
+	new AjaxButton(['hideBanner'],'joinf','joinf','get','page'),
+	new AjaxButton(['hideBanner'],'comment','comment','get','page'),
+	new AjaxButton(['hideBanner','loginID'],'mypage','mypage?member_id=','get','page'),
+	new AjaxButton(['hideBanner'],'mlist','mlist','get','page')
+];
 
 function scale(id){
 	$('#'+id).hover(function(){
