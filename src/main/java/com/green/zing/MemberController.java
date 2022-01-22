@@ -28,8 +28,11 @@ public class MemberController {
 	PasswordEncoder passwordEncoder;
 	
 	@RequestMapping(value = "/loginf")
-	public ModelAndView loginf(ModelAndView mv) {
-		mv.setViewName("member/loginForm");
+	public ModelAndView loginf(ModelAndView mv, HttpServletRequest request) {
+		if("login".equals(request.getParameter("R"))) {
+			mv.addObject("R","login");
+			mv.setViewName("home");
+		}else mv.setViewName("member/loginForm");
 		return mv;
 	}
 	
@@ -90,13 +93,16 @@ public class MemberController {
 	} //logout	
 	
 	@RequestMapping(value = "/joinf")
-	public ModelAndView joinf(ModelAndView mv) {
-		mv.setViewName("member/joinForm");
+	public ModelAndView joinf(ModelAndView mv, HttpServletRequest request) {
+		if("joinf".equals(request.getParameter("R"))) {
+			mv.addObject("R","joinf");
+			mv.setViewName("home");
+		}else mv.setViewName("member/joinForm");
 		return mv;
 	}
 	
 	@RequestMapping(value = "/mdetail")
-	public ModelAndView mypage(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
+	public ModelAndView mdetail(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
 		String uri = "member/memberDetail";
 		String id = vo.getMember_id();
 		vo=service.selectOne(vo);
@@ -110,8 +116,23 @@ public class MemberController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "/mypage")
+	public ModelAndView mypage(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
+		String uri = "member/mypage";
+		String id = vo.getMember_id();
+		vo=service.selectOne(vo);
+		if (vo != null) {
+			mv.addObject("apple", vo);	
+		}else {
+			rttr.addFlashAttribute("message","~~ "+id+"님의 자료는 존재하지 않습니다 ~~");
+			uri = "redirect:home";
+		}
+		mv.setViewName(uri);
+		return mv;
+	}
+	
 	// ** Member Check List ******************************
-	@RequestMapping(value = "/mchecklist")
+	@RequestMapping(value = "/mlist")
 	public ModelAndView mchecklist(ModelAndView mv, MemberVO vo) {			
 		// 1) Check_Box 처리
 		// String[] check = request.getParameterValues("check");
@@ -135,6 +156,19 @@ public class MemberController {
 		mv.setViewName("member/memberList");
 		return mv;
 	} //mchecklist
+	
+	@RequestMapping(value = "/midcheck")
+	public ModelAndView midcheck(ModelAndView mv, MemberVO vo) {
+		// 입력한 newID 보관
+		mv.addObject("newID", vo.getMember_id());
+		if ( service.selectOne(vo) != null ) {
+			mv.addObject("idUse", "F"); // 사용불가
+		}else {
+			mv.addObject("idUse", "T"); // 사용가능
+		}
+		mv.setViewName("member/idDupCheck"); 
+		return mv;
+	} //midcheck
 	
 	// ** Join
 	// Spring AOP Transaction 적용됨
