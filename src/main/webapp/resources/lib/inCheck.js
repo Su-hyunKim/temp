@@ -1,7 +1,9 @@
 $(function(){
 	fChecks.forEach(function(focusoutCheck){
 		$('#'+focusoutCheck.id).focusout(function(){
-			focusoutCheck.bool = focusoutCheck.func();	
+			focusoutCheck.bool = focusoutCheck.func();
+			if(focusoutCheck.bool) $('#'+focusoutCheck.id).css({border:'1px solid #ddd'});
+			else $('#'+focusoutCheck.id).css({border:'3px solid red'});
 		}); //focusout
 	}); //forEach
 }); //ready
@@ -19,8 +21,9 @@ class FocusoutCheck{
 function inCheck(result){
 	let check=1;
 	fChecks.forEach(function(focusoutCheck){
-		if(focusoutCheck.bool==false){
+		if(!focusoutCheck.bool){
 			$('#'+focusoutCheck.mId).html(focusoutCheck.name+' 확인하세요');
+			$('#'+focusoutCheck.id).css({border:'3px solid red'});
 			check*=0;
 		}
 	});
