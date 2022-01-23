@@ -150,8 +150,8 @@
 
 	function phoCheck() {
 		let phone=$('#phone').val();
-		if (phone=='') {
-			$('#pssage').html(' ~~ 전화번호를 입력해주세요 ~~ ');
+		if (phone.length<10) {
+			$('#phMessage').html(' ~~ 전화번호를 입력해주세요 ~~ ');
 			return false;
 		}else if ( $.isNumeric(phone)==false || phone.replace(/[.]/g,'').length < phone.length) {
 			$('#phMessage').html(' ~~ 전화번호는 숫자로만 입력해주세요 ~~ ');
