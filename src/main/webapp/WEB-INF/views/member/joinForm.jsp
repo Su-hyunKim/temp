@@ -8,23 +8,35 @@
 <title>징검다리 : 회원가입</title>
 <script src="resources/lib/jquery-3.2.1.min.js"></script>
 <script src="resources/lib/inCheck.js"></script>
-<script> 
-	//** ID 중복 확인하기
-	function idDupCheck() {
-		// id 의 입력값 무결성 점검 확인
-		if (fChecks[0].bool==false) {
-			fChecks[0].bool=fChecks[0].func();
-		}else { 
-			// id 중복확인
-			// => id를 서버로 보내 중복확인, 결과 처리 
-			// => window.open(url,'','')
-			//    url 요청을 서버로 전달(request) 하고, 그결과(response)를 Open 해줌
-			var url="midcheck?member_id="+$('#member_id').val(); 
-			window.open(url,'_blank',
-					'toolbar=no,menubar=yes,scrollbars=yes,resizable=yes,width=400,height=300');
-		}  
-	} //idDupCheck
-   const fChecks = [
+<script>
+	$(function(){
+		$('#idDup').click(function(e){
+			if (!fChecks[0].bool) {
+				if(fChecks[0].func()) fChecks[0].bool=true;
+				else $('#member_id').css({border:redbox});
+			}else {
+				$.ajax({
+					type:'post',
+					url:"midcheck?member_id="+$('#member_id').val(),
+					success:function(resultPage) {
+								let body = resultPage.substring(resultPage.lastIndexOf('<body>')+6,
+									resultPage.lastIndexOf('</body>'));
+								if(body.indexOf('<img src="resources/image/logo.png"')!=-1)
+									resultPage = body.substring(body.indexOf('<img src="resources/image/logo.png"'),
+									body.indexOf('<div class="modal">'));
+								modal(300,350);
+								$('.modal_content').html(resultPage);	
+							},
+					error:function() {
+								alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
+							}
+				}); //ajax
+			}
+			e.stopPropagation();
+		}); //click
+	});//ready
+	 
+	let fChecks = [
 		new FocusoutCheck('member_id',idCheck,'iMessage','아이디를'),
 		new FocusoutCheck('password',pwCheck,'pMessage','비밀번호를'),
 		new FocusoutCheck('name',nmCheck,'nMessage','이름을'),
@@ -34,9 +46,13 @@
 		new FocusoutCheck('address3',ad3Check,'a3Message','상세주소를'),
 		new FocusoutCheck('email',em1Check,'emMessage','이메일을'),
 		new FocusoutCheck('email_tail',em2Check,'emMessage','이메일을'),
+		new FocusoutCheck('email_direct',em3Check,'emMessage','이메일을'),
 		new FocusoutCheck('phone',phoCheck,'phMessage','전화번호를')
 	];
 
+	let redbox = '3px solid red';
+	let original = '1px solid #ddd';
+	
 	function idCheck() {
 		let id=$('#member_id').val(); 	
 		if (id.length<4) {
@@ -129,7 +145,7 @@
 
 	function em1Check() {
 		if ($('#email').val()=='') {
-			$('#emMessage').html(' ~~ 이메일을 입력해주세요 ~~ ');
+			$('#emMessage').html(' ~~ 이메일 계정을 입력해주세요 ~~ ');
 			return false;
 		}else {
 			$('#emMessage').html('');
@@ -140,13 +156,23 @@
 	
 	function em2Check() {
 		if ($('#email_tail').val()=='') {
-			$('#emMessage').html(' ~~ 이메일을 입력해주세요 ~~ ');
+			$('#emMessage').html(' ~~ 이메일 주소 뒷자리를 선택해주세요 ~~ ');
 			return false;
 		}else {
 			$('#emMessage').html('');
 			return true;
 		}
 	} //email2
+	
+	function em3Check() {
+		if($('#email_tail').val()=='direct' && !($('#email_direct').val().includes('.'))){
+			$('#emMessage').html(' ~~ 직접입력란을 완성해주세요 ~~ ');
+			return false;
+		}else {
+			$('#emMessage').html('');
+			return true;
+		}
+	} //email3
 
 	function phoCheck() {
 		let phone=$('#phone').val();
@@ -225,7 +251,8 @@
 		<label for="member_id">
 			<span>*아이디</span>
 			<input type="text" name="member_id" id="member_id" placeholder="4자 이상 영문 또는 숫자" size="20" style="width:61%">&nbsp;
-			<input type="button" value="ID중복확인" id="idDup" onclick="idDupCheck()"style="width:30%"><br>
+<!-- <input type="button" value="ID중복확인" id="idDup" onclick="idDupCheck()" style="width:30%"><br> -->
+			<input type="button" value="ID중복확인" id="idDup" style="width:30%"><br>
 			<span id="iMessage" class="eMessage"></span>
 		</label>
 	</div>
@@ -420,7 +447,7 @@
 				<option value="nate.com">nate.com</option>
 				<option value="direct">직접입력</option>
 			</select>
-			<input type="text" name="email_direct" id="email_direct" placeholder="직접입력"><br>
+			<input type="text" name="email_direct" id="email_direct" class="direct" placeholder="직접입력"><br>
 			<script>					
 				$('#email_tail').change(function(){
 					if($('#email_tail').val()=='direct') $('#email_direct').show();
@@ -445,7 +472,7 @@
 		<label><input type="checkbox" name="interestArray" value="운동">&nbsp;운동&nbsp;&nbsp;</label>
 		<label><input type="checkbox" name="interestArray" value="다이어트">&nbsp;다이어트&nbsp;&nbsp;</label>
 		<label><input type="checkbox" name="interestArray" value="기타" id="else">&nbsp;기타&nbsp;&nbsp;</label>
-		<input type="text" name="else_direct" id="else_direct" placeholder="기타 입력"><br>
+		<input type="text" name="else_direct" id="else_direct" class="direct" placeholder="기타 입력"><br>
 		<script>
 			$('#else').click(function(){
 				if($('#else').prop("checked")) $('#else_direct').show();
@@ -469,6 +496,6 @@
 	<c:if test="${not empty message}">
 	<br>=> ${message}<br><br> 
 	</c:if>
-</div> <!-- .wrap -end- -->
+</div> 
 </body>
 </html>

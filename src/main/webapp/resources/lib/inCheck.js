@@ -2,10 +2,19 @@ $(function(){
 	fChecks.forEach(function(focusoutCheck){
 		$('#'+focusoutCheck.id).focusout(function(){
 			focusoutCheck.bool = focusoutCheck.func();
-			if(focusoutCheck.bool) $('#'+focusoutCheck.id).css({border:'1px solid #ddd'});
-			else $('#'+focusoutCheck.id).css({border:'3px solid red'});
+			if(focusoutCheck.bool) $('#'+focusoutCheck.id).css({border:original});
+			else $('#'+focusoutCheck.id).css({border:redbox});
 		}); //focusout
 	}); //forEach
+	$('#myForm input[type="reset"]').click(function(){
+		$('#myForm #idDup').prop('disabled',false);
+		$('#myForm #submit').prop('disabled',true);	
+		$('#myForm #member_id').prop('readonly',false);
+		$('#myForm .eMessage').html('');
+		$('#myForm input,#myForm select').css({border:original});
+		$('#myForm .direct').hide();
+		window.scrollTo(0,0);
+	});
 }); //ready
 
 class FocusoutCheck{
@@ -23,13 +32,13 @@ function inCheck(result){
 	fChecks.forEach(function(focusoutCheck){
 		if(!focusoutCheck.bool){
 			$('#'+focusoutCheck.mId).html(focusoutCheck.name+' 확인하세요');
-			$('#'+focusoutCheck.id).css({border:'3px solid red'});
+			$('#'+focusoutCheck.id).css({border:redbox});
 			check*=0;
 		}
 	});
 	if(check!=0){
-		if (confirm("~~ 정말 "+result+" 하십니까 ? (Yes:확인 / No:취소)")==false) {   
-			alert('~~ "+result+"이(가) 취소 되었습니다 ~~');
+		if (confirm("정말 "+result+" 하십니까 ? (Yes:확인 / No:취소)")==false) {   
+			alert('~~ '+result+'이(가) 취소 되었습니다 ~~');
 		 	return false;
 		}else{
 			fChecks.forEach(function(focusoutCheck){
