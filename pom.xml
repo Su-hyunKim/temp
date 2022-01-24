@@ -223,6 +223,13 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<!-- 이메일 인증 위한 라이브러리0 EE버전은 불필요 https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+		<dependency>
+    		<groupId>com.sun.mail</groupId>
+    		<artifactId>javax.mail</artifactId>
+    		<version>1.6.1</version>
+		</dependency>
+		
 		<!-- 이메일 인증 위한 라이브러리1 https://mvnrepository.com/artifact/javax.mail/mail -->
 		<dependency>
     		<groupId>javax.mail</groupId>

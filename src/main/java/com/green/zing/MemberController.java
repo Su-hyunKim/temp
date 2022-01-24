@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import service.MemberMailSendService;
 import service.MemberService;
 import vo.MemberVO;
 
@@ -26,7 +27,8 @@ public class MemberController {
 	MemberService service;
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	//UserMailSendService mailSender;
+	@Autowired
+	MemberMailSendService mailsender;
 	
 	@RequestMapping(value = "/loginf")
 	public ModelAndView loginf(ModelAndView mv, HttpServletRequest request) {
@@ -64,8 +66,8 @@ public class MemberController {
 				mv.addObject("message", "~~ Password 오류,  다시 하세요 ~~");
 			}
 		}else {   // ID 오류 -> 재로그인 유도 (loginForm 으로)
-		         mv.addObject("loginSuccess", "F");
-		         mv.addObject("message", "~~ ID 오류,  다시 하세요 ~~");
+			mv.addObject("loginSuccess", "F");
+		    mv.addObject("message", "~~ ID 오류,  다시 하세요 ~~");
 		} //else	      
 		mv.setViewName("jsonView");
 		return mv;
@@ -238,8 +240,12 @@ public class MemberController {
 		if(vo.getInterestArray()!=null) vo.setInterest(String.join("#",vo.getInterestArray()));
 		int cnt = service.insert(vo);
 		
-	if ( cnt > 0 ) {
-		// insert 성공
+	if ( cnt > 0 ) { // insert 성공
+		// 인증 email 발송
+		String key = mailsender.mailSendWithMemberKey(vo.getEmail(),vo.getMember_id(),request);
+		if(key==null) key="";
+		mv.addObject("key",key);
+		// member_id값 저장(인증실패시 delete를 하기위함)
 		mv.addObject("member_id",vo.getMember_id());
 		uri = "member/emailAuth";
 		//rttr.addFlashAttribute("message", "~~ 회원가입 완료!!, 이메일 인증 후 이용해 해주세요 ~~");
@@ -254,11 +260,10 @@ public class MemberController {
 	} //join
 	
 	@RequestMapping(value = "/emailauth")
-	public ModelAndView emailauth(ModelAndView mv, MemberVO vo) {
+	public ModelAndView emailauth(ModelAndView mv, MemberVO vo, HttpServletRequest request) {
 		String message="회원가입에 성공했습니다. 로그인 후 이용해주세요.";
-		if ( false ) {
-			
-		}else {
+		String key= request.getParameter("key");
+		if ( key.length()==0 || !(key.equals(request.getParameter("auth_no"))) ) {
 			service.delete(vo);
 			message = "회원가입에 실패했습니다.";
 		}
