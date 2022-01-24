@@ -41,14 +41,14 @@ $(function(){
 									modal(300,350);
 									container = '.modal_content';
 								}
-								if(document.getElementById("R")) history.replaceState({data:url},ajaxButton.id,'/zing/'+url);
-								else history.pushState({data:'저장객체'},ajaxButton.id,'/zing/'+url);
-								$(container).html(resultPage);	
+								$(container).html(resultPage);			
 							}
 			}
 			$('#'+ajaxButton.id).click(function(e){	
-					if(ajaxButton.opt.includes('banner')) $('.banner').css({display:"block"});
-					else if(ajaxButton.opt.includes('hideBanner')) $('.banner').css({display:"none"});
+				if(ajaxButton.opt.includes('banner')) $('.banner').css({display:"block"});
+				else if(ajaxButton.opt.includes('hideBanner')) $('.banner').css({display:"none"});
+/*				if(document.getElementById("R")) history.replaceState({data:url},ajaxButton.id,'/'+project+'/'+url);
+				else history.pushState({data:'저장객체'},ajaxButton.id,'/'+project+'/'+url);	*/
 				$.ajax({
 					type:ajaxButton.method,
 					url:url,
@@ -77,6 +77,8 @@ $(function(){
 		}
 	}	
 }); //ready
+
+//let project = "Project";
 
 class AjaxButton{
 	constructor(opt,id,url,method,convey){
