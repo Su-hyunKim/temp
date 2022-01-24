@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>징검다리 : 회원가입</title>
-<script src="resources/lib/jquery-3.2.1.min.js"></script>
 <script src="resources/lib/inCheck.js"></script>
 <script>
 	$(function(){
