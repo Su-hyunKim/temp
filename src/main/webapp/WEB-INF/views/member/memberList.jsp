@@ -9,8 +9,8 @@
 		#searchBar input[type="checkbox"]{width:20px;margin:0}
 	</style>
 	<script src="resources/lib/jquery-3.2.1.min.js"></script> 
-		<script>
-			$('#listSearch').click(function(e){
+	<script>
+		$('#listSearch').click(function(e){
 			let url = '';
 			for(var i=0; i<$('input[type="checkbox"]:checked').length; i++)
 				url+='&check='+$($('input[type="checkbox"]:checked')[i]).val();
@@ -27,7 +27,7 @@
 				error:function() {
 					alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
 				}
-			});
+			}); //ajax
 			return false;
 		});
 	</script>

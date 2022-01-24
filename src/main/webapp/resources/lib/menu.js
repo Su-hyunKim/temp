@@ -10,6 +10,13 @@ $(function(){
 	// 스크롤 초기화
 	window.scrollTo(0,0);
 	
+	// 뒤로가기 이벤트
+/*	window.onpopstate = function(e){
+		console.log("뒤로가기");
+		history.go(-1);		
+		alert('location:${document.location},state:${JSON.stringify(e.state)}');
+	};*/
+	
 	// 서버 통신용 버튼에 click이벤트를 연결(AjaxBnt객체 배열의 forEach)
 	ajaxBnts.forEach(function(ajaxButton){
 		if(ajaxButton.opt.includes('scale')) scale(ajaxButton.id);
@@ -18,10 +25,6 @@ $(function(){
 			let url = ajaxButton.url;
 			let container = '#container';
 			if(ajaxButton.opt.includes('loginID')) url = url+$('#loginID').val();
-			if(ajaxButton.opt.includes('modal')){
-				modal('#'+ajaxButton.id,300,350);
-				container = '.modal_content';
-			}
 			if(ajaxButton.convey=='data'){
 				success = function(resultData) {
 								location.href="home";
@@ -34,6 +37,12 @@ $(function(){
 								if(body.indexOf('<img src="resources/image/logo.png"')!=-1)
 									resultPage = body.substring(body.indexOf('<img src="resources/image/logo.png"'),
 										body.indexOf('<div class="modal">'));
+								if(ajaxButton.opt.includes('modal')){
+									modal(300,350);
+									container = '.modal_content';
+								}
+								if(document.getElementById("R")) history.replaceState({data:url},ajaxButton.id,'/zing/'+url);
+								else history.pushState({data:'저장객체'},ajaxButton.id,'/zing/'+url);
 								$(container).html(resultPage);	
 							}
 			}
@@ -55,7 +64,7 @@ $(function(){
 	
 	// modal창 실행 후 배경 누르면 창닫기
 	$('.modal').click(function(e){
-		$('.modal,.modal_content').hide();
+		if(!(document.getElementById('idOK'))) $('.modal,.modal_content').hide();
 		e.stopPropagation();
 	});
 	
@@ -79,7 +88,7 @@ class AjaxButton{
 	}
 }
 
-const ajaxBnts = [
+let ajaxBnts = [
 	new AjaxButton(['scale','banner'],'home',null,null,null),
 	new AjaxButton(['scale','modal'],'loginBt','loginf','get','page'),
 	new AjaxButton(['scale','loginID'],'logoutBt','logout?member_id=','get','data'),
@@ -103,28 +112,25 @@ function scale(id){
 	}); //hover
 } //scale
 
-function modal(button,width,height){
-	$(button).click(function(e){
-		$('.modal').css({
-			position:"fixed",
-			top:0,
-			left:0,
-			width:"100%",
-			height:"100%", 
-			background:"rgba(0,0,0,0.5)",
-			display:"block"
-		});
-		$('.modal_content').css({
-			position:"fixed",
-			width:width,
-			height:height,
-			top:(window.innerHeight-height)/2,
-			left:(window.innerWidth-width)/2,
-			background:"white",
-			display:"block",
-			border:"0px solid gray",
-			borderRadius:"5px 5px",
-		});
-		e.stopPropagation();
-	}); //button_click
+function modal(width,height){
+	$('.modal').css({
+		position:"fixed",
+		top:0,
+		left:0,
+		width:"100%",
+		height:"100%", 
+		background:"rgba(0,0,0,0.5)",
+		display:"block"
+	});
+	$('.modal_content').css({
+		position:"fixed",
+		width:width,
+		height:height,
+		top:(window.innerHeight-height)/2,
+		left:(window.innerWidth-width)/2,
+		background:"white",
+		display:"block",
+		border:"0px solid gray",
+		borderRadius:"5px 5px",
+	});
 } //modal
