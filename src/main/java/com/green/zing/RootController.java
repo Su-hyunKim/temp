@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -279,10 +280,65 @@ public class RootController {
 	} //rinsertf
 	
 	@RequestMapping(value = "/rinsert")
-	public ModelAndView rinsert(ModelAndView mv, RootVO vo, RedirectAttributes rttr) {
-
+	public ModelAndView rinsert(HttpServletRequest request, ModelAndView mv, RootVO vo, 
+			RedirectAttributes rttr) throws IOException { 
+		// 1. 요청처리 
+			// => parameter : 매개변수로 ...
+			// => 한글: web.xml 에서 <Filter> 로 ...
+			
+			// ** Uploadfile (Image) 처리
+			// => MultipartFile 타입의 uploadfilef 의 정보에서 
+			//    upload된 image 와 화일명을 get 처리,
+			// => upload된 image 를 서버의 정해진 폴더 (물리적위치)에 저장 하고,  -> file1
+			// => 이 위치에 대한 정보를 table에 저장 (vo의 UploadFile 에 set) -> file2
+			// ** image 화일명 중복시 : 나중 이미지로 update 됨.  
+			
+			// ** Image 물리적위치 에 저장
+			// 1) 현재 웹어플리케이션의 실행 위치 확인 : 
+			// => eslipse 개발환경 (배포전)
+			//    D:\MTest\MyWork\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Spring03\
+			// => 톰캣서버에 배포 후 : 서버내에서의 위치가 됨
+			//    D:\MTest\IDESet\apache-tomcat-9.0.41\webapps\Spring02\
+			
+	
 		String uri = "redirect:rlist";
+		String realPath = request.getRealPath("/"); // deprecated Method
+		System.out.println("** realPath => "+realPath);
 		
+		// 2) 위 의 값을 이용해서 실제저장위치 확인 
+		// => 개발중인지, 배포했는지 에 따라 결정
+		if (realPath.contains(".eclipse."))
+			 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+	//		realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+		else realPath += "resources\\uploadImage\\";
+		//uploadImage폴더에 상품사진 넣어놓기 
+		// ** 폴더 만들기 (File 클래스활용)
+		// => 위의 저장경로에 폴더가 없는 경우 (uploadImage가 없는경우)  만들어 준다
+		File f1 = new File(realPath);
+		if ( !f1.exists() ) f1.mkdir();
+		// realPath 디렉터리가 존재하는지 검사 (uploadImage 폴더 존재 확인)
+		// => 존재하지 않으면 디렉토리 생성
+		
+		// ** 기본 이미지 지정하기 
+		String file1, file2="resources/uploadImage/banana.png";
+		
+		// ** MultipartFile
+		// => 업로드한 파일에 대한 모든 정보를 가지고 있으며 이의 처리를 위한 메서드를 제공한다.
+		//    -> String getOriginalFilename(), 
+		//    -> void transferTo(File destFile),
+		//    -> boolean isEmpty()
+		
+		MultipartFile uploadfilef = vo.getUploadfilef();
+		if ( uploadfilef !=null && !uploadfilef.isEmpty() ) {
+			// Image 를 선택했음 -> Image 처리 (realPath+화일명)
+			// 1) 물리적 위치에 Image 저장 
+			file1=realPath + uploadfilef.getOriginalFilename(); //  전송된File명 추출 & 연결
+			uploadfilef.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
+			// 2) Table 저장위한 경로 
+			file2 = "resources/uploadImage/"+ uploadfilef.getOriginalFilename();
+		}
+		vo.setUploadfile(file2);
+
 		if ( service.insert(vo) > 0 ) { 
     		// 글등록 성공 -> blist , redirect
     		rttr.addFlashAttribute("message", "~~ 새글 등록 완료 !!! ~~");
