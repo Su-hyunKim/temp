@@ -5,23 +5,37 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
 <title>Email 인증페이지</title>
-<script> 
-
+<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
+<script>	
+	let second = 300;
+	
+	function clock(){
+		second -= 1;
+		if(second<0) document.getElementById('submit').click();
+		else{
+			var ss = second%60;
+			var mm = Math.trunc(second/60);
+			document.getElementById("clock").innerHTML = "남은시간 "+mm+":"+ss;
+			setTimeout("clock()",1000);
+		}
+	}
 </script>
 </head>
-<body>
+<body onload="clock()">
 <div class="wrapped">
 	<h1>Email 인증페이지</h1>
-	인증번호 입력
+	<p>남은시간 이내에 인증을 완료해 주십시오</p>
+	<p id="clock">종료</p>
 	<form action="emailauth" method="post">
 		<input type="hidden" name="member_id" value="${member_id}">
 		<input type="hidden" name="key" value="${key}">
-		<input type="text" name="auth_no">
-		<input type="submit" value="인증">
+		<input type="text" name="auth_no" placeholder="인증키 입력">
+		<input type="submit" value="인증" id="submit">
 		<input type="reset" value="초기화">
 	</form>
 </div>
-
 </body>
 </html>
