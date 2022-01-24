@@ -36,17 +36,17 @@
 	});//ready
 	 
 	let fChecks = [
-		new FocusoutCheck('member_id',idCheck,'iMessage','아이디를'),
-		new FocusoutCheck('password',pwCheck,'pMessage','비밀번호를'),
-		new FocusoutCheck('name',nmCheck,'nMessage','이름을'),
-		new FocusoutCheck('birthday',bdCheck,'bMessage','생년월일을'),
-		new FocusoutCheck('address1',ad1Check,'a1Message','우편번호를'),
-		new FocusoutCheck('address2',ad2Check,'a2Message','주소를'),
-		new FocusoutCheck('address3',ad3Check,'a3Message','상세주소를'),
-		new FocusoutCheck('email',em1Check,'emMessage','이메일을'),
-		new FocusoutCheck('email_tail',em2Check,'emMessage','이메일을'),
-		new FocusoutCheck('email_direct',em3Check,'emMessage','이메일을'),
-		new FocusoutCheck('phone',phoCheck,'phMessage','전화번호를')
+		new FocusoutCheck(false,'member_id',idCheck,'iMessage','아이디를'),
+		new FocusoutCheck(false,'password',pwCheck,'pMessage','비밀번호를'),
+		new FocusoutCheck(false,'name',nmCheck,'nMessage','이름을'),
+		new FocusoutCheck(false,'birthday',bdCheck,'bMessage','생년월일을'),
+		new FocusoutCheck(false,'address1',ad1Check,'a1Message','우편번호를'),
+		new FocusoutCheck(false,'address2',ad2Check,'a2Message','주소를'),
+		new FocusoutCheck(false,'address3',ad3Check,'a3Message','상세주소를'),
+		new FocusoutCheck(false,'email',em1Check,'emMessage','이메일을'),
+		new FocusoutCheck(false,'email_tail',em2Check,'emMessage','이메일을'),
+		new FocusoutCheck(true,'email_direct',em3Check,'emMessage','이메일을'),
+		new FocusoutCheck(false,'phone',phoCheck,'phMessage','전화번호를')
 	];
 
 	let redbox = '3px solid red';
@@ -438,7 +438,7 @@
 		<label for="email">
 			<span>*이메일</span>
 			<input type="text" name="email" id="email" placeholder="인증용 이메일">&nbsp;@&nbsp;
-			<select id="email_tail" name="email_tail">
+			<select id="email_tail">
 				<option value="">선택</option>
 				<option value="naver.com">naver.com</option>
 				<option value="daum.net">daum.net</option>
@@ -466,12 +466,13 @@
 	</div>		
 		
 	<div class="input_div">
+		<input type="hidden" value="" name="interest">
 		<span>관심사</span>
 		<label><input type="checkbox" name="interestArray" value="문학">&nbsp;문학&nbsp;&nbsp;</label>
 		<label><input type="checkbox" name="interestArray" value="운동">&nbsp;운동&nbsp;&nbsp;</label>
 		<label><input type="checkbox" name="interestArray" value="다이어트">&nbsp;다이어트&nbsp;&nbsp;</label>
 		<label><input type="checkbox" name="interestArray" value="기타" id="else">&nbsp;기타&nbsp;&nbsp;</label>
-		<input type="text" name="else_direct" id="else_direct" class="direct" placeholder="기타 입력"><br>
+		<input type="text" id="else_direct" class="direct" placeholder="기타 입력"><br>
 		<script>
 			$('#else').click(function(){
 				if($('#else').prop("checked")) $('#else_direct').show();

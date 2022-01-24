@@ -26,6 +26,7 @@ public class MemberController {
 	MemberService service;
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	//UserMailSendService mailSender;
 	
 	@RequestMapping(value = "/loginf")
 	public ModelAndView loginf(ModelAndView mv, HttpServletRequest request) {
@@ -175,11 +176,7 @@ public class MemberController {
 	@RequestMapping(value = "/join")
 	public ModelAndView join(HttpServletRequest request, ModelAndView mv, MemberVO vo,
 			RedirectAttributes rttr) 
-					 	throws IOException {
-		// 1. 요청처리 
-		// => parameter : 매개변수로 ...
-		// => 한글: web.xml 에서 <Filter> 로 ...
-		
+					 	throws IOException {		
 		// ** Uploadfile (Image) 처리
 		// => MultipartFile 타입의 uploadfilef 의 정보에서 
 		//    upload된 image 와 화일명을 get 처리,
@@ -238,18 +235,35 @@ public class MemberController {
 		// 2. Service 처리
 		String uri = "redirect:home";  
 		
+		if(vo.getInterestArray()!=null) vo.setInterest(String.join("#",vo.getInterestArray()));
 		int cnt = service.insert(vo);
 		
-		if ( cnt > 0 ) {
-			 // insert 성공
-			 rttr.addFlashAttribute("message", "~~ 회원가입 완료!!, 로그인 후 이용하세요 ~~");
-			 rttr.addFlashAttribute("R","login"); // 성공시 홈으로 이동 후 로그인 form 클릭
-		 }else { 
-			 // insert 실패
-			 rttr.addFlashAttribute("message", "~~ 회원가입 실패!!, 다시 하세요 ~~");
-			 rttr.addFlashAttribute("R","loginf");
-		 }
+	if ( cnt > 0 ) {
+		// insert 성공
+		mv.addObject("member_id",vo.getMember_id());
+		uri = "member/emailAuth";
+		//rttr.addFlashAttribute("message", "~~ 회원가입 완료!!, 이메일 인증 후 이용해 해주세요 ~~");
+		//rttr.addFlashAttribute("R","login"); // 성공시 홈으로 이동 후 로그인 form 클릭
+	}else { 
+		// insert 실패
+		rttr.addFlashAttribute("message", "~~ 회원가입 실패!!, 다시 하세요 ~~");
+		rttr.addFlashAttribute("R","loginf");
+	}
 		mv.setViewName(uri);
 		return mv;
 	} //join
+	
+	@RequestMapping(value = "/emailauth")
+	public ModelAndView emailauth(ModelAndView mv, MemberVO vo) {
+		String message="회원가입에 성공했습니다. 로그인 후 이용해주세요.";
+		if ( false ) {
+			
+		}else {
+			service.delete(vo);
+			message = "회원가입에 실패했습니다.";
+		}
+		mv.addObject("message",message);
+		mv.setViewName("home"); 
+		return mv;
+	} //emailauth	
 }

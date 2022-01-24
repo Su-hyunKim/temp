@@ -18,8 +18,8 @@ $(function(){
 }); //ready
 
 class FocusoutCheck{
-	constructor(id,func,mId,name){
-		this.bool=false;
+	constructor(bool,id,func,mId,name){
+		this.bool=bool;
 		this.id=id;
 		this.func=func;
 		this.mId=mId;
@@ -51,6 +51,7 @@ function inCheck(result){
 			});
 			if($('#else').is(':checked'))
 				$('#else').val($('#else').val()+':'+$('#else_direct').val());
+			
 			return true;
 		} 
 	}else return false;
