@@ -4,85 +4,81 @@
 <mapper namespace="mapperInterface.CommentsMapper">
 
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-   <sql id="search">
-      <if test="keyword != null">
-         <bind name="keyVal" value="'%'+keyword+'%'"/>
-      </if>
-      <choose>
-         <when test="searchType=='t'.toString()">
-            and title LIKE #{keyVal} )
-         </when>
-         <when test="searchType=='c'.toString()">
-              and content Like #{keyVal} )
-           </when>
-           <when test="searchType=='i'.toString()">
-              and id Like #{keyVal} )
-           </when>
-           <when test="searchType=='tc'.toString()">
-              and title Like #{keyVal} 
-              or content Like #{keyVal} )
-           </when>
-           <when test="searchType=='ti'.toString()">
-              and title Like #{keyVal} 
-              or id Like #{keyVal} )
-           </when>
-           <when test="searchType=='tci'.toString()">
-              and title Like #{keyVal}
-              or content Like #{keyVal} 
-              or id Like #{keyVal} )
-           </when>
-           <otherwise>)</otherwise>
-      </choose>
-   </sql>
-
-
-<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	<select id="searchRowsCount" resultType="int">
-		select count(*) from comments where ( reply_seq>0 
-		<include refid="search"></include>	
+   
+	 <select id="listPaging" resultMap="ReplyResultMap">
+ 		select 
+ 			reply_seq,
+ 			root_seq,
+ 			member_id,
+ 			regdate,
+ 			texts,
+ 			fileupload,
+ 			rating,
+ 			status 
+ 		from comments 
+		where root_seq=#{root_seq} 
+		order by reply_seq
+		limit #{criteria.sno}, #{criteria.eno}
+	</select>	
+	
+	<select id="countComments" resultType="int">
+		select
+			count(root_seq)
+		from comments
+		where root_seq=#{root_seq}
 	</select>
 	
- 	<select id="searchList" resultType="vo.CommentsVO">
- 		select reply_seq,root_seq,member_id,regdate,texts,fileupload,rating,status from 
-			(select c.*,ROW_NUMBER() OVER(order by root desc, step asc) rnum from comments c 
-			where reply_seq>0 
-			<include refid="search"></include>
-			where rnum between #{sno} and #{eno}
-	</select>
-
-<!-- ** PageList ~~~~~~~~~~~~~~~~~~~~~~-->
-	
-	<select id="pageList" resultType="vo.CommentsVO">
-		select reply_seq,root_seq,member_id,regdate,rating from 
-		(select c.* , ROW_NUMBER() OVER(order by root desc, step asc) rnum from comments c) 
-		where rnum between #{sno} and #{eno}
-	</select>
-
-	<select id="selectList" resultType="vo.CommentsVO">
-		select reply_seq,root_seq,member_id,regdate,rating from 
-		comments order by root desc, step asc
-	</select>
-	
-	<select id="selectOne" resultType="vo.CommentsVO">
-		select * from comments where reply_seq = #{reply_seq}
-	</select>
+ 	<select id="list" resultMap="ReplyResultMap">
+ 		select 
+ 			reply_seq,
+ 			root_seq,
+ 			member_id,
+ 			regdate,
+ 			texts,
+ 			fileupload,
+ 			rating,
+ 			status 
+ 		from comments 
+		where root_seq=#{root_seq} 
+		order by reply_seq
+	</select>	
 	
 	<!-- 원글입력 -->
 	<insert id="insert">
-		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
-			select nvl(max(seq),0)+1 from comments
-		</selectKey>
-		insert into comments values ( 
-			#{reply_seq},#{root_seq},#{member_id},SYSDATE,#{texts},#{fileupload},#{rating},#{status})
+		insert into comments (
+			root_seq,
+			texts,
+			member_id
+		) values ( 
+			#{root_seq},
+			#{texts},
+			#{member_id}
+		)
 	</insert>
 	
 	<update id="update">
-		update comments set texts=#{texts}, fileupload=#{fileupload} where replt_seq=#{reply_seq}
+		update comments 
+		set 
+			texts=#{texts}, 
+			regdate=#{regdate} 
+		where reply_seq=#{reply_seq}
 	</update>
 	
 	<delete id="delete">
-		DELETE from comments
-		<if test="seq!=root">where reply_seq=#{reply_seq}</if> 
+		delete from comments
+		where reply_seq=#{reply_seq} 
 	</delete>
+	
+	<resultMap id="ReplyResultMap" type="vo.CommentsVO"> 
+		<id property="reply_seq" column="reply_seq"/> 
+		<result property="root_seq" column="root_seq"/> 
+		<result property="member_id" column="member_id"/> 
+		<result property="regdate" column="regdate"/> 
+		<result property="texts" column="texts"/> 
+		<result property="fileupload" column="fileupload"/> 
+		<result property="rating" column="rating"/>
+		<result property="status" column="status"/>  
+	</resultMap>
+
 
 </mapper>
