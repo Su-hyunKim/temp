@@ -2,22 +2,18 @@ package service;
 
 import java.util.List;
 
-import criteria.SearchCriteria;
+import criteria.Criteria;
 import vo.CommentsVO;
-import vo.PageVO;
 
 public interface CommentsService {
 	
-	// ** PageList 2. SearchCriteria PageList
-	int searchRowsCount(SearchCriteria cri) ;
-	List<CommentsVO> searchList(SearchCriteria cri) ;
-	// ** PageList1.
-	PageVO<CommentsVO> pageList(PageVO<CommentsVO> pvo); // pageList 1 
+	// ** PageList
+	List<CommentsVO> getCommentsPaging(Integer root_seq, Criteria criteria);
+	int countComments(Integer root_seq);
 	// **  CRUD
-	List<CommentsVO> selectList(); //selectList
-	CommentsVO selectOne(CommentsVO vo); //selectOne
-	int insert(CommentsVO vo); //insert
-	int update(CommentsVO vo); //update
-	int delete(CommentsVO vo); //delete
+	List<CommentsVO> list(Integer root_seq); //selectList
+	int insert(CommentsVO commentsVo); //insert
+	int update(CommentsVO commentsVo); //update
+	int delete(CommentsVO commentsVo); //delete
 
 }

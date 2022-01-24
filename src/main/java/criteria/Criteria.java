@@ -10,15 +10,15 @@ import lombok.ToString;
 @Getter
 @ToString
 public class Criteria {
-	private int rowsPerPage; // 1Page당 출력할 row갯수 
 	private int currPage; // 요청(출력할) PageNo
+	private int rowsPerPage; // 1Page당 출력할 row갯수 
 	private int sno ; // start RowNo
 	private int eno ; // end RowNo
 	
 	// 1) 필요한 초기값은 생성자로 초기화  
 	public Criteria() {
-		this.rowsPerPage=3;
 		this.currPage=1;
+		this.rowsPerPage=3;
 	}
 	// 2) setCurrPage : 요청받은(출력할) PageNo set
 	public void setCurrPage(int currPage) {
