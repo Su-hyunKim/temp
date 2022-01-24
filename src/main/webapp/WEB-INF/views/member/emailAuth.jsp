@@ -16,6 +16,7 @@
 	인증번호 입력
 	<form action="emailauth" method="post">
 		<input type="hidden" name="member_id" value="${member_id}">
+		<input type="hidden" name="key" value="${key}">
 		<input type="text" name="auth_no">
 		<input type="submit" value="인증">
 		<input type="reset" value="초기화">

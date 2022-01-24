@@ -46,12 +46,11 @@ function inCheck(result){
 					$('#address3').val($('#address3').val()+' '+$('#extraAddress').val());
 				if(focusoutCheck.id=='email')
 					$('#email').val($('#email').val()+'@'+$('#email_tail').val());
-				if($('#email').val().includes('direct'))
+				if($('#email_tail').val().includes('direct'))
 					$('#email').val($('#email').val().replace('direct',$('#email_direct').val()));
 			});
 			if($('#else').is(':checked'))
 				$('#else').val($('#else').val()+':'+$('#else_direct').val());
-			
 			return true;
 		} 
 	}else return false;

@@ -489,7 +489,7 @@
 
 	<div class="input_div">
 		<span id="finalMessage" class="eMessage"></span>
-		<input type="submit" value="가입" onclick="return inCheck('가입')" id="submit" disabled>&nbsp;&nbsp;
+		<input type="submit" value="가입" id="submit" disabled>&nbsp;&nbsp;
 		<input type="reset" value="입력 초기화">&nbsp;&nbsp;
 	</div>	
 	</form>
