@@ -60,7 +60,7 @@ public class MemberMailSendService {
 				+ "<h3>" + member_id + "님</h3>" + "<p>"
 				//+ "<h3>" + member_id + "님</h3>" + "<p>인증하기 버튼을 누르시면 로그인을 하실 수 있습니다 : " 
 				//+ "<a href='http://localhost:8080" + request.getContextPath() + "/emailauth?member_id="+ member_id +"&member_key="+key+"'>인증하기</a></p>"
-				+ "인증 번호는 "+key+" 입니다.<br>인증절차를 완료해 주시기 바랍니다.</p>"
+				+ "인증키는 "+key+" 입니다.<br>인증 절차를 완료해 주시기 바랍니다.</p>"
 				+ "(혹시 잘못 전달된 메일이라면 이 이메일을 무시하셔도 됩니다)";
 		try {
 			mail.setSubject("[본인인증] 징검다리 회원가입 인증메일입니다", "utf-8");
@@ -72,6 +72,5 @@ public class MemberMailSendService {
 			e.printStackTrace();
 			return null;
 		}		
-		// 아마존 주소 : http://54.180.117.142/MS/user/key_alter?user_id=	
 	}
 }

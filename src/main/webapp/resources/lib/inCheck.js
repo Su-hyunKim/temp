@@ -44,10 +44,11 @@ function inCheck(result){
 			fChecks.forEach(function(focusoutCheck){
 				if(focusoutCheck.id=='address3')
 					$('#address3').val($('#address3').val()+' '+$('#extraAddress').val());
-				if(focusoutCheck.id=='email')
-					$('#email').val($('#email').val()+'@'+$('#email_tail').val());
-				if($('#email_tail').val().includes('direct'))
-					$('#email').val($('#email').val().replace('direct',$('#email_direct').val()));
+				if(focusoutCheck.id=='email_tail'){
+					if($('#email_tail').val()=='direct')
+						$('#email').val( $('#email').val()+'@'+$('#email_direct').val() );
+					else $('#email').val( $('#email').val()+'@'+$('#email_tail').val() );
+				}
 			});
 			if($('#else').is(':checked'))
 				$('#else').val($('#else').val()+':'+$('#else_direct').val());
