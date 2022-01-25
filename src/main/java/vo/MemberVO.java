@@ -1,5 +1,7 @@
 package vo;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -21,10 +23,11 @@ public class MemberVO {
 	private String sns;
 	private String profile;
 	private String last_access;
-	private String status;
+	private String status; // "0":미인가
 	private String remarks;
+	private Boolean enabled; // '0':휴면(false) '1':active(true)
+	private List<AuthVO> authList;
 	private MultipartFile profilef;	
-	private String[] interestArray;	
 	private String[] check;
 	// ** 배열타입 (CheckBox 처리) 
 	// => 배열타입 검색조건 처리

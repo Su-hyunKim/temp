@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -15,7 +15,7 @@
 <a id="home" href="home"><img src="resources/image/home.png" width="30" height="30"></a>
 <div>
 	<img  id="loginBt" src="resources/image/login.png" width="35" height="35">
-	<img  id="logoutBt" src="resources/image/logout.png" width="35" height="35">
+	<a href="logoutf" id="logoutBt"><img src="resources/image/logout.png" width="35" height="35"></a>
 </div>
 <div class="menu">
 	<ul>
@@ -61,7 +61,7 @@
 <img src="resources/image/logo.png" width="125px" height="75px">
 <P>${serverTime}</P>
 <c:if test="${not empty loginID}">
-<span>${loginName}님 환영합니다.</span>
+<span>${loginID}님 환영합니다.</span>
 </c:if>
 <c:if test="${not empty message}">
 <span>${message}</span>
