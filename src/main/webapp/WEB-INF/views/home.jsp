@@ -15,7 +15,7 @@
 <a id="home" href="home"><img src="resources/image/home.png" width="30" height="30"></a>
 <div>
 	<img  id="loginBt" src="resources/image/login.png" width="35" height="35">
-	<a href="logoutf" id="logoutBt"><img src="resources/image/logout.png" width="35" height="35"></a>
+	<img  id="logoutBt" src="resources/image/logout.png" width="35" height="35">
 </div>
 <div class="menu">
 	<ul>

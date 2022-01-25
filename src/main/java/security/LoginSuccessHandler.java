@@ -70,6 +70,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		json.addProperty("loginSuccess", "T");
 		out.print(json);
 		out.flush();
+		response.sendRedirect("/");
 		
 		/*
 		 * //Test 1) ~xml 1~4 if (roleNames.contains("ROLE_ADMIN")) {
