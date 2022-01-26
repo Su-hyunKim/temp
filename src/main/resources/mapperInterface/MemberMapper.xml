@@ -82,7 +82,7 @@
 			where rnum between #{sno} and #{eno}
 	</select>
 
-	<!-- 로그인, 로그아웃 시 last access 수정 -->
+	<!-- myPage, 로그아웃form 요청시 last access 수정 -->
 	<update id="updateLastAccess">
 		update member set last_access=sysdate where member_id=#{member_id}
 	</update>

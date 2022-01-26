@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,9 +14,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import service.AuthService;
 import service.MemberMailSendService;
 import service.MemberService;
+import vo.AuthVO;
 import vo.MemberVO;
+
+//=> Mapper 는 null 을 return 하지 않으므로 길이로 확인 
 
 @Controller
 public class MemberController {
@@ -29,6 +30,8 @@ public class MemberController {
 	PasswordEncoder passwordEncoder;
 	@Autowired
 	MemberMailSendService mailsender;
+	@Autowired
+	AuthService authService;
 	
 	@RequestMapping(value = "/loginf")
 	public ModelAndView loginf(ModelAndView mv, HttpServletRequest request) {
@@ -93,14 +96,16 @@ public class MemberController {
 	
 	//SSLogoutf => post 방식으로 처리하기위해 ssLogoutForm 사용 Test	
 	@RequestMapping(value = "/logoutf")
-	public ModelAndView logoutf(ModelAndView mv) {
+	public ModelAndView logoutf(ModelAndView mv, MemberVO vo) {
+		// ** 마지막 접속시간 update
+		service.updateLastAccess(vo);		
 		mv.setViewName("member/logoutForm");
 		return mv;
 	} //logoutf
 
 	// ** Member Check List ******************************
 	@RequestMapping(value = "/mlist")
-	public ModelAndView mchecklist(ModelAndView mv, MemberVO vo) {			
+	public ModelAndView mchecklist(ModelAndView mv, MemberVO vo) {		
 		// 1) Check_Box 처리
 		// String[] check = request.getParameterValues("check");
 		// => vo 에 배열 Type의 check 컬럼을 추가하면 편리
@@ -125,11 +130,13 @@ public class MemberController {
 	} //mchecklist
 	
 	@RequestMapping(value = "/mdetail")
-	public ModelAndView mdetail(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
+	public ModelAndView mdetail(ModelAndView mv, MemberVO vo, RedirectAttributes rttr, AuthVO avo) {
 		String uri = "member/memberDetail";
 		String id = vo.getMember_id();
+		if(id==null) id = "";
 		vo=service.selectOne(vo);
-		if (vo != null) {
+		if (vo != null && authService.selectOne(avo)!=null ) {
+			vo.setRemarks(authService.selectOne(avo).getAuthority());
 			mv.addObject("apple", vo);	
 		}else {
 			rttr.addFlashAttribute("message","~~ "+id+"님의 자료는 존재하지 않습니다 ~~");
@@ -141,6 +148,9 @@ public class MemberController {
 	
 	@RequestMapping(value = "/mypage")
 	public ModelAndView mypage(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
+		// ** 마지막 접속시간 update
+		service.updateLastAccess(vo);
+		
 		String uri = "member/mypage";
 		String id = vo.getMember_id();
 		vo=service.selectOne(vo);
@@ -261,21 +271,27 @@ public class MemberController {
 		return mv;
 	} //join
 	
-	@RequestMapping(value = "/emailauth")
+	@RequestMapping(value = "/mailauth")
 	public ModelAndView emailauth(ModelAndView mv, MemberVO vo, HttpServletRequest request) {
-		String message="회원가입에 성공했습니다. 로그인 후 이용해주세요.";
+		String url;
 		String key= request.getParameter("key");
-		if ( key.length()==0 || !(key.equals(request.getParameter("auth_no"))) ) {
-			service.delete(vo);
-			message = "회원가입에 실패했습니다.";
-		}
-		mv.addObject("message",message);
-		mv.setViewName("home"); 
+		vo = service.selectOne(vo);
+		if( (vo!=null) && key.length()!=0 && key.equals(request.getParameter("auth_no")) )
+			url = "redirect:authjoin?member_id="+vo.getMember_id()+"&authority="+request.getParameter("authority");
+		else {
+			if(vo!=null) service.delete(vo);
+			mv.addObject("message","인증에 실패했습니다.");
+			url = "home";
+		}		
+		mv.setViewName(url); 
 		return mv;
-	} //emailauth	
+	} //emailauth
 	
 	@RequestMapping(value = "/mupdatef")
-	public ModelAndView mupdatef(ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView mupdatef(ModelAndView mv, HttpServletRequest request, MemberVO vo) {
+		// ** 마지막 접속시간 update
+		service.updateLastAccess(vo);
+		
 		if("mupdatef".equals(request.getParameter("R"))) {
 			mv.addObject("R","mupdatef");
 			mv.setViewName("home");
