@@ -5,23 +5,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>** RootList **</title>
+<title>게시판 목록</title>
 <link rel="stylesheet" type="text/css" href="resources/lib/main.css">
 </head>
 <body>
-<h3>** RootList **</h3>
+<h1>게시판 목록</h1>
 <br>
 <c:if test="${not empty message}">
 => ${message}<br>
 </c:if>
 <hr>
 <table width=100%>
-<tr height="30" bgcolor="GreenYellow">
-	<th>Root_seq</th><th>Title</th><th>Member_Id</th><th>RegDate</th><th>조회수</th> 
+<tr height="30" bgcolor="RosyBrown">
+	<th>글번호</th><th>글제목</th><th>ID</th><th>글등록일</th><th>조회수</th> 
 </tr>	
 <c:forEach var="list" items="${banana}">
 <tr  height="30" align="center">
-	<td>${list.seq}</td>
+	<td>${list.root_seq}</td>
 	<td align="left"> -
 	 <!-- 답글 등록후 indent 에 따른 들여쓰기 
 			=> 답글인 경우에만 적용  -->
@@ -40,7 +40,6 @@
 		${list.title} 
 	</c:if>
 	</td>
-	
 	<td align="left">${list.member_id}</td><td>${list.regdate}</td><td>${list.cnt}</td>
 </tr>
 </c:forEach>

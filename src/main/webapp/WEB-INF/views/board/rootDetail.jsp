@@ -5,29 +5,33 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>** Spring Mybatis RootDetail **</title>
+<title>게시판 상세정보</title>
 </head>
 <body>
-<h2>** Spring Mybatis RootDetail **</h2>
+<h1>게시판 상세정보</h1>
 <table>
 	<tr height="40">
-		<td bgcolor="Lavender">Root_Seq</td><td>${apple.root_seq}</td>
+		<td>글번호</td><td>${apple.root_seq}</td>
 	</tr>
 	<tr height="40">
-		<td bgcolor="Lavender">Member_I D</td><td>${apple.member_id}</td>
+		<td>I D</td><td>${apple.member_id}</td>
 	</tr>
 	<tr height="40">
-		<td bgcolor="Lavender">Title</td><td>${apple.title}</td>
+		<td>제목</td><td>${apple.title}</td>
 	</tr>
 	<tr height="40">
-		<td bgcolor="Lavender">Content</td>
-		<td><textarea rows="5" cols="50" readonly>${apple.content}</textarea></td>
+		<td>글내용</td>
+		<td><textarea rows="7" cols="50" readonly>${apple.content}</textarea></td>
 	</tr>
 	<tr height="40">
-		<td bgcolor="Lavender">RegDate</td><td>${apple.regdate}</td>
+		<td>첨부파일</td>
+		<td><img src="${apple.uploadfilef}" width="150" height="150"></td>
 	</tr>
 	<tr height="40">
-		<td bgcolor="Lavender">조회수</td><td>${apple.cnt}</td>
+		<td>글등록일</td><td>${apple.regdate}</td>
+	</tr>
+	<tr height="40">
+		<td>조회수</td><td>${apple.cnt}</td>
 	</tr>
 </table>
 <c:if test="${not empty message}">
