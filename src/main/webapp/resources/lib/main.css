@@ -38,10 +38,18 @@ a {
 	position:absolute;
 	top:10px;
 }
-#d1 { left:18%; }
-#d2 { left:45%; }
-#d3 { left:70%; }
-ul { list-style:none; }
+#d1 {
+	left:18%;
+}
+#d2 { 
+	left:45%; 
+}
+#d3 {
+	left:70%;
+}
+ul {
+	list-style:none;
+}
 .title{
 	color:gray;
 	font-size:20px;
@@ -64,8 +72,10 @@ ul li:hover {
 	color:black; 
 	cursor:pointer;
 }
-ul li:hover ul{top:90%;}
-ul li span:hover{
+ul li:hover ul {
+	top:90%;
+}
+ul li span:hover {
 	color:black;
 	 font-weight:bold;
 }
@@ -84,27 +94,29 @@ ul li span:hover{
 	left:92%; top:10px;
 	z-index:2;
 }
-#container{
+#container {
 	width:100%;
 	margin:45px 0;
 	padding:0;
 	border:0;
 }
-.modal{
+.modal {
 	z-index:3;
 	display:none;
 }
-.modal_content{
+.modal_content {
 	z-index:4;
 	display:none;
 }
-.modalClose{
+.modalClose {
 	position:absolute;
 	top:0px;
 	right:5px;
 	z-index:5;
 }
-.modalClose:hover{cursor:pointer;}
+.modalClose:hover {
+	cursor:pointer;
+}
 .banner{
 	height:250px;
 	width:100%;
@@ -114,13 +126,15 @@ ul li span:hover{
 	opacity:0.5; 
     animation: fadein 5s;
     -webkit-animation: fadein 5s;
-}@keyframes fadein{
+}
+@keyframes fadein{
     from{
         opacity: 0;
     }to{
         opacity: 0.5;
     }
-}@-webkit-keyframes fadein{
+}
+@-webkit-keyframes fadein{
     from{
         opacity: 0;
     }to{

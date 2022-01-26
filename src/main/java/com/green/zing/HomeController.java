@@ -31,4 +31,9 @@ public class HomeController {
 		return "home";
 	}
 
+	@RequestMapping(value = "/accessError")
+	public ModelAndView accessError(ModelAndView mv) {
+		mv.setViewName("errorPage/exception_403");
+		return mv;
+	} //accessError
 } //Class

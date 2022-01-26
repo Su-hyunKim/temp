@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="s"%>  
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -61,7 +62,7 @@
 <img src="resources/image/logo.png" width="125px" height="75px">
 <P>${serverTime}</P>
 <c:if test="${not empty loginID}">
-<span>${loginName}님 환영합니다.</span>
+<span>${loginID}님 환영합니다.</span>
 </c:if>
 <c:if test="${not empty message}">
 <span>${message}</span>

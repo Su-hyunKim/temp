@@ -10,7 +10,9 @@
 <title>회원상세정보</title>
 <!-- <link rel="stylesheet" type="text/css" href="resources/lib/main.css"> -->
 <style>
-	hr{width:100%;}
+	hr{
+		width:100%;
+	}
 	table{
 		border-collapse:collapse;
 		text-align:left;
@@ -30,7 +32,9 @@
 		padding:10px;
 		vertical-align:top;
 	}
-	tr:nth-child(2n){background:#efefef;}
+	tr:nth-child(2n){
+		background:#efefef;
+	}
 	a{
 		width:100px;
 		text-decoration-line:none;

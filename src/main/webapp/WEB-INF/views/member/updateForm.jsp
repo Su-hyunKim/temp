@@ -202,7 +202,7 @@
 </head>
 <body>
 <div class="wrapped">
-	<h1>징검다리 회원가입</h1>
+	<h1>회원정보 수정</h1>
 	<!-- <pre><h3>
 	=> FileUpLoad TestForm
 	=> form 과 table Tag 사용시 주의사항 : form 내부에 table 사용해야함
@@ -210,6 +210,64 @@
 	   -> JQ 의 serialize, FormData 의 append all 등
 	</h3></pre>
 	 -->
+	 <form action="join" method="post" enctype="multipart/form-data" id="myForm" onsubmit="return inCheck('회원정보수정');">
+	 <table>
+	<tr>
+		<th>I  D</th><td>${apple.member_id}</td>
+	</tr>
+	<tr>
+		<th>이름</th><td>${apple.name}</td>
+	</tr>
+	<tr>
+		<th>성별</th>
+		<td>
+			<c:if test="${apple.gender=='M'}">
+				남성
+			</c:if>
+			<c:if test="${apple.gender=='F'}">
+				여성
+			</c:if>
+			<c:if test="${apple.gender=='N'}">
+				기타
+			</c:if>
+		</td>
+	</tr>
+	<tr>
+		<th>생년월일</th>
+		<td>${apple.birthday}</td>
+	</tr>
+	<tr>
+		<th>관심사</th><td>${apple.interest}</td>
+	</tr>
+	<tr>
+		<th>포인트</th><td>${apple.point}</td>
+	</tr>
+	<tr>
+		<th>주소</th>
+		<td>&#12306;&nbsp;${apple.address1}<br>
+			${apple.address2}${apple.address3}
+		</td>
+	</tr>
+	<tr>
+		<th>전화번호</th><td>${apple.phone}</td>
+	</tr>
+	<tr>
+		<th>이메일</th><td>${apple.email}</td>
+	</tr>
+	<tr>
+		<th>SNS</th><td>${apple.sns}</td>
+	</tr>
+	<tr>
+		<th>마지막 접속</th><td>${apple.last_access}</td>
+	</tr>
+	<tr>
+		<th>Image</th>
+		<td><img src="${apple.profile}" width="100" height="120"></td>
+	</tr>
+</table>
+</form>	 
+	 
+	 
 	<form action="join" method="post" enctype="multipart/form-data" id="myForm" onsubmit="return inCheck('가입');">
 	<style>
 /* 		@font-face {

@@ -467,10 +467,10 @@
 	<div class="input_div">
 		<input type="hidden" value="" name="interest">
 		<span>관심사</span>
-		<label><input type="checkbox" name="interestArray" value="문학">&nbsp;문학&nbsp;&nbsp;</label>
-		<label><input type="checkbox" name="interestArray" value="운동">&nbsp;운동&nbsp;&nbsp;</label>
-		<label><input type="checkbox" name="interestArray" value="다이어트">&nbsp;다이어트&nbsp;&nbsp;</label>
-		<label><input type="checkbox" name="interestArray" value="기타" id="else">&nbsp;기타&nbsp;&nbsp;</label>
+		<label><input type="checkbox" name="check" value="문학">&nbsp;문학&nbsp;&nbsp;</label>
+		<label><input type="checkbox" name="check" value="운동">&nbsp;운동&nbsp;&nbsp;</label>
+		<label><input type="checkbox" name="check" value="다이어트">&nbsp;다이어트&nbsp;&nbsp;</label>
+		<label><input type="checkbox" name="check" value="기타" id="else">&nbsp;기타&nbsp;&nbsp;</label>
 		<input type="text" id="else_direct" class="direct" placeholder="기타 입력"><br>
 		<script>
 			$('#else').click(function(){
