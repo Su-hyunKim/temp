@@ -52,7 +52,6 @@ $(function(){
 				$.ajax({
 					type:ajaxButton.method,
 					url:url,
-					
 					success:success,
 					error:function() {
 								alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
@@ -80,7 +79,6 @@ $(function(){
 }); //ready
 
 //let project = "Project";
-
 class AjaxButton{
 	constructor(opt,id,url,method,convey){
 		this.opt=opt;
@@ -95,11 +93,12 @@ let ajaxBnts = [
 	new AjaxButton(['scale','banner'],'home',null,null,null),
 	new AjaxButton(['scale','modal'],'loginBt','loginf','get','page'),
 	//new AjaxButton(['scale','loginID','SS'],'logoutBt','logout?member_id=','post','data'),
-	new AjaxButton(['scale','modal'],'logoutBt','logoutf','get','page'),	
+	new AjaxButton(['scale','modal','loginID'],'logoutBt','logoutf?member_id=','get','page'),	
 	new AjaxButton(['hideBanner'],'joinf','joinf','get','page'),
 	new AjaxButton(['hideBanner'],'comment','comments/comment','get','page'),
 	new AjaxButton(['hideBanner','loginID'],'mypage','mypage?member_id=','get','page'),
-	new AjaxButton(['hideBanner'],'mlist','mlist','get','page')
+	new AjaxButton(['hideBanner'],'mlist','mlist','get','page'),
+	new AjaxButton(['hideBanner'],'rchecklist','rchecklist','get','page')
 ];
 
 function scale(id){

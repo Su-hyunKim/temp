@@ -96,6 +96,9 @@
 		<th>마지막 접속</th><td>${apple.last_access}</td>
 	</tr>
 	<tr>
+		<th>Authorization</th><td>${apple.remarks}</td>
+	</tr>
+	<tr>
 		<th>Image</th>
 		<td><img src="${apple.profile}" width="100" height="120"></td>
 	</tr>

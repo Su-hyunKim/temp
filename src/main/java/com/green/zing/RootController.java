@@ -65,7 +65,7 @@ public class RootController {
 		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
 		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");
 		
-		mv.setViewName("root/rCheckList");
+		mv.setViewName("board/rCheckList");
 		return mv;
 	} //rchecklist
 	
