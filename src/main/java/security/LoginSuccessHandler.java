@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 // ** 로그인(인증) 성공이후 특정동작을 하도록 제어함
@@ -61,31 +62,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		String id = request.getParameter("username");
 		request.getSession().setAttribute("loginID",id);
 		
-		// ** jsonView 사용시 response 의 한글 처리
+		// response 의 한글 처리
 		response.setContentType("text/html; charset=UTF-8");
-		//response.setContentType("application/json");
-		//response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		JsonObject json = new JsonObject();
 		json.addProperty("loginSuccess", "T");
-		out.print(json);
+		out.write(new Gson().toJson(json));
 		out.flush();
-		response.sendRedirect("/");
-		
-		/*
-		 * //Test 1) ~xml 1~4 if (roleNames.contains("ROLE_ADMIN")) {
-		 * response.sendRedirect("/login?member_id=admin"); // m* 접근가능 , logout Test 위해
-		 * adminf 로 이동 } else if (roleNames.contains("ROLE_USER")) {
-		 * request.getSession().setAttribute("loginID",
-		 * request.getParameter("username")); // response.sendRedirect("/green/mlist");
-		 * // 접근오류 (403) response.sendRedirect("/home"); } else
-		 * response.sendRedirect("/");
-		 */ 
-		
-		/* Test 2) ~xml 5 
-		    => CustomUserDetailsService 완성후 JSP spEL 적용 Test 
-		    => xml 에서 authentication-success-forward-url 적용하면 아래 코드는 필요없음  
-		response.sendRedirect("/green/authSuccess"); 
-		*/
 	}
 } //class

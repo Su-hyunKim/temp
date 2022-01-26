@@ -34,12 +34,14 @@
 					//    "loginSuccess" -> "F" 실패
 					// => 성공시 : 성공message, 새로고침
 					//    실패시 : 실패message, 재로그인 유도;
-					if (resultData.loginSuccess=='T') {
+					
+					// 문자열 형태의 Data를 json Object로 변환 
+					resultData = JSON.parse(resultData);
+					if (resultData.loginSuccess=="T") {
 						location.href="home";
 						alert("~~ Login 성공 ~~");
 					}else {
-						console.log(header);
-						console.log(token);
+						//실패 따로 만들기
 						$('#message').html(resultData.message);
 						$('#modal_form #member_id').focus();
 					}

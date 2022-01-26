@@ -72,24 +72,24 @@ public class MemberController {
 //	}//login
 	 	
 	
-	@RequestMapping(value = "/logout")
-	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response,
-			ModelAndView mv, MemberVO vo) throws ServletException, IOException {	
-		// ** jsonView 사용시 response 의 한글 처리
-		response.setContentType("text/html; charset=UTF-8");
-		
-		// ** 마지막 접속시간 update
-		service.updateLastAccess(vo);
-		
-		// ** session 인스턴스 정의 후 삭제하기
-		// => 매개변수: 없거나, true, false
-		// => false : session 이 없을때 null 을 return;
-		HttpSession session = request.getSession(false);
-		if (session!=null) session.invalidate();
-		mv.addObject("message", "~~ 로그아웃 되었습니다 ~~");
-		mv.setViewName("jsonView");
-		return mv;
-	} //logout	
+//	@RequestMapping(value = "/logout")
+//	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response,
+//			ModelAndView mv, MemberVO vo) throws ServletException, IOException {	
+//		// ** jsonView 사용시 response 의 한글 처리
+//		response.setContentType("text/html; charset=UTF-8");
+//		
+//		// ** 마지막 접속시간 update
+//		service.updateLastAccess(vo);
+//		
+//		// ** session 인스턴스 정의 후 삭제하기
+//		// => 매개변수: 없거나, true, false
+//		// => false : session 이 없을때 null 을 return;
+//		HttpSession session = request.getSession(false);
+//		if (session!=null) session.invalidate();
+//		mv.addObject("message", "~~ 로그아웃 되었습니다 ~~");
+//		mv.setViewName("jsonView");
+//		return mv;
+//	} //logout	
 	
 	//SSLogoutf => post 방식으로 처리하기위해 ssLogoutForm 사용 Test	
 	@RequestMapping(value = "/logoutf")

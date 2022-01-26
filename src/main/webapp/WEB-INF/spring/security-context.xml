@@ -19,7 +19,7 @@
 	 	<s:intercept-url pattern="/login*" access="permitAll" />
 		<s:intercept-url pattern="/resources/**" access="permitAll" />
 		
-		<s:intercept-url pattern="/m*" 
+		<s:intercept-url pattern="/mlist" 
 		                   access="hasAuthority('ROLE_ADMIN')" />
 <!--		<s:intercept-url pattern="/b*" 
 		                   access="hasRole('ROLE_USER')" />
