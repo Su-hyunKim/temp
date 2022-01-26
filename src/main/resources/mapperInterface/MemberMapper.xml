@@ -102,7 +102,7 @@
 	</insert>
 	
 	<update id="update">
-		update member set status='unidentified' where member_id=#{member_id}
+		update member set status='0' where member_id=#{member_id}
 	</update>
 	
 	<delete id="delete">

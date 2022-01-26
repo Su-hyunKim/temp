@@ -38,47 +38,43 @@ public class MemberController {
 		}else mv.setViewName("member/loginForm");
 		return mv;
 	}
-	
-	// ** JSON Login
-	@RequestMapping(value = "/login")
-	public ModelAndView login(HttpServletRequest request, MemberVO vo, HttpServletResponse response, ModelAndView mv) {	      
-		// ** jsonView 사용시 response 의 한글 처리
-		response.setContentType("text/html; charset=UTF-8");
 		
-		// ** 마지막 접속시간 update
-		service.updateLastAccess(vo);
-		
-		// 1) request 처리
-		String id =vo.getMember_id();
-		String password = vo.getPassword();      
-		// 2) service 처리
-		vo = service.selectOne(vo);
-		if ( vo != null ) { 
-		// ID 는 일치 -> Password 확인
-			if ( passwordEncoder.matches(password, vo.getPassword()) ) {
-				// Login 성공 -> login 정보 session에 보관, home (새로고침)
-				mv.addObject("loginSuccess", "T");
-				request.getSession().setAttribute("loginID", id);
-				request.getSession().setAttribute("loginName", vo.getName());
-			}else {
-				// Password 오류 -> 재로그인 유도 (loginForm 으로)
-				mv.addObject("loginSuccess", "F");
-				mv.addObject("message", "~~ Password 오류,  다시 하세요 ~~");
-			}
-		}else {   // ID 오류 -> 재로그인 유도 (loginForm 으로)
-			mv.addObject("loginSuccess", "F");
-		    mv.addObject("message", "~~ ID 오류,  다시 하세요 ~~");
-		} //else	      
-		mv.setViewName("jsonView");
-		return mv;
-		// => /WEB-INF/views/jsonView.jsp -> 안 되도록 servlet-context.xml 설정
-	} //jslogin
+//	// ** JSON Login	
+//	@RequestMapping(value = "/login")
+//	public ModelAndView login(HttpServletRequest request, MemberVO vo,
+//			HttpServletResponse response, ModelAndView mv) {
+//		// ** jsonView 사용시 response 의 한글 처리
+//		response.setContentType("text/html; charset=UTF-8");
+//		
+//		// ** 마지막 접속시간 update service.updateLastAccess(vo);
+//		
+//		// 1) request 처리
+//		String id =vo.getMember_id();
+//		String password = vo.getPassword();
+//		// 2) service 처리
+//		vo = service.selectOne(vo);
+//		if ( vo != null ) { // ID 는 일치 -> Password 확인
+//			if ( passwordEncoder.matches(password, vo.getPassword()) ) {
+//				// Login 성공 -> login 정보 session에 보관, home (새로고침)
+//				mv.addObject("loginSuccess", "T");
+//				request.getSession().setAttribute("loginID", id);
+//				request.getSession().setAttribute("loginName", vo.getName());
+//			}else { //Password 오류 -> 재로그인 유도 (loginForm 으로)
+//				mv.addObject("loginSuccess", "F");
+//				mv.addObject("message", "~~ Password 오류,  다시 하세요 ~~");
+//			}
+//		}else { // ID 오류 -> 재로그인 유도 (loginForm 으로)
+//			mv.addObject("loginSuccess", "F");
+//			mv.addObject("message", "~~ ID 오류,  다시 하세요 ~~");
+//		} //else
+//		mv.setViewName("jsonView");
+//		return mv; // => /WEB-INF/views/jsonView.jsp -> 안되도록 servlet-context.xml 설정
+//	}//login
+	 	
 	
 	@RequestMapping(value = "/logout")
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response,
-			ModelAndView mv, MemberVO vo)
-			throws ServletException, IOException {
-		
+			ModelAndView mv, MemberVO vo) throws ServletException, IOException {	
 		// ** jsonView 사용시 response 의 한글 처리
 		response.setContentType("text/html; charset=UTF-8");
 		
@@ -86,14 +82,21 @@ public class MemberController {
 		service.updateLastAccess(vo);
 		
 		// ** session 인스턴스 정의 후 삭제하기
-    	// => 매개변수: 없거나, true, false
-    	// => false : session 이 없을때 null 을 return;
+		// => 매개변수: 없거나, true, false
+		// => false : session 이 없을때 null 을 return;
 		HttpSession session = request.getSession(false);
-    	if (session!=null) session.invalidate();
-    	mv.addObject("message", "~~ 로그아웃 되었습니다 ~~");
-    	mv.setViewName("jsonView");
+		if (session!=null) session.invalidate();
+		mv.addObject("message", "~~ 로그아웃 되었습니다 ~~");
+		mv.setViewName("jsonView");
 		return mv;
 	} //logout	
+	
+	//SSLogoutf => post 방식으로 처리하기위해 ssLogoutForm 사용 Test	
+	@RequestMapping(value = "/logoutf")
+	public ModelAndView logoutf(ModelAndView mv) {
+		mv.setViewName("member/logoutForm");
+		return mv;
+	} //logoutf
 
 	// ** Member Check List ******************************
 	@RequestMapping(value = "/mlist")
@@ -237,10 +240,9 @@ public class MemberController {
 		// 2. Service 처리
 		String uri = "redirect:home";  
 		
-		if(vo.getInterestArray()!=null) vo.setInterest(String.join("#",vo.getInterestArray()));
-		int cnt = service.insert(vo);
+		if(vo.getCheck()!=null) vo.setInterest(String.join("#",vo.getCheck()));
 		
-	if ( cnt > 0 ) { // insert 성공
+	if ( service.insert(vo) > 0 ) { // insert 성공
 		// 인증 email 발송
 		String key = mailsender.mailSendWithMemberKey(vo.getEmail(),vo.getMember_id(),request);
 		if(key==null) key="";
