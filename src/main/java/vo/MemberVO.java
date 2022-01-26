@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.Data;
 
 @Data
-public class MemberVO {
+public class MemberVO{
 	private int point;
 	private String member_id;
 	private String name;

@@ -8,6 +8,11 @@
 => interface ~Mapper.java 의 패키지명과 화일명과  
    ~Mapper.xml 의 패키지명, 화일명, namespace 값은 같아야됨. -->  
 
+<!-- authList -->
+	<select id="authList" resultType="String">
+		select authority from member_auth where member_id=#{member_id}
+	</select>
+
 <!-- 멤버리스트 -->
 	<sql id="mlist">
 		select member_id,name,gender,point,

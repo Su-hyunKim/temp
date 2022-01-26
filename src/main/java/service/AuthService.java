@@ -5,7 +5,9 @@ import java.util.List;
 import vo.AuthVO;
 
 public interface AuthService {	
-	List<AuthVO> selectList(); //selectList
+	int deleteMember(AuthVO vo);
+	
+	List<AuthVO> selectList(AuthVO vo); //selectList
 	AuthVO selectOne(AuthVO vo); //selectOne
 	int insert(AuthVO vo); //insert
 	int update(AuthVO vo); //update

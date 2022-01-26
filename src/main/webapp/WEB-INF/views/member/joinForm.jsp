@@ -54,8 +54,8 @@
 	   -> JQ 의 serialize, FormData 의 append all 등
 	</h3></pre>
 	 -->
- 	<form action="join" method="post" id="myForm">
-<!--  	<form action="join" method="post" enctype="multipart/form-data" id="myForm"> -->
+<!--  	<form action="join" method="post" id="myForm"> -->
+ 	<form action="join" method="post" enctype="multipart/form-data" accept-charset="UTF-8" id="myForm">
 
 	<div class="input_div">
 		<label for="member_id">
@@ -75,7 +75,7 @@
 		</label>
 	</div>
 	
-<!--  	<div class="input_div">
+ 	<div class="input_div">
 		<span>프로필 사진</span>
 		<img src="resources/uploadImage/basicman.png" class="select_img" width="100" height="100"><br>
 		<input type="file" name="profilef" id="profilef">
@@ -106,7 +106,7 @@
 				$(".select_img").attr("src","resources/uploadImage/basicman.png");
 			});
 		</script>
-	</div> -->
+	</div>
 	
 	<div class="input_div">
 		<label for="name">

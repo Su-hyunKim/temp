@@ -6,7 +6,8 @@ import vo.AuthVO;
 
 public interface AuthMapper {	
 
-	List<AuthVO> selectList(); //selectList
+	int deleteMember(AuthVO vo);
+	List<AuthVO> selectList(AuthVO vo); //selectList
 	AuthVO selectOne(AuthVO vo); //selectOne
 	int insert(AuthVO vo); //insert
 	int update(AuthVO vo); //update
