@@ -5,123 +5,116 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>** Spring Mybatis MemberDetail **</title>
-<link rel="stylesheet" type="text/css" href="resources/lib/myinfo.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
+<title>회원상세정보</title>
+<!-- <link rel="stylesheet" type="text/css" href="resources/lib/main.css"> -->
+<style>
+	hr{
+		width:100%;
+	}
+	table{
+		border-collapse:collapse;
+		text-align:left;
+		line-height:1.5;
+		border-top:1px solid #ccc;
+		border-bottom:1px solid #ccc;
+		margim:20px 10px;
+	}
+	th{
+		width:150px;
+		padding:10px;
+		font-weight:bold;
+		vertical-align:top;
+	}
+	td{
+		width:350px;
+		padding:10px;
+		vertical-align:top;
+	}
+	tr:nth-child(2n){
+		background:#efefef;
+	}
+	a{
+		width:100px;
+		text-decoration-line:none;
+		font-weight:bold;
+		margin:5px 0;
+		border:0;
+	}
+</style>
 </head>
 <body>
-<div class="myContainer">
-	<div class="text"><h2>마이페이지</h2></div>
-</div>
-<div class="wrap">
-  <div class="mintContainer">
-    <div>
-      <div class="grade">Rank</div>
-      <div class="name">${apple.name}</div>
-    </div>    
-    <div class="modify">i</div>    
-  </div>
-  <div class="summaryContainer">
-    <div class="item">
-        <div class="number">0</div>
-        <div>단골상점</div>
-      </div>
-      <div class="item">
-        <div class="number">0</div>
-        <div>상품후기</div>
-      </div>
-      <div class="item">
-        <div class="number">0</div>
-        <div>포인트(초코)</div>
-      </div>
-  </div>  
-  <div class="shippingStatusContainer">
-    <div class="title">
-      주문/배송조회
-    </div>
-    <div class="status">
-      
-      <div class="item">
-        <div>
-          <div class="green number">0</div>
-          <div class="text">장바구니</div>
-        </div>
-        <div class="icon"> > </div>
-      </div>     
-      <div class="item">
-        <div>
-          <div class="number">0</div>
-          <div class="text">결제완료</div>
-        </div>
-        <div class="icon"> > </div>
-      </div>     
-      <div class="item">
-        <div>
-          <div class="green number">0</div>
-          <div class="text">배송중</div>
-        </div>
-        <div class="icon"> > </div>
-      </div>     
-      <div class="item">
-        <div>
-          <div class="green number">0</div>
-          <div class="text">구매확정</div>
-        </div>
-      </div>     
-      
-    </div>
-    
-  </div>  
-  <div class="listContainer">
-    <a href="#" class="item">
-        <div class="icon"><img src="resources/image/footprint.jpg" width="30" height="30"></div>
-        <div class="text">내 홍보글<span class="circle"></span></div>
-        <div class="right"> > </div>
-    </a>
-    <a href="#" class="item">
-        <div class="icon"><img src="resources/image/footprint.jpg" width="30" height="30"></div>
-        <div class="text">내 상품</div>
-        <div class="right"> > </div>
-    </a>
-    <a href="#" class="item">
-        <div class="icon"><img src="resources/image/footprint.jpg" width="30" height="30"></div>
-        <div class="text">내 리뷰</div>
-        <div class="right"> > </div>
-    </a>
-    <a href="#" class="item">
-        <div class="icon"><img src="resources/image/footprint.jpg" width="30" height="30"></div>
-        <div class="text">내 댓글</div>
-        <div class="right"> > </div>
-    </a>
-    <a href="#" class="item">
-        <div class="icon"><img src="resources/image/footprint.jpg" width="30" height="30"></div>
-        <div class="text">
-          <span>내 지갑</span>
-          <span class="smallLight">
-            <span>|</span>
-            <span>보유 포인트(초코)</span>
-          </span>          
-        </div>                
-        <div class="right">
-          <span class="blct">0 초코</span>
-          > </div>
-    </a>
-    <a href="#" class="item">
-        <div class="icon"><img src="resources/image/footprint.jpg" width="30" height="30"></div>
-        <div class="text">추천인</div>
-        <div class="right"> > </div>
-    </a>
-  </div>
-  <div class="infoContainer">
-    <a href="mdetail?jcode=U&id=${apple.id}" class="item">
-      <div><h3>내 정보수정</h3></div>
-    </a>    
-    <a href="mdelete?id=${apple.id}" class="item">
-      <div><h3>회원탈퇴</h3></div>
-    </a>    
-    <a href="home" class="item">
-      <div><h3>HOME</h3></div>
-    </a>
-  </div>
-</div>
+<h1>회원상세정보</h1>
+<table>
+	<tr>
+		<th>I  D</th><td>${apple.member_id}</td>
+	</tr>
+	<tr>
+		<th>이름</th><td>${apple.name}</td>
+	</tr>
+	<tr>
+		<th>성별</th>
+		<td>
+			<c:if test="${apple.gender=='M'}">
+				남성
+			</c:if>
+			<c:if test="${apple.gender=='F'}">
+				여성
+			</c:if>
+			<c:if test="${apple.gender=='N'}">
+				기타
+			</c:if>
+		</td>
+	</tr>
+	<tr>
+		<th>생년월일</th>
+		<td>${apple.birthday}</td>
+	</tr>
+	<tr>
+		<th>관심사</th><td>${apple.interest}</td>
+	</tr>
+	<tr>
+		<th>포인트</th><td>${apple.point}</td>
+	</tr>
+	<tr>
+		<th>주소</th>
+		<td>&#12306;&nbsp;${apple.address1}<br>
+			${apple.address2}${apple.address3}
+		</td>
+	</tr>
+	<tr>
+		<th>전화번호</th><td>${apple.phone}</td>
+	</tr>
+	<tr>
+		<th>이메일</th><td>${apple.email}</td>
+	</tr>
+	<tr>
+		<th>SNS</th><td>${apple.sns}</td>
+	</tr>
+	<tr>
+		<th>마지막 접속</th><td>${apple.last_access}</td>
+	</tr>
+	<tr>
+		<th>Authorization</th><td>${apple.remarks}</td>
+	</tr>
+	<tr>
+		<th>Image</th>
+		<td><img src="${apple.profile}" width="100" height="120"></td>
+	</tr>
+</table>
+<c:if test="${not empty message}">
+=> ${message}<br>
+<hr>
+</c:if>
+<a href="mupdatef?member_id=${apple.member_id}">정보수정</a>&nbsp;
+<!-- 1) 내정보수정 -> 내정보읽기서블릿 (mdetail) 
+ 			  -> 내정보수정화면 (updateForm.jsp) : 수정후, submit 
+ 			  -> 서블릿(컨트롤러) 
+ 	 2) 관리자기능 추가 -> loghinID 는 관리자이지만, 수정대상은 현재 출력된 id
+ 	 				 -> 수정, 탈퇴 uri 에 &id=${apple.member_id} 추가 		  
+ 			  -->
+<a href="mdelete?member_id=${apple.member_id}">회원탈퇴</a>&nbsp;
+<a href='javascript:history.go(-1)'>이전으로</a>&nbsp;<a href="home">HOME</a>
 </body>
 </html>

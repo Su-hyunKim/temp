@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+  
+<mapper namespace="mapperInterface.MemberMapper">
+<!--  
+** interface 를 통해 ~Mapper 접근
+=> interface ~Mapper.java 의 패키지명과 화일명과  
+   ~Mapper.xml 의 패키지명, 화일명, namespace 값은 같아야됨. -->  
+
+<!-- 멤버리스트 -->
+	<sql id="mlist">
+		select member_id,name,gender,point,
+ 		SUBSTR(birthday,1,INSTR(birthday,'-')-1) birthday,
+ 		SUBSTR(address2,1,INSTR(address2,' ')-1) address2,
+ 		to_char(last_access,'YYYY-MM-DD HH24:MI') last_access from member
+	</sql>
+
+<!-- ** Member Check List 
+=> select * from member where lev in ('A','B','C') order by id asc (추천)
+   select * from member where lev='A' OR lev='B' OR lev='C' order by id asc (비추)
+=> Mapper 에 반복문 적용하기 :<foreach.....  
+--> 
+   <select id="checkList" resultType="vo.MemberVO">
+		<include refid="mlist"></include>
+ 		<![CDATA[ m where
+   		(select case when sum(point)<500 then '플레인'
+     	when sum(point)>=500 and sum(point)<10000 then '브론즈'
+		when sum(point)>=10000 and sum(point)<100000 then '실버'
+		when sum(point)>=100000 and sum(point)<1000000 then '골드'
+		else '다이아몬드'
+		end from points where grantee=m.member_id)
+		in]]>
+   		<foreach collection="check" item="it" open="(" close=")" separator=",">
+   			#{it}
+   		</foreach>
+   		order by member_id
+   </select>
+ 	
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 ** PageList 2. searchList 기능 ( Sql문 추가 )   
+ -->
+	<sql id="search">
+		<if test="keyword != null">
+			<bind name="keyVal" value="'%'+keyword+'%'"/>
+		</if>
+		<choose>
+			<when test="searchType=='i'.toString()">
+				and id LIKE #{keyVal} )
+			</when>
+			<when test="searchType=='a'.toString()">
+  				and name Like #{keyVal} )
+	  		</when>
+		  	<when test="searchType=='l'.toString()">
+		  		and lev Like #{keyVal} )
+		  	</when>
+		  	<when test="searchType=='r'.toString()">
+		  		and rid Like #{keyVal} )
+		  	</when>
+		  	<when test="searchType=='b'.toString()">
+		  		and birthd Like #{keyVal} )
+		  	</when>
+		  	<when test="searchType=='ia'.toString()">
+		  		and id Like #{keyVal}
+		  		or  name Like #{keyVal} )
+		  	</when>
+		  	<otherwise>)</otherwise>
+		</choose>
+	</sql>
+
+	<select id="searchRowsCount" resultType="int">
+		select count(*) from member where (id!='admin' 
+		<include refid="search"></include>	
+	</select>
+	
+ 	<select id="searchList" resultType="vo.MemberVO">
+ 		select id, password, name, 
+ 		 	DECODE(lev,'A','관리자','B','나무','C','잎새','새싹') lev, 
+ 		 	birthd, point, weight, rid, uploadfile from 
+			(select m.*, ROW_NUMBER() OVER(order by id asc) rnum from member m where id!='admin' 
+			<include refid="search"></include>
+			where rnum between #{sno} and #{eno}
+	</select>
+
+	<!-- 로그인, 로그아웃 시 last access 수정 -->
+	<update id="updateLastAccess">
+		update member set last_access=sysdate where member_id=#{member_id}
+	</update>
+ 	
+ 	<!-- ** CRUD 기본 ** -->
+ 	<select id="selectList" resultType="vo.MemberVO">
+ 		<include refid="mlist"></include>
+ 	</select>
+ 
+ 	<select id="selectOne" resultType="vo.MemberVO">
+		select * from member where member_id = #{member_id}
+	</select>
+
+	<insert id="insert">
+		insert into member(member_id,name,password,gender,birthday,address1,address2,address3,email,phone,interest,sns,profile)
+		values(#{member_id},#{name},#{password},#{gender},#{birthday},#{address1},#{address2},#{address3},#{email},#{phone},#{interest},#{sns},#{profile})
+	</insert>
+	
+	<update id="update">
+		update member set status='unidentified' where member_id=#{member_id}
+	</update>
+	
+	<delete id="delete">
+		delete from member where member_id=#{member_id}	
+	</delete>
+ 
+</mapper>

@@ -4,5 +4,17 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+	
+	<!--스프링시큐리티 라이브러리 BcryptPasswordEncoder -->	
+	<bean id="bCryptPasswordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+	<!-- DB dataSource -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe"/>
+		<property name="username" value="zing"/>
+		<property name="password" value="oracle"/>
+	</bean>
+	
 </beans>
