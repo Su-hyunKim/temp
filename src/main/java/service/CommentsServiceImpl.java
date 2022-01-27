@@ -1,13 +1,10 @@
 package service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import criteria.Criteria;
 import mapperInterface.CommentsMapper;
 import vo.CommentsVO;
 
@@ -18,39 +15,28 @@ public class CommentsServiceImpl implements CommentsService{
 	CommentsMapper dao;
 	
 	@Override
-	public List<CommentsVO> getCommentsPaging(Integer root_seq, Criteria criteria) {
-		
-		Map<String, Object> 
-		paramMap = new HashMap<>(); 
-		paramMap.put("root_seq", root_seq); 
-		paramMap.put("criteria", criteria);
-
-		return dao.listPaging(paramMap);
+	public int insert(CommentsVO vo) {
+		return dao.insert(vo) ;
 	}
 
 	@Override
-	public int countComments(Integer root_seq) {
-		return dao.countComments(root_seq);
+	public int update(CommentsVO vo) {
+		return dao.update(vo) ;
 	}
 
 	@Override
-	public List<CommentsVO> list(Integer root_seq) {
-		return dao.list(root_seq);
+	public int delete(CommentsVO vo) {
+		return dao.delete(vo) ;
 	}
 
 	@Override
-	public int insert(CommentsVO commentsVo) {
-		return dao.insert(commentsVo) ;
+	public CommentsVO selectOne(CommentsVO vo) {
+		return dao.selectOne(vo);
 	}
 
 	@Override
-	public int update(CommentsVO commentsVo) {
-		return dao.update(commentsVo) ;
-	}
-
-	@Override
-	public int delete(CommentsVO commentsVo) {
-		return dao.delete(commentsVo) ;
+	public List<CommentsVO> selectList() {
+		return dao.selectList();
 	}
 
 }

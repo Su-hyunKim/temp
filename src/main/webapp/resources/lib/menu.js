@@ -94,7 +94,7 @@ let ajaxBnts = [
 	new AjaxButton(['scale','modal'],'loginBt','loginf','get','page'),
 	new AjaxButton(['scale','modal','loginID'],'logoutBt','logoutf?member_id=','get','page'),	
 	new AjaxButton(['hideBanner'],'joinf','joinf','get','page'),
-	new AjaxButton(['hideBanner'],'comment','comments/comment','get','page'),
+	new AjaxButton(['hideBanner'],'comment','comment','get','page'),
 	new AjaxButton(['hideBanner','loginID'],'mypage','mypage?member_id=','get','page'),
 	new AjaxButton(['hideBanner'],'mlist','mlist','get','page'),
 	new AjaxButton(['hideBanner'],'rchecklist','rchecklist','get','page'),
