@@ -17,6 +17,7 @@ public class AuthController {
 	
 	@RequestMapping(value = "/authjoin")
 	public ModelAndView loginf(ModelAndView mv, HttpServletRequest request, AuthVO vo) {
+		vo.setAuthority("ROLE_USER");
 		service.insert(vo);
 		mv.addObject("message","회원가입에 성공했습니다. 로그인 후 이용해주세요.");
 		mv.setViewName("home");

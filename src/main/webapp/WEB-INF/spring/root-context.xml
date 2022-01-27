@@ -17,4 +17,10 @@
 		<property name="password" value="oracle"/>
 	</bean>
 	
+	<!-- multipart file upload id는 바꾸지 않는다-->
+	<bean id="filterMultipartResolver" 
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="-1" />
+	</bean>
+	
 </beans>

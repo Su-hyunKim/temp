@@ -30,8 +30,13 @@ public class AuthServiceImpl implements AuthService {
 	// 단, 설정화일에 <mybatis-spring:scan base-package="mapperInterface"/> 추가해야함
 	
 	@Override
-	public List<AuthVO> selectList() {
-		return dao.selectList();
+	public int deleteMember(AuthVO vo) {
+		return dao.deleteMember(vo);
+	}
+	
+	@Override
+	public List<AuthVO> selectList(AuthVO vo) {
+		return dao.selectList(vo);
 	} //selectList
 	
 	@Override

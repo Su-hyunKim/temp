@@ -57,13 +57,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		      매개 변수를 이용해서 중괄호 블록을 실행한다는 의미
 		      예제 : for (String s : list) {  System.out.println(s);  }
 		      		list.forEach(s -> System.out.println(s));*/
-
 		
-		String id = request.getParameter("username");
-		request.getSession().setAttribute("loginID",id);
+		request.getSession().setAttribute("loginID",request.getParameter("username"));
 		
 		// response 의 한글 처리
 		response.setContentType("text/html; charset=UTF-8");
+		
 		PrintWriter out = response.getWriter();
 		JsonObject json = new JsonObject();
 		json.addProperty("loginSuccess", "T");

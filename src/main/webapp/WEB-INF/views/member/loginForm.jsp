@@ -41,8 +41,7 @@
 						location.href="home";
 						alert("~~ Login 성공 ~~");
 					}else {
-						//실패 따로 만들기
-						$('#message').html(resultData.message);
+						$('#message').html("~~ ID 나 Password를 다시 확인해주세요 ~~");
 						$('#modal_form #member_id').focus();
 					}
 				},

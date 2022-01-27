@@ -2,12 +2,13 @@ package mapperInterface;
 
 import java.util.List;
 
+import vo.AuthVO;
 import vo.MemberVO;
 
 public interface MemberMapper {
 	
-	List<MemberVO> checkList(MemberVO vo);
-	
+	List<AuthVO> authList(MemberVO vo);
+	List<MemberVO> checkList(MemberVO vo);	
 	int updateLastAccess(MemberVO vo);
 	
 	// 기본 CRUD

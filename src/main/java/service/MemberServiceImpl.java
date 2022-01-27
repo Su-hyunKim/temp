@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mapperInterface.MemberMapper;
+import vo.AuthVO;
 import vo.MemberVO;
 
 //** interface 자동완성 
@@ -29,6 +30,11 @@ public class MemberServiceImpl implements MemberService {
 	// MemberMapper 의 인스턴스를 스프링이 생성 해주고 이를 주입받아 실행함
 	// 단, 설정화일에 <mybatis-spring:scan base-package="mapperInterface"/> 추가해야함
 
+	@Override
+	public List<AuthVO> authList(MemberVO vo) {
+		return dao.authList(vo);
+	}
+	
 	@Override
 	public List<MemberVO> checkList(MemberVO vo) {
 		return dao.checkList(vo);

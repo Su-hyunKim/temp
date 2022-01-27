@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import service.AuthService;
 import service.MemberMailSendService;
 import service.MemberService;
 import vo.AuthVO;
@@ -30,8 +29,6 @@ public class MemberController {
 	PasswordEncoder passwordEncoder;
 	@Autowired
 	MemberMailSendService mailsender;
-	@Autowired
-	AuthService authService;
 	
 	@RequestMapping(value = "/loginf")
 	public ModelAndView loginf(ModelAndView mv, HttpServletRequest request) {
@@ -130,13 +127,14 @@ public class MemberController {
 	} //mchecklist
 	
 	@RequestMapping(value = "/mdetail")
-	public ModelAndView mdetail(ModelAndView mv, MemberVO vo, RedirectAttributes rttr, AuthVO avo) {
+	public ModelAndView mdetail(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
 		String uri = "member/memberDetail";
 		String id = vo.getMember_id();
+		List<AuthVO> list = service.authList(vo);
 		if(id==null) id = "";
 		vo=service.selectOne(vo);
-		if (vo != null && authService.selectOne(avo)!=null ) {
-			vo.setRemarks(authService.selectOne(avo).getAuthority());
+		if (vo != null && list!=null && list.size()>0 ) {
+			vo.setAuthList(list);
 			mv.addObject("apple", vo);	
 		}else {
 			rttr.addFlashAttribute("message","~~ "+id+"님의 자료는 존재하지 않습니다 ~~");
@@ -255,7 +253,7 @@ public class MemberController {
 	if ( service.insert(vo) > 0 ) { // insert 성공
 		// 인증 email 발송
 		String key = mailsender.mailSendWithMemberKey(vo.getEmail(),vo.getMember_id(),request);
-		if(key==null) key="";
+		if(key==null) key="";	
 		mv.addObject("key",key);
 		// member_id값 저장(인증실패시 delete를 하기위함)
 		mv.addObject("member_id",vo.getMember_id());
@@ -271,13 +269,17 @@ public class MemberController {
 		return mv;
 	} //join
 	
-	@RequestMapping(value = "/mailauth")
+	@RequestMapping(value = "/emailauth")
 	public ModelAndView emailauth(ModelAndView mv, MemberVO vo, HttpServletRequest request) {
 		String url;
 		String key= request.getParameter("key");
+		
+		System.out.println("key => "+key);
+		
+		
 		vo = service.selectOne(vo);
 		if( (vo!=null) && key.length()!=0 && key.equals(request.getParameter("auth_no")) )
-			url = "redirect:authjoin?member_id="+vo.getMember_id()+"&authority="+request.getParameter("authority");
+			url = "redirect:authjoin?member_id="+vo.getMember_id();
 		else {
 			if(vo!=null) service.delete(vo);
 			mv.addObject("message","인증에 실패했습니다.");
