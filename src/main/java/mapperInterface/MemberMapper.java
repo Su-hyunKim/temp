@@ -10,6 +10,7 @@ public interface MemberMapper {
 	List<AuthVO> authList(MemberVO vo);
 	List<MemberVO> checkList(MemberVO vo);	
 	int updateLastAccess(MemberVO vo);
+	int changeStatus(MemberVO vo);
 	
 	// 기본 CRUD
 	List<MemberVO> selectList(); //selectList

@@ -91,6 +91,14 @@
 	<update id="updateLastAccess">
 		update member set last_access=sysdate where member_id=#{member_id}
 	</update>
+
+	<!-- 휴면계정 7, 회원탈퇴 8, 회원제명 9 /  인가 1 -->
+	<update id="changeStatus">
+		update member
+		set (enabled, status, last_access)
+		= (select #{enabled}, #{status}, sysdate from dual)
+		where member_id=#{member_id}
+	</update>
  	
  	<!-- ** CRUD 기본 ** -->
  	<select id="selectList" resultType="vo.MemberVO">
@@ -111,7 +119,7 @@
 	</update>
 	
 	<delete id="delete">
-		delete from member where member_id=#{member_id}	
+		delete from member where member_id=#{member_id}
 	</delete>
  
 </mapper>

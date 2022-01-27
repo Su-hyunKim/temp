@@ -46,6 +46,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public int changeStatus(MemberVO vo) {
+		return dao.changeStatus(vo);
+	}
+	
+	@Override
 	public List<MemberVO> selectList() {
 		return dao.selectList();
 	} //selectList

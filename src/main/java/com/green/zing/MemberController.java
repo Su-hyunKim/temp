@@ -275,12 +275,14 @@ public class MemberController {
 		String key= request.getParameter("key");
 		
 		System.out.println("key => "+key);
-		
-		
+			
 		vo = service.selectOne(vo);
-		if( (vo!=null) && key.length()!=0 && key.equals(request.getParameter("auth_no")) )
+		if( (vo!=null) && key.length()!=0 && key.equals(request.getParameter("auth_no")) ) {
+			vo.setStatus("1");
+			vo.setEnabled(true);
+			service.changeStatus(vo);
 			url = "redirect:authjoin?member_id="+vo.getMember_id();
-		else {
+		}else {
 			if(vo!=null) service.delete(vo);
 			mv.addObject("message","인증에 실패했습니다.");
 			url = "home";
