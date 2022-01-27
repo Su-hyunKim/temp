@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="s"%>      
 <!DOCTYPE html>
 <html>
 <head>
@@ -198,112 +199,70 @@
 		return true;
 	} //interestArray
 </script>
-
 </head>
 <body>
 <div class="wrapped">
 	<h1>회원정보 수정</h1>
-	<!-- <pre><h3>
-	=> FileUpLoad TestForm
-	=> form 과 table Tag 사용시 주의사항 : form 내부에 table 사용해야함
-	   -> form 단위작업시 인식안됨
-	   -> JQ 의 serialize, FormData 의 append all 등
-	</h3></pre>
-	 -->
-	 <form action="join" method="post" enctype="multipart/form-data" id="myForm" onsubmit="return inCheck('회원정보수정');">
-	 <table>
-	<tr>
-		<th>I  D</th><td>${apple.member_id}</td>
-	</tr>
-	<tr>
-		<th>이름</th><td>${apple.name}</td>
-	</tr>
-	<tr>
-		<th>성별</th>
-		<td>
-			<c:if test="${apple.gender=='M'}">
-				남성
-			</c:if>
-			<c:if test="${apple.gender=='F'}">
-				여성
-			</c:if>
-			<c:if test="${apple.gender=='N'}">
-				기타
-			</c:if>
-		</td>
-	</tr>
-	<tr>
-		<th>생년월일</th>
-		<td>${apple.birthday}</td>
-	</tr>
-	<tr>
-		<th>관심사</th><td>${apple.interest}</td>
-	</tr>
-	<tr>
-		<th>포인트</th><td>${apple.point}</td>
-	</tr>
-	<tr>
-		<th>주소</th>
-		<td>&#12306;&nbsp;${apple.address1}<br>
-			${apple.address2}${apple.address3}
-		</td>
-	</tr>
-	<tr>
-		<th>전화번호</th><td>${apple.phone}</td>
-	</tr>
-	<tr>
-		<th>이메일</th><td>${apple.email}</td>
-	</tr>
-	<tr>
-		<th>SNS</th><td>${apple.sns}</td>
-	</tr>
-	<tr>
-		<th>마지막 접속</th><td>${apple.last_access}</td>
-	</tr>
-	<tr>
-		<th>Image</th>
-		<td><img src="${apple.profile}" width="100" height="120"></td>
-	</tr>
-</table>
-</form>	 
-	 
-	 
-	<form action="join" method="post" enctype="multipart/form-data" id="myForm" onsubmit="return inCheck('가입');">
-	<style>
-/* 		@font-face {
-		    font-family: 'KyoboHandwriting2020A';
-		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/KyoboHandwriting2020A.woff') format('woff');
-		    font-weight: normal;
-		    font-style: normal;
-		}*/
-		.input_div{width:280px}
-		.input_div span:not(.eMessage) {
-			display: block;
-			font-weight: bold;
-			font-size: 20px;
-			margin-bottom: 10px;
-			margin-top: 10px;
-		}
-		.input_div input {
-			padding: 7px 8px;
-			width: 100%;
-			border: 1px solid #ddd;
-		}
-		#email,#email_tail,#email_direct{width:30%;}
-		.input_div input[type="submit"],.input_div input[type="reset"]{width:46%;}
-		.input_div input[type="radio"]{width:20px;margin:0 20px 0 0;}	
-		.input_div input[type="checkbox"]{width:20px;margin:0}
-		#email_direct,#else_direct{display:none;}
-		.eMessage{
-			padding:0;
-			border:0;
-			margin:0px;
-			color:red;
-			font-style:italic;
-			font-family:굴림;
-			font-size:12px;
-	}
-	</style>
+	<form action="join" method="post" enctype="multipart/form-data" id="myForm" onsubmit="return inCheck('회원정보수정');">
+	<table>
+		<tr>
+			<th>I  D</th><td>${apple.member_id}</td>
+		</tr>
+		<tr>
+			<th>이름</th><td>${apple.name}</td>
+		</tr>
+		<tr>
+			<th>성별</th>
+			<td>
+				<c:if test="${apple.gender=='M'}">
+					남성
+				</c:if>
+				<c:if test="${apple.gender=='F'}">
+					여성
+				</c:if>
+				<c:if test="${apple.gender=='N'}">
+					기타
+				</c:if>
+			</td>
+		</tr>
+		<tr>
+			<th>생년월일</th>
+			<td>${apple.birthday}</td>
+		</tr>
+		<tr>
+			<th>관심사</th><td>${apple.interest}</td>
+		</tr>
+		<tr>
+			<th>포인트</th><td>${apple.point}</td>
+		</tr>
+		<tr>
+			<th>주소</th>
+			<td>&#12306;&nbsp;${apple.address1}<br>
+				${apple.address2}${apple.address3}
+			</td>
+		</tr>
+		<tr>
+			<th>전화번호</th><td>${apple.phone}</td>
+		</tr>
+		<tr>
+			<th>이메일</th><td>${apple.email}</td>
+		</tr>
+		<tr>
+			<th>SNS</th><td>${apple.sns}</td>
+		</tr>
+		<tr>
+			<th>마지막 접속</th><td>${apple.last_access}</td>
+		</tr>
+		<tr>
+			<th>Image</th>
+			<td><img src="${apple.profile}" width="100" height="120"></td>
+		</tr>
+	</table>
+	<s:csrfInput/>
+	</form>	 
+	 	 
+ 	<form action="join" method="post" enctype="multipart/form-data" id="myForm">
+
 	<div class="input_div">
 		<label for="member_id">
 			<span>*아이디</span>
@@ -316,12 +275,13 @@
 	<div class="input_div">
 		<label for="password">
 			<span>*비밀번호</span>
+			<s:csrfInput />	
 			<input type="password" name="password" id="password" placeholder="8자 이상 특수문자(1자 이상 반드시 포함), 영문, 숫자" size="20"><br>
 			<span id="pMessage" class="eMessage"></span>
 		</label>
 	</div>
 	
-	<div class="input_div">
+ 	<div class="input_div">
 		<span>프로필 사진</span>
 		<img src="resources/uploadImage/basicman.png" class="select_img" width="100" height="100"><br>
 		<input type="file" name="profilef" id="profilef">
@@ -525,10 +485,14 @@
 	<div class="input_div">
 		<input type="hidden" value="" name="interest">
 		<span>관심사</span>
-		<label><input type="checkbox" name="interestArray" value="문학">&nbsp;문학&nbsp;&nbsp;</label>
-		<label><input type="checkbox" name="interestArray" value="운동">&nbsp;운동&nbsp;&nbsp;</label>
-		<label><input type="checkbox" name="interestArray" value="다이어트">&nbsp;다이어트&nbsp;&nbsp;</label>
-		<label><input type="checkbox" name="interestArray" value="기타" id="else">&nbsp;기타&nbsp;&nbsp;</label>
+		<label><input type="checkbox" name="check" value="IT/모바일">IT/모바일&nbsp;</label>
+		<label><input type="checkbox" name="check" value="시사">&nbsp;시사&nbsp;</label>
+		<label><input type="checkbox" name="check" value="스포츠">&nbsp;스포츠&nbsp;</label>
+		<label><input type="checkbox" name="check" value="자동차">&nbsp;자동차</label><br>
+		<label><input type="checkbox" name="check" value="여행">여행&nbsp;</label>
+		<label><input type="checkbox" name="check" value="건강">&nbsp;건강&nbsp;</label>
+		<label><input type="checkbox" name="check" value="패션/뷰티">&nbsp;패션/뷰티&nbsp;</label>
+		<label><input type="checkbox" name="check" value="기타" id="else">&nbsp;기타</label>
 		<input type="text" id="else_direct" class="direct" placeholder="기타 입력"><br>
 		<script>
 			$('#else').click(function(){
@@ -540,16 +504,19 @@
 	<div class="input_div">
 		<label for="sns">
 			<span>SNS</span>
-			<input type="text" name="sns" id="sns" placeholder="SNS계정 url"><br>
+			<input type="text" name="sns" id="sns" placeholder="SNS계정 url"><br><br>
 		</label>
 	</div>		
 
 	<div class="input_div">
-		<span id="finalMessage" class="eMessage"></span>
-		<input type="submit" value="가입" id="submit" disabled>&nbsp;&nbsp;
+		<span id="finalMessage" class="eMessage"></span><br>
+		<input type="submit" value="가입" onclick="return inCheck('가입')" id="submit" disabled>
 		<input type="reset" value="입력 초기화">&nbsp;&nbsp;
-	</div>	
+	</div>
+	<s:csrfInput/> 
 	</form>
+	
+	
 	<c:if test="${not empty message}">
 	<br>=> ${message}<br><br> 
 	</c:if>

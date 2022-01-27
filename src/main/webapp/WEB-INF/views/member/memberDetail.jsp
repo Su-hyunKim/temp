@@ -96,8 +96,16 @@
 		<th>마지막 접속</th><td>${apple.last_access}</td>
 	</tr>
 	<tr>
-		<th>Authorization</th>
+		<th>Authorities</th>
 		<td><c:forEach var="auth" items="${apple.authList}">${auth}</c:forEach></td>
+	</tr>
+	<tr>
+		<th>Status</th>
+		<td>${apple.status}</td>
+	</tr>
+	<tr>
+		<th>활성계정여부</th>
+		<td>${apple.enabled}</td>
 	</tr>
 	<tr>
 		<th>Image</th>
