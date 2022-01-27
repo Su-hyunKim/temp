@@ -30,7 +30,7 @@
 	<div id="msgBlock">
 		<c:if test="${idUse=='T'}">
 			${newID} 는 사용가능 합니다 ~~
-			<input type="button" value="아이디를 사용" onclick="idOK()" id="idOK">
+			<br><input type="button" value="아이디를 사용" onclick="idOK()" id="idOK">
 			<!-- 사용자가 입력한 id 를 사용가능하도록 해주고, 현재(this)창은 close -->
 		</c:if>
 		<c:if test="${idUse=='F'}">

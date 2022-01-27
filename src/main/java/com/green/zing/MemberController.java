@@ -269,7 +269,7 @@ public class MemberController {
 		return mv;
 	} //join
 	
-	@RequestMapping(value = "/mailauth")
+	@RequestMapping(value = "/emailauth")
 	public ModelAndView emailauth(ModelAndView mv, MemberVO vo, HttpServletRequest request) {
 		String url;
 		String key= request.getParameter("key");

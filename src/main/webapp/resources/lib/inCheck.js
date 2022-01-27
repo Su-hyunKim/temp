@@ -54,5 +54,8 @@ function inCheck(result){
 				$('#else').val($('#else').val()+':'+$('#else_direct').val());
 			return true;
 		} 
-	}else return false;
+	}else{
+		$('#finalMessage').html('잘못된 입력이 있습니다.');
+		return false;
+	}
 } //inCheck

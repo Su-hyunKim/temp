@@ -7,9 +7,8 @@
 <title>** Logout Page **</title>
 </head>
 <body>
-  
+<div class="wrapped">
 <h1>Logout Page</h1>
-
 <!-- => 스프링 시큐리티로 로그아웃을 전달하려면
    form Tag , Post 로 전달해야함.
 => 그러므로 a Tag 요청은 컨트롤러로 넘어가 404 발생    -->
@@ -23,5 +22,6 @@
 <!-- => form Tag 내에서 버튼Tag 는 inputTag type submit 과 동일하게 작동.
 => 로그아웃은 스프링 시큐리티 내부에서 처리되고 성공시 로그인 창이 뜬다.
 => 별도의 작업을 하려면 logoutSuccessHandler 를 정의해서 처리함. -->
+</div>
 </body>
 </html>

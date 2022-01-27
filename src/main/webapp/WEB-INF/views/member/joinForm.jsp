@@ -8,14 +8,190 @@
 <meta charset="UTF-8">
 <title>징검다리 : 회원가입</title>
 <script src="resources/lib/inCheck.js"></script>
+<script>
+	$(function(){
+		$('#idDup').click(function(e){
+			if (!fChecks[0].bool) {
+				if(fChecks[0].func()) fChecks[0].bool=true;
+				else $('#member_id').css({border:redbox});
+			}else {
+				$.ajax({
+					type:'get',
+					url:"midcheck?member_id="+$('#member_id').val(),
+					success:function(resultPage) {
+								let body = resultPage.substring(resultPage.lastIndexOf('<body>')+6,
+									resultPage.lastIndexOf('</body>'));
+								if(body.indexOf('<img src="resources/image/logo.png"')!=-1)
+									resultPage = body.substring(body.indexOf('<img src="resources/image/logo.png"'),
+									body.indexOf('<div class="modal">'));
+								modal(300,350);
+								$('.modal_content').html(resultPage);	
+							},
+					error:function() {
+								alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
+							}
+				}); //ajax
+			}
+			e.stopPropagation();
+		}); //click	
+	});//ready
+	 
+	let fChecks = [
+		new FocusoutCheck(false,'member_id',idCheck,'iMessage','아이디를'),
+		new FocusoutCheck(false,'password',pwCheck,'pMessage','비밀번호를'),
+		new FocusoutCheck(false,'name',nmCheck,'nMessage','이름을'),
+		new FocusoutCheck(false,'birthday',bdCheck,'bMessage','생년월일을'),
+		new FocusoutCheck(false,'address1',ad1Check,'a1Message','우편번호를'),
+		new FocusoutCheck(false,'address2',ad2Check,'a2Message','주소를'),
+		new FocusoutCheck(false,'address3',ad3Check,'a3Message','상세주소를'),
+		new FocusoutCheck(false,'email',em1Check,'emMessage','이메일을'),
+		new FocusoutCheck(false,'email_tail',em2Check,'emMessage','이메일을'),
+		new FocusoutCheck(true,'email_direct',em3Check,'emMessage','이메일을'),
+		new FocusoutCheck(false,'phone',phoCheck,'phMessage','전화번호를')
+	];
+
+	let redbox = '3px solid red';
+	let original = '1px solid #ddd';
+	
+	function idCheck() {
+		let id=$('#member_id').val(); 	
+		if (id.length<4) {
+			$('#iMessage').html('~~ id 는 4자 이상 입니다 ~~');
+			return false;
+		}else if ( id.replace(/[a-z.0-9]/gi ,'').length > 0 ) {
+			$('#iMessage').html('~~ id 는 영문자, 숫자로만 입력 하세요 ~~');
+			return false;
+		}else {
+			$('#iMessage').html('');
+			return true;
+		}
+	} //idCheck
+
+	function pwCheck() {
+		let password=$('#password').val()
+		if (password.length<8) {
+			$('#pMessage').html('~~ password 는 8자 이상 입니다 ~~');
+			return false;
+		}else if ( password.replace(/[!-*.@]/gi,'').length >= password.length ) {
+			$('#pMessage').html('~~ password 는 특수문자가 반드시 1개 이상 포함되어야 합니다 ~~');
+			return false;
+		}else if ( password.replace(/[a-z.0-9.!-*.@]/gi ,'').length > 0 ) {
+			$('#pMessage').html('password 는 영문자, 숫자, 특수문자 로만 입력 하세요');
+			return false;
+		}else {
+			$('#pMessage').html('');
+			return true;
+		}
+	} //password
+
+	function nmCheck() {
+		let name=$('#name').val();
+		if (name.length<2) {
+			$('#nMessage').html(' ~~ name 은 2자 이상 입니다 ~~');
+			return false;
+		}else if (name.replace(/[a-z.가-힣]/gi,'').length > 0) {
+			$('#nMessage').html(' ~~ name 은 한글 또는 영문 으로만 입력 하세요 ~~');
+			return false;
+		}else {
+			$('#nMessage').html('');
+			return true;
+		}	
+	} //name
+
+	function bdCheck() {
+		let birthday=$('#birthday').val();
+		if (birthday.length != 10) {
+			$('#bMessage').html(' ~~ 생년월일을 정확하게 입력 하세요 (yyyy-mm-dd) ~~');
+			return false;
+		}else {
+			$('#bMessage').html('');
+			return true;
+		}	
+	} //birthday
+
+	function ad1Check() {
+		let address1=$('#address1').val();
+		if (address1.length<5) {
+			$('#a1Message').html(' ~~ 우편번호를 입력해주세요 ~~ ');
+			return false;
+		}else if ( $.isNumeric(address1)==false || address1.replace(/[.]/g,'').length < address1.length) {
+			$('#a1Message').html(' ~~ 우편번호는 숫자로만 정확하게 입력 하세요 ~~ ');
+			return false;
+		}else {
+			$('#a1Message').html('');
+			return true;
+		}
+	} //address1
+
+	function ad2Check() {
+		if ($('#address2').val()=='') {
+			$('#a2Message').html(' ~~ 주소를 입력해주세요 ~~ ');
+			return false;
+		}else {
+			$('#a2Message').html('');
+			return true;
+		}
+	} //address2
+
+	function ad3Check() {
+		if ($('#address3').val()=='') {
+			$('#a3Message').html(' ~~ 상세주소를 입력해주세요 ~~ ');
+			return false;
+		}else {
+			$('#a3Message').html('');
+			return true;
+		}
+	} //address3
+
+	function em1Check() {
+		if ($('#email').val()=='') {
+			$('#emMessage').html(' ~~ 이메일 계정을 입력해주세요 ~~ ');
+			return false;
+		}else {
+			$('#emMessage').html('');
+			$('#email_tail').focus();
+			return true;
+		}
+	} //email1
+	
+	function em2Check() {
+		if ($('#email_tail').val()=='') {
+			$('#emMessage').html(' ~~ 이메일 주소 뒷자리를 선택해주세요 ~~ ');
+			return false;
+		}else {
+			$('#emMessage').html('');
+			return true;
+		}
+	} //email2
+	
+	function em3Check() {
+		if($('#email_tail').val()=='direct' && !($('#email_direct').val().includes('.'))){
+			$('#emMessage').html(' ~~ 직접입력란을 완성해주세요 ~~ ');
+			return false;
+		}else {
+			$('#emMessage').html('');
+			return true;
+		}
+	} //email3
+
+	function phoCheck() {
+		let phone=$('#phone').val();
+		if (phone.length<10) {
+			$('#phMessage').html(' ~~ 전화번호를 입력해주세요 ~~ ');
+			return false;
+		}else if ( $.isNumeric(phone)==false || phone.replace(/[.]/g,'').length < phone.length) {
+			$('#phMessage').html(' ~~ 전화번호는 숫자로만 입력해주세요 ~~ ');
+			return false;
+		}else {
+			$('#phMessage').html('');
+			return true;
+		}
+	} //phone
+</script>
 <style>
-/* 		@font-face {
-		    font-family: 'KyoboHandwriting2020A';
-		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/KyoboHandwriting2020A.woff') format('woff');
-		    font-weight: normal;
-		    font-style: normal;
-		}*/
-		.input_div{width:280px}
+		.input_div {
+			width:280px
+		}
 		.input_div span:not(.eMessage) {
 			display: block;
 			font-weight: bold;
@@ -28,12 +204,30 @@
 			width: 100%;
 			border: 1px solid #ddd;
 		}
-		#email,#email_tail,#email_direct{width:30%;}
-		.input_div input[type="submit"],.input_div input[type="reset"]{width:46%;}
-		.input_div input[type="radio"]{width:20px;margin:0 20px 0 0;}	
-		.input_div input[type="checkbox"]{width:20px;margin:0}
-		#email_direct,#else_direct{display:none;}
-		.eMessage{
+		#email,#email_tail,
+		#email_direct {
+			width:30%;
+		}
+		.input_div input[type="submit"],
+		.input_div input[type="reset"] {
+			width:46%;
+		}
+		.input_div input[type="submit"]:hover,
+		.input_div input[type="reset"]:hover,
+		#idDup:hover {
+			background:snow;
+		}
+		.input_div input[type="radio"] {
+			width:20px;margin:0 20px 0 0;
+		}	
+		.input_div input[type="checkbox"] {
+			width:20px;margin:0
+		}
+		#email_direct,
+		#else_direct {
+			display:none;
+		}
+		.eMessage {
 			padding:0;
 			border:0;
 			margin:0px;
@@ -54,8 +248,7 @@
 	   -> JQ 의 serialize, FormData 의 append all 등
 	</h3></pre>
 	 -->
-<!--  	<form action="join" method="post" id="myForm"> -->
- 	<form action="join" method="post" enctype="multipart/form-data" accept-charset="UTF-8" id="myForm">
+ 	<form action="join" method="post" enctype="multipart/form-data" id="myForm">
 
 	<div class="input_div">
 		<label for="member_id">
@@ -279,10 +472,14 @@
 	<div class="input_div">
 		<input type="hidden" value="" name="interest">
 		<span>관심사</span>
-		<label><input type="checkbox" name="check" value="문학">&nbsp;문학&nbsp;&nbsp;</label>
-		<label><input type="checkbox" name="check" value="운동">&nbsp;운동&nbsp;&nbsp;</label>
-		<label><input type="checkbox" name="check" value="다이어트">&nbsp;다이어트&nbsp;&nbsp;</label>
-		<label><input type="checkbox" name="check" value="기타" id="else">&nbsp;기타&nbsp;&nbsp;</label>
+		<label><input type="checkbox" name="check" value="IT/모바일">IT/모바일&nbsp;</label>
+		<label><input type="checkbox" name="check" value="시사">&nbsp;시사&nbsp;</label>
+		<label><input type="checkbox" name="check" value="스포츠">&nbsp;스포츠&nbsp;</label>
+		<label><input type="checkbox" name="check" value="자동차">&nbsp;자동차</label><br>
+		<label><input type="checkbox" name="check" value="여행">여행&nbsp;</label>
+		<label><input type="checkbox" name="check" value="건강">&nbsp;건강&nbsp;</label>
+		<label><input type="checkbox" name="check" value="패션/뷰티">&nbsp;패션/뷰티&nbsp;</label>
+		<label><input type="checkbox" name="check" value="기타" id="else">&nbsp;기타</label>
 		<input type="text" id="else_direct" class="direct" placeholder="기타 입력"><br>
 		<script>
 			$('#else').click(function(){
@@ -294,13 +491,13 @@
 	<div class="input_div">
 		<label for="sns">
 			<span>SNS</span>
-			<input type="text" name="sns" id="sns" placeholder="SNS계정 url"><br>
+			<input type="text" name="sns" id="sns" placeholder="SNS계정 url"><br><br>
 		</label>
 	</div>		
 
 	<div class="input_div">
-		<span id="finalMessage" class="eMessage"></span>
-		<button id="submit" onclick="return inCheck('가입');">가입</button>
+		<span id="finalMessage" class="eMessage"></span><br>
+		<input type="submit" value="가입" onclick="return inCheck('가입')" id="submit" disabled>
 		<input type="reset" value="입력 초기화">&nbsp;&nbsp;
 	</div>
 	<s:csrfInput/> 
@@ -310,184 +507,4 @@
 	</c:if>
 </div> 
 </body>
-<script>
-	$(function(){
-		$('#idDup').click(function(e){
-			if (!fChecks[0].bool) {
-				if(fChecks[0].func()) fChecks[0].bool=true;
-				else $('#member_id').css({border:redbox});
-			}else {
-				$.ajax({
-					type:'get',
-					url:"midcheck?member_id="+$('#member_id').val(),
-					success:function(resultPage) {
-								let body = resultPage.substring(resultPage.lastIndexOf('<body>')+6,
-									resultPage.lastIndexOf('</body>'));
-								if(body.indexOf('<img src="resources/image/logo.png"')!=-1)
-									resultPage = body.substring(body.indexOf('<img src="resources/image/logo.png"'),
-									body.indexOf('<div class="modal">'));
-								modal(300,350);
-								$('.modal_content').html(resultPage);	
-							},
-					error:function() {
-								alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
-							}
-				}); //ajax
-			}
-			e.stopPropagation();
-		}); //click	
-	});//ready
-	 
-	let fChecks = [
-		new FocusoutCheck(false,'member_id',idCheck,'iMessage','아이디를'),
-		new FocusoutCheck(false,'password',pwCheck,'pMessage','비밀번호를'),
-		new FocusoutCheck(false,'name',nmCheck,'nMessage','이름을'),
-		new FocusoutCheck(false,'birthday',bdCheck,'bMessage','생년월일을'),
-		new FocusoutCheck(false,'address1',ad1Check,'a1Message','우편번호를'),
-		new FocusoutCheck(false,'address2',ad2Check,'a2Message','주소를'),
-		new FocusoutCheck(false,'address3',ad3Check,'a3Message','상세주소를'),
-		new FocusoutCheck(false,'email',em1Check,'emMessage','이메일을'),
-		new FocusoutCheck(false,'email_tail',em2Check,'emMessage','이메일을'),
-		new FocusoutCheck(true,'email_direct',em3Check,'emMessage','이메일을'),
-		new FocusoutCheck(false,'phone',phoCheck,'phMessage','전화번호를')
-	];
-
-	let redbox = '3px solid red';
-	let original = '1px solid #ddd';
-	
-	function idCheck() {
-		let id=$('#member_id').val(); 	
-		if (id.length<4) {
-			$('#iMessage').html('~~ id 는 4자 이상 입니다 ~~');
-			return false;
-		}else if ( id.replace(/[a-z.0-9]/gi ,'').length > 0 ) {
-			$('#iMessage').html('~~ id 는 영문자, 숫자로만 입력 하세요 ~~');
-			return false;
-		}else {
-			$('#iMessage').html('');
-			return true;
-		}
-	} //idCheck
-
-	function pwCheck() {
-		let password=$('#password').val()
-		if (password.length<8) {
-			$('#pMessage').html('~~ password 는 8자 이상 입니다 ~~');
-			return false;
-		}else if ( password.replace(/[!-*.@]/gi,'').length >= password.length ) {
-			$('#pMessage').html('~~ password 는 특수문자가 반드시 1개 이상 포함되어야 합니다 ~~');
-			return false;
-		}else if ( password.replace(/[a-z.0-9.!-*.@]/gi ,'').length > 0 ) {
-			$('#pMessage').html('password 는 영문자, 숫자, 특수문자 로만 입력 하세요');
-			return false;
-		}else {
-			$('#pMessage').html('');
-			return true;
-		}
-	} //password
-
-	function nmCheck() {
-		let name=$('#name').val();
-		if (name.length<2) {
-			$('#nMessage').html(' ~~ name 은 2자 이상 입니다 ~~');
-			return false;
-		}else if (name.replace(/[a-z.가-힣]/gi,'').length > 0) {
-			$('#nMessage').html(' ~~ name 은 한글 또는 영문 으로만 입력 하세요 ~~');
-			return false;
-		}else {
-			$('#nMessage').html('');
-			return true;
-		}	
-	} //name
-
-	function bdCheck() {
-		let birthday=$('#birthday').val();
-		if (birthday.length != 10) {
-			$('#bMessage').html(' ~~ 생년월일을 정확하게 입력 하세요 (yyyy-mm-dd) ~~');
-			return false;
-		}else {
-			$('#bMessage').html('');
-			return true;
-		}	
-	} //birthday
-
-	function ad1Check() {
-		let address1=$('#address1').val();
-		if (address1.length<5) {
-			$('#a1Message').html(' ~~ 우편번호를 입력해주세요 ~~ ');
-			return false;
-		}else if ( $.isNumeric(address1)==false || address1.replace(/[.]/g,'').length < address1.length) {
-			$('#a1Message').html(' ~~ 우편번호는 숫자로만 정확하게 입력 하세요 ~~ ');
-			return false;
-		}else {
-			$('#a1Message').html('');
-			return true;
-		}
-	} //address1
-
-	function ad2Check() {
-		if ($('#address2').val()=='') {
-			$('#a2Message').html(' ~~ 주소를 입력해주세요 ~~ ');
-			return false;
-		}else {
-			$('#a2Message').html('');
-			return true;
-		}
-	} //address2
-
-	function ad3Check() {
-		if ($('#address3').val()=='') {
-			$('#a3Message').html(' ~~ 상세주소를 입력해주세요 ~~ ');
-			return false;
-		}else {
-			$('#a3Message').html('');
-			return true;
-		}
-	} //address3
-
-	function em1Check() {
-		if ($('#email').val()=='') {
-			$('#emMessage').html(' ~~ 이메일 계정을 입력해주세요 ~~ ');
-			return false;
-		}else {
-			$('#emMessage').html('');
-			$('#email_tail').focus();
-			return true;
-		}
-	} //email1
-	
-	function em2Check() {
-		if ($('#email_tail').val()=='') {
-			$('#emMessage').html(' ~~ 이메일 주소 뒷자리를 선택해주세요 ~~ ');
-			return false;
-		}else {
-			$('#emMessage').html('');
-			return true;
-		}
-	} //email2
-	
-	function em3Check() {
-		if($('#email_tail').val()=='direct' && !($('#email_direct').val().includes('.'))){
-			$('#emMessage').html(' ~~ 직접입력란을 완성해주세요 ~~ ');
-			return false;
-		}else {
-			$('#emMessage').html('');
-			return true;
-		}
-	} //email3
-
-	function phoCheck() {
-		let phone=$('#phone').val();
-		if (phone.length<10) {
-			$('#phMessage').html(' ~~ 전화번호를 입력해주세요 ~~ ');
-			return false;
-		}else if ( $.isNumeric(phone)==false || phone.replace(/[.]/g,'').length < phone.length) {
-			$('#phMessage').html(' ~~ 전화번호는 숫자로만 입력해주세요 ~~ ');
-			return false;
-		}else {
-			$('#phMessage').html('');
-			return true;
-		}
-	} //phone
-</script>
 </html>
