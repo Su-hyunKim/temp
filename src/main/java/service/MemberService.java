@@ -9,6 +9,7 @@ import vo.MemberVO;
 public interface MemberService {
 	List<AuthVO> authList(MemberVO vo);
 	List<MemberVO> checkList(MemberVO vo);
+	List<MemberVO> ascList(MemberVO vo);
 	int updateLastAccess(MemberVO vo);
 	int changeStatus(MemberVO vo);
 		

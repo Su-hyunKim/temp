@@ -39,6 +39,11 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberVO> checkList(MemberVO vo) {
 		return dao.checkList(vo);
 	}
+
+	@Override
+	public List<MemberVO> ascList(MemberVO vo) {
+		return dao.ascList(vo);
+	}
 	
 	@Override
 	public int updateLastAccess(MemberVO vo) {

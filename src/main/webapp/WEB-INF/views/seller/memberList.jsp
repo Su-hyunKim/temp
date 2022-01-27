@@ -42,32 +42,11 @@
 	</style>
 	<script src="resources/lib/jquery-3.2.1.min.js"></script> 
 	<script>
-		$('#listSearch1').click(function(e){
+		$('#listSearch').click(function(e){
 			let url = '';
-			for(var i=0; i<$('#searchBar1 input[type="checkbox"]:checked').length; i++)
-				url+='&check='+$($('#searchBar1 input[type="checkbox"]:checked')[i]).val();
+			for(var i=0; i<$('input[type="checkbox"]:checked').length; i++)
+				url+='&check='+$($('input[type="checkbox"]:checked')[i]).val();
 			url = 'mlist?'+url.substring(1);
-			$.ajax({
-				type:'get',
-				url:url,
-				success:function(resultPage){
-					resultPage = resultPage.substring(
-							resultPage.lastIndexOf('"targetList">')+13,
-							resultPage.lastIndexOf('</div>'));
-					$('#targetList').html(resultPage);					
-				},
-				error:function() {
-					alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
-				}
-			}); //ajax
-			return false;
-		});
-		
-		$('#listSearch2').click(function(e){
-			let url = '';
-			for(var i=0; i<$('#searchBar2 input[type="checkbox"]:checked').length; i++)
-				url+='&check='+$($('#searchBar2 input[type="checkbox"]:checked')[i]).val();
-			url = 'masclist';
 			$.ajax({
 				type:'get',
 				url:url,
@@ -88,23 +67,13 @@
 <body>
 <div class="wrapped">
 <h1>회원검색</h1>
-<div id="searchBar1">
+<div id="searchBar">
 	<form action="mlist" method="get">
 		<label><input type="checkbox" name="check" value="플레인">플레인&nbsp;</label>
 		<label><input type="checkbox" name="check" value="브론즈">브론즈&nbsp;</label>
 		<label><input type="checkbox" name="check" value="실버">실버&nbsp;</label>
 		<label><input type="checkbox" name="check" value="골드">골드&nbsp;&nbsp;</label>
- 		<button id="listSearch1">검색</button>&nbsp;		
-		<input type="reset" value="취소">
-	</form>
-</div>
-<div id="searchBar2">
-	<form action="masclist" method="get">
-		<label><input type="checkbox" name="check" value="member_id">I D&nbsp;</label>
-		<label><input type="checkbox" name="check" value="name">이름&nbsp;</label>
-		<label><input type="checkbox" name="check" value="birthday">생일&nbsp;</label>
-		<label><input type="checkbox" name="check" value="point">포인트&nbsp;&nbsp;</label>
- 		<button id="listSearch2">검색</button>&nbsp;		
+ 		<button id="listSearch">검색</button>&nbsp;		
 		<input type="reset" value="취소">
 	</form>
 </div>

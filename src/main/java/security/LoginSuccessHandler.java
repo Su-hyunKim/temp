@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -37,7 +38,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		
+		HttpSession session = request.getSession();
 		List<String> roleNames = new ArrayList<>();
 		
 		System.out.println("** authentication.getAuthorities() =>"
@@ -58,7 +59,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		      예제 : for (String s : list) {  System.out.println(s);  }
 		      		list.forEach(s -> System.out.println(s));*/
 		
-		request.getSession().setAttribute("loginID",request.getParameter("username"));
+		session.setAttribute("loginID",request.getParameter("username"));
+		session.setAttribute("role",roleNames);
 		
 		// response 의 한글 처리
 		response.setContentType("text/html; charset=UTF-8");
