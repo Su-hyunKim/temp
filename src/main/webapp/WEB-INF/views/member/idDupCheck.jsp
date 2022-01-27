@@ -21,6 +21,7 @@
   
   function closeModal() {
 	  $('.modal,.modal_content').hide();
+	  $('#myForm #member_id').val('').focus();
   }
 </script>
 </head>
@@ -29,20 +30,18 @@
 	<h1>ID 중복 확인</h1>
 	<div id="msgBlock">
 		<c:if test="${idUse=='T'}">
-			${newID} 는 사용가능 합니다 ~~
-			<br><input type="button" value="아이디를 사용" onclick="idOK()" id="idOK">
+			${newID} 는 사용가능 합니다<br><br>
+			<input type="button" value="아이디를 사용" onclick="idOK()" id="idOK">&nbsp;&nbsp;
+			<input type="button" value="취소" onclick="closeModal()">
 			<!-- 사용자가 입력한 id 를 사용가능하도록 해주고, 현재(this)창은 close -->
 		</c:if>
 		<c:if test="${idUse=='F'}">
-			${newID} 는 이미 사용중 입니다 ~~<br>
-			다시 입력 하세요 ~~<br>
+			${newID} 는 이미 사용중 입니다<br>
+			다시 입력 하세요<br><br>
 			<input type="button" value="입력창으로" onclick="closeModal()">
 			<!-- 부모창(joinForm, opener)에 남아있는 사용자가 입력한 id 를 지워주고,
   		     현재(this)창 의 id 에 포커스를 주고 재입력 유도 
   		     JScript 코드 필요함-->
-  		     <script>
- 				$('#myForm #member_id').val('').focus();
-  		     </script>
 		</c:if>
 	</div>
 </div>

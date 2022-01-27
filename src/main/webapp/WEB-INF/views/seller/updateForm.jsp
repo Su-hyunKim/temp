@@ -245,47 +245,47 @@
 		margin-top: 10px;
 	}
 
-	td input {
-		padding: 5px 5px;
-		width: 95%;
-		border: 1px solid #ddd;
-	}
-	#email,#email_tail,
-	#email_direct {
-		width:25%;
-	}
-	td input[type="submit"],
-	td input[type="reset"] {
-		width:46%;
-	}
-	td input[type="submit"]:hover,
-	td input[type="reset"]:hover {
-		background:snow;
-	}
-	td input[type="radio"] {
-		width:15px;margin:0 20px 0 0;
-	}	
-	td input[type="checkbox"] {
-		width:20px;margin:0
-	}
-	#email_direct,
-	#else_direct {
-		display:none;
-	}
-	.eMessage {
-		padding:0;
-		border:0;
-		margin:0px;
-		color:red;
-		font-style:italic;
-		font-family:굴림;
-		font-size:12px;
+		td input {
+			padding: 5px 5px;
+			width: 95%;
+			border: 1px solid #ddd;
+		}
+		#email,#email_tail,
+		#email_direct {
+			width:25%;
+		}
+		td input[type="submit"],
+		td input[type="reset"] {
+			width:46%;
+		}
+		td input[type="submit"]:hover,
+		td input[type="reset"]:hover {
+			background:snow;
+		}
+		td input[type="radio"] {
+			width:15px;margin:0 20px 0 0;
+		}	
+		td input[type="checkbox"] {
+			width:20px;margin:0
+		}
+		#email_direct,
+		#else_direct {
+			display:none;
+		}
+		.eMessage {
+			padding:0;
+			border:0;
+			margin:0px;
+			color:red;
+			font-style:italic;
+			font-family:굴림;
+			font-size:12px;
 	}
 </style>
 </head>
 <body onload=initial()>
 <div class="center">
-	<h1>회원정보수정</h1>
+	<h1>회원정보 수정</h1>
 	<form action="join" method="post" enctype="multipart/form-data" id="myForm">
 		<table>
 			<tr>

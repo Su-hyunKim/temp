@@ -17,15 +17,17 @@ $(function(){
 	});
 }); //ready
 
-class FocusoutCheck{
-	constructor(bool,id,func,mId,name){
-		this.bool=bool;
-		this.id=id;
-		this.func=func;
-		this.mId=mId;
-		this.name=name;
-	}	
-} //class_fCheck
+if(typeof FocusoutCheck!=='class'){	
+	window.FocusoutCheck = class{
+		constructor(bool,id,func,mId,name){
+			this.bool=bool;
+			this.id=id;
+			this.func=func;
+			this.mId=mId;
+			this.name=name;
+		}	
+	} //class_FocusoutCheck
+}
 
 function inCheck(result){
 	let check=1;

@@ -61,11 +61,11 @@ ul span {
 	color:gray;
 }
 ul ul {
-	width:90px;
+	width:110px;
 	clear:both; 
 	background:#f0f0f0;
 	position:absolute; 
-	top:-200px; 
+	top:-220px; 
 	transition:top 0.4s;
 } 
 ul li:hover {
@@ -77,7 +77,7 @@ ul li:hover ul {
 }
 ul li span:hover {
 	color:black;
-	 font-weight:bold;
+	font-weight:bold;
 }
 .footer a {
 	color:black;

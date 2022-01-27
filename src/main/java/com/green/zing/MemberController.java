@@ -126,6 +126,27 @@ public class MemberController {
 		return mv;
 	} //mchecklist
 	
+	// ** Check 오름차순 List
+	@RequestMapping(value = "/masclist")
+	public ModelAndView masclist(ModelAndView mv, MemberVO vo) {		
+		// ** Check_Box
+		// String[] check = request.getParameterValues("check");
+		// => vo 에 배열 Type의 check 컬럼을 추가하면 편리
+		
+		// 2) Service 실행
+		// => 선택하지 않은 경우 : selectList()
+		// => 선택을 한 경우 : 조건별 검색 checkList() -> 추가
+		List<MemberVO> list = null;
+		
+		if(vo.getCheck()!=null) list = service.ascList(vo);
+		else list = service.selectList();
+		
+		if(list!=null && list.size()>0) mv.addObject("banana",list);
+		else mv.addObject("message","~~ 출력할 자료가 1건도 없습니다 ~~");
+		mv.setViewName("member/mCheckList");
+		return mv;
+	} //masclist
+	
 	@RequestMapping(value = "/mdetail")
 	public ModelAndView mdetail(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
 		String uri = "member/memberDetail";
@@ -295,11 +316,9 @@ public class MemberController {
 	public ModelAndView mupdatef(ModelAndView mv, HttpServletRequest request, MemberVO vo) {
 		// ** 마지막 접속시간 update
 		service.updateLastAccess(vo);
-		
-		if("mupdatef".equals(request.getParameter("R"))) {
-			mv.addObject("R","mupdatef");
-			mv.setViewName("home");
-		}else mv.setViewName("member/updateForm");
+		vo = service.selectOne(vo);
+		mv.addObject("apple",vo);
+		mv.setViewName("member/updateForm");
 		return mv;
 	}
 	

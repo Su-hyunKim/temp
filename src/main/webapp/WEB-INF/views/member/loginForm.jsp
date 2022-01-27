@@ -5,6 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
+	<style>
+		table{text-align:center;}
+	</style>
 	<script src="resources/lib/jquery-3.2.1.min.js"></script>
  	<script>
  	var header = '${_csrf.headerName}';
@@ -18,7 +21,7 @@
 			function(){$(this).css({curcor:"default"})})
 		.click(function(e){
 			$.ajax({
-				type:"Post",
+				type:"post",
 				url:"/Project/login",
 				data: {
 					username: $('#modal_form #member_id').val(),
@@ -36,7 +39,7 @@
 					//    실패시 : 실패message, 재로그인 유도;
 					
 					// 문자열 형태의 Data를 json Object로 변환 
-					resultData = JSON.parse(resultData);
+					if(resultData.indexOf('<')==-1) resultData = JSON.parse(resultData);
 					if (resultData.loginSuccess=="T") {
 						location.href="home";
 						alert("~~ Login 성공 ~~");
@@ -56,11 +59,6 @@
 		$('.modal,.modal_content').hide();
 		e.stopPropagation();
 	}); */
-	
-		
-$(function(){		
-
-}); //ready
  	</script>
 </head>
 <body>
@@ -72,19 +70,20 @@ $(function(){
 		<td><input type="text" name="member_id" id="member_id" value="admin"></td></tr>
 	<tr><td bgcolor="gray">Password</td>
 		<td><input type="password" name="password" id="password" value="1"></td></tr>
-	<tr><td></td>
-		<td><button id="login">Login</button>&nbsp; 
-			<input type="reset" value="Reset">&nbsp;
-			
+	<tr><td colspan="2">
+			<button id="login">Login</button>&nbsp; 
+			<input type="reset" value="Reset"><br>
+			<a href="joinf?R=joinf">[회원가입]</a>&nbsp;
+			<a href="**findid**">[아이디 찾기]</a>&nbsp;
+			<a href="**findpw**">[비밀번호 찾기]</a>			
 		</td>
 	</tr> 
 </table>
 </form>
 <!-- <div class="modalClose">X</div> -->
-<span id="message"></span><br>
-<a href="joinf?R=joinf">[회원가입]</a>
-<a href="**findid**">[아이디 찾기]</a>
-<a href="**findpw**">[비밀번호 찾기]</a>
+<span id="message"></span>
 </div>
+
+
 </body>
 </html> 
