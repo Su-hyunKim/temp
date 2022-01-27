@@ -65,7 +65,7 @@ public class RootController {
 		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
 		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");
 		
-		mv.setViewName("root/rCheckList");
+		mv.setViewName("board/rCheckList");
 		return mv;
 	} //rchecklist
 	
@@ -94,7 +94,7 @@ public class RootController {
 		}else {
 			mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다. ~~");
 		}
-		mv.setViewName("root/rootList");
+		mv.setViewName("board/rootList");
 		return mv;
 	} //aidblist
 	
@@ -133,7 +133,7 @@ public class RootController {
 		pageMaker.setTotalRowCount(service.searchRowsCount(cri));
 		
 		mv.addObject("pageMaker", pageMaker);
-		mv.setViewName("root/rCriList");
+		mv.setViewName("board/rCriList");
 		return mv;
 	} //rcplist
 	
@@ -191,7 +191,7 @@ public class RootController {
 		mv.addObject("totalPageNo",totalPageNo);
 		mv.addObject("banana", pvo.getList());
 		
-		mv.setViewName("root/pageRList");
+		mv.setViewName("board/pageRList");
 		return mv;
 	}//rpagelist
 	
@@ -237,14 +237,14 @@ public class RootController {
     	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
     	else mv.addObject("message", "~~ 출력 자료가 없습니다 ~~");
 		
-    	mv.setViewName("root/rootList");
+    	mv.setViewName("board/rootList");
 		return mv;
 	} //rlist
 	
 	@RequestMapping(value = "/rdetail")
 	public ModelAndView rdetail(HttpServletRequest request, ModelAndView mv, RootVO vo) {
 		
-		String uri = "root/rootDetail";
+		String uri = "board/rootDetail";
 		
 		// ** Service 처리
     	// => 조회수 증가 추가하기 ( 조회수 증가의 조건 )
@@ -264,7 +264,7 @@ public class RootController {
     		mv.addObject("apple", vo);
     		// 글 수정인지 확인
     		if ( "U".equals(request.getParameter("jcode")) ) 
-    			uri = "root/rupdateForm";
+    			uri = "board/rupdateForm";
     	}else {
     		mv.addObject("message", "~~ 글번호에 해당하는 자료가 없습니다 ~~");
     	}
@@ -275,7 +275,7 @@ public class RootController {
 	
 	@RequestMapping(value = "/rinsertf")
 	public ModelAndView rinsertf(ModelAndView mv) {
-		mv.setViewName("root/rinsertForm");
+		mv.setViewName("board/rinsertForm");
 		return mv;
 	} //rinsertf
 	
@@ -344,7 +344,7 @@ public class RootController {
     		rttr.addFlashAttribute("message", "~~ 새글 등록 완료 !!! ~~");
     	}else {
     		mv.addObject("message", "~~ 새글 등록 실패 !!! ~~");
-    		uri = "root/rinsertForm";
+    		uri = "board/rinsertForm";
     	}
 		mv.setViewName(uri);
 		return mv;
