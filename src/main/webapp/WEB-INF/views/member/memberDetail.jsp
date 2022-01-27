@@ -8,43 +8,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0,
 	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
 <title>회원상세정보</title>
-<!-- <link rel="stylesheet" type="text/css" href="resources/lib/main.css"> -->
 <style>
-	hr{
+	hr {
 		width:100%;
 	}
-	table{
+	table {
 		border-collapse:collapse;
 		text-align:left;
 		line-height:1.5;
 		border-top:1px solid #ccc;
 		border-bottom:1px solid #ccc;
-		margim:20px 10px;
+		margin:20px auto;
 	}
-	th{
+	th {
 		width:150px;
 		padding:10px;
 		font-weight:bold;
 		vertical-align:top;
 	}
-	td{
+	td {
 		width:350px;
 		padding:10px;
 		vertical-align:top;
 	}
-	tr:nth-child(2n){
+	tr:nth-child(2n) {
 		background:#efefef;
 	}
-	a{
+	a {
 		width:100px;
 		text-decoration-line:none;
 		font-weight:bold;
 		margin:5px 0;
 		border:0;
 	}
+	.center {
+		text-align:center;
+	}
 </style>
 </head>
 <body>
+<div class="center">
 <h1>회원상세정보</h1>
 <table>
 	<tr>
@@ -124,6 +127,7 @@
  	 				 -> 수정, 탈퇴 uri 에 &id=${apple.member_id} 추가 		  
  			  -->
 <a href="mdelete?member_id=${apple.member_id}">회원탈퇴</a>&nbsp;
-<a href='javascript:history.go(-1)'>이전으로</a>&nbsp;<a href="home">HOME</a>
+<a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp;<a href="home">HOME</a>
+</div>
 </body>
 </html>

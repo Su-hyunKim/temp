@@ -199,67 +199,117 @@
 		return true;
 	} //interestArray
 </script>
+<style>
+	hr {
+		width:100%;
+	}
+	table {
+		border-collapse:collapse;
+		text-align:left;
+		line-height:1.5;
+		border-top:1px solid #ccc;
+		border-bottom:1px solid #ccc;
+		margin:20px auto;
+	}
+	th {
+		width:150px;
+		padding:10px;
+		font-weight:bold;
+		vertical-align:top;
+	}
+	td {
+		width:350px;
+		padding:10px;
+		vertical-align:top;
+	}
+	tr:nth-child(2n) {
+		background:#efefef;
+	}
+	a {
+		width:100px;
+		text-decoration-line:none;
+		font-weight:bold;
+		margin:5px 0;
+		border:0;
+	}
+	.center {
+		text-align:center;
+	}
+</style>
 </head>
 <body>
-<div class="wrapped">
+<div class="center">
 	<h1>회원정보 수정</h1>
 	<form action="join" method="post" enctype="multipart/form-data" id="myForm" onsubmit="return inCheck('회원정보수정');">
-	<table>
-		<tr>
-			<th>I  D</th><td>${apple.member_id}</td>
-		</tr>
-		<tr>
-			<th>이름</th><td>${apple.name}</td>
-		</tr>
-		<tr>
-			<th>성별</th>
-			<td>
-				<c:if test="${apple.gender=='M'}">
-					남성
-				</c:if>
-				<c:if test="${apple.gender=='F'}">
-					여성
-				</c:if>
-				<c:if test="${apple.gender=='N'}">
-					기타
-				</c:if>
-			</td>
-		</tr>
-		<tr>
-			<th>생년월일</th>
-			<td>${apple.birthday}</td>
-		</tr>
-		<tr>
-			<th>관심사</th><td>${apple.interest}</td>
-		</tr>
-		<tr>
-			<th>포인트</th><td>${apple.point}</td>
-		</tr>
-		<tr>
-			<th>주소</th>
-			<td>&#12306;&nbsp;${apple.address1}<br>
-				${apple.address2}${apple.address3}
-			</td>
-		</tr>
-		<tr>
-			<th>전화번호</th><td>${apple.phone}</td>
-		</tr>
-		<tr>
-			<th>이메일</th><td>${apple.email}</td>
-		</tr>
-		<tr>
-			<th>SNS</th><td>${apple.sns}</td>
-		</tr>
-		<tr>
-			<th>마지막 접속</th><td>${apple.last_access}</td>
-		</tr>
-		<tr>
-			<th>Image</th>
-			<td><img src="${apple.profile}" width="100" height="120"></td>
-		</tr>
-	</table>
+		<table>
+			<tr>
+				<th>I  D</th>
+				<td>
+				<input type="text" name="member_id" id="member_id" value="${apple.member_id}" size="20" style="width:61%">&nbsp;
+				<input type="button" value="ID중복확인" id="idDup" style="width:30%"><br>
+				<span id="iMessage" class="eMessage"></span>
+				</td>
+			</tr>
+			<tr>
+				<th>이름</th><td>${apple.name}</td>
+			</tr>
+			<tr>
+				<th>성별</th>
+				<td>
+					<c:if test="${apple.gender=='M'}">
+						남성
+					</c:if>
+					<c:if test="${apple.gender=='F'}">
+						여성
+					</c:if>
+					<c:if test="${apple.gender=='N'}">
+						기타
+					</c:if>
+				</td>
+			</tr>
+			<tr>
+				<th>생년월일</th>
+				<td>${apple.birthday}</td>
+			</tr>
+			<tr>
+				<th>관심사</th><td>${apple.interest}</td>
+			</tr>
+			<tr>
+				<th>주소</th>
+				<td>&#12306;&nbsp;${apple.address1}<br>
+					${apple.address2}${apple.address3}
+				</td>
+			</tr>
+			<tr>
+				<th>전화번호</th><td>${apple.phone}</td>
+			</tr>
+			<tr>
+				<th>이메일</th><td>${apple.email}</td>
+			</tr>
+			<tr>
+				<th>SNS</th><td>${apple.sns}</td>
+			</tr>
+			<tr>
+				<th>Image</th>
+				<td><img src="${apple.profile}" width="100" height="120"></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<span id="finalMessage" class="eMessage"></span><br>
+					<input type="submit" value="가입" onclick="return inCheck('가입')" id="submit" disabled>&nbsp;&nbsp;
+					<input type="reset" value="입력 초기화">
+				</td>
+			</tr>
+		</table>
 	<s:csrfInput/>
 	</form>	 
+<c:if test="${not empty message}">
+=> ${message}<br>
+<hr>
+</c:if>
+<a href="mdelete?member_id=${apple.member_id}">회원탈퇴</a>&nbsp;
+<a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp;<a href="home">HOME</a>
+</div>
 	 	 
  	<form action="join" method="post" enctype="multipart/form-data" id="myForm">
 
