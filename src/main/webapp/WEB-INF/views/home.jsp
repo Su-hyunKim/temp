@@ -32,9 +32,9 @@
 		<div id="d2">
 			<li class="title">상 품
 			<ul>
-				<li><span>상품등록</span>
-				<li><span>상품검색</span>
-				<li><span>상품리뷰조회</span>
+				<li id="pregistf"><span>상품등록</span>
+				<li id="pupdate"><span>상품수정</span>
+				<li id="plist"><span>상품리스트</span>
 			</ul>
 		</div>
 		<div id="d3">
