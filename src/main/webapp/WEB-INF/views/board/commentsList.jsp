@@ -8,6 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <title>CommentsList</title>
+<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
+<script src="resources/lib/menu.js"></script>
 <link rel="stylesheet" href="resources/lib/comment.css"/>
 <!-- Font Awesome Icons -->
 <link rel="stylesheet" href="resources/lib/plugins/fontawesome-free/css/all.min.css">
