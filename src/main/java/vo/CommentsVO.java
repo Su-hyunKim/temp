@@ -9,7 +9,5 @@ public class CommentsVO {
 	private String member_id;
 	private String regdate;
 	private String texts;
-	private String fileupload;
-	private int rating;
-	private String status;
+	private String rating;
 } //class
