@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="s"%> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>** RootInsert Form **</title>
+<title>징검다리 : 글쓰기</title>
 </head>
 <body>
-<h3>** RootInsert Form **</h3>
+<h1>징검다리 : 글쓰기</h1>
 <form action="rinsert" method="post">
 <table>
 	<tr height="40"><td bgcolor="aqua">아이디</td>
@@ -56,6 +57,7 @@
 			<input type="reset" value="취소">
 		</td></tr>			
 </table>
+<s:csrfInput/>
 </form>
 <c:if test="${not empty message}">
 <br>=> ${message}<br><br> 
