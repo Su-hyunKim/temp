@@ -41,6 +41,38 @@
    		</foreach>
    		order by member_id
    </select>
+
+
+
+
+	<sql id="ascColumn">
+		<choose>
+			<when test="searchType=='member_id'.toString()">
+				member_id asc
+			</when>
+			<when test="searchType=='name'.toString()">
+				name asc
+			</when>
+		  	<when test="searchType=='gender'.toString()">
+				gender desc
+			</when>
+		  	<when test="searchType=='birthday'.toString()">
+				birthday desc
+			</when>
+		  	<when test="searchType=='address2'.toString()">
+				address2 desc
+			</when>
+		  	<when test="searchType=='point'.toString()">
+				point desc
+			</when>
+		  	<otherwise>last_access asc</otherwise>
+		</choose>
+	</sql>
+
+
+
+
+
  	
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 ** PageList 2. searchList 기능 ( Sql문 추가 )   
@@ -82,7 +114,7 @@
  		select id, password, name, 
  		 	DECODE(lev,'A','관리자','B','나무','C','잎새','새싹') lev, 
  		 	birthd, point, weight, rid, uploadfile from 
-			(select m.*, ROW_NUMBER() OVER(order by id asc) rnum from member m where id!='admin' 
+			(select m.*, ROW_NUMBER() OVER(order by id asc) rnum from member m where id!='admin'
 			<include refid="search"></include>
 			where rnum between #{sno} and #{eno}
 	</select> 
@@ -98,10 +130,10 @@
 	</select> -->
 	
 	<select id="ascList" resultType="vo.MemberVO">
- 		<include refid="mlist"></include> from
+ 		<include refid="mlist"></include>,rnum from
 			(select m.*, ROW_NUMBER() OVER(order by
-   			member_id
-			asc) rnum from member m where member_id!='admin')
+   			<include refid="ascColumn"></include>	
+			) rnum from member m where member_id!='admin')
 			where rnum between 1 and 10
 	</select>
 
@@ -120,7 +152,7 @@
  	
  	<!-- ** CRUD 기본 ** -->
  	<select id="selectList" resultType="vo.MemberVO">
- 		<include refid="mlist"></include> from member
+ 		<include refid="mlist"></include> from member where member_id!='admin'
  	</select>
  
  	<select id="selectOne" resultType="vo.MemberVO">
@@ -133,8 +165,8 @@
 	</insert>
 	
 	<update id="update">
-		update member set (name,password,gender,birthday,address1,address2,address3,email,phone,interest,sns,profile)
-		(select #{name},#{password},#{gender},#{birthday},#{address1},#{address2},#{address3},#{email},#{phone},#{interest},#{sns},#{profile} from dual)
+		update member set (name,gender,birthday,address1,address2,address3,email,phone,interest,sns,profile)
+		= (select #{name},#{gender},#{birthday},#{address1},#{address2},#{address3},#{email},#{phone},#{interest},#{sns},#{profile} from dual)
 		where member_id=#{member_id}
 	</update>
 	

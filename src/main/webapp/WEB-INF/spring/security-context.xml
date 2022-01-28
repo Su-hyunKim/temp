@@ -20,10 +20,10 @@
 		<s:intercept-url pattern="/resources/**" access="permitAll" />
 		<s:intercept-url pattern="/join*" access="permitAll" />
 		<s:intercept-url pattern="/midcheck" access="permitAll" />
-		<s:intercept-url pattern="/mupdatef" 
+		<s:intercept-url pattern="/mupdate*" 
 		                   access="hasAuthority('ROLE_USER')" />
-		<s:intercept-url pattern="/pregistf" 
-		                   access="hasAuthority('ROLE_ADMIN')" />
+<!-- 		<s:intercept-url pattern="/pregistf" 
+		                   access="hasAuthority('ROLE_SELLER')" /> -->
 		<s:intercept-url pattern="/mlist" 
 		                   access="hasAuthority('ROLE_ADMIN')" />
 <!--		<s:intercept-url pattern="/b*" 
