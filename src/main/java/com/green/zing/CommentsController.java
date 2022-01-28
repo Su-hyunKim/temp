@@ -27,7 +27,6 @@ public class CommentsController {
 		List<CommentsVO> list = new ArrayList<CommentsVO>();
     	list = service.selectList();
     	
-    	// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
     	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
 		mv.setViewName("board/commentsForm");
 		return mv;
@@ -68,11 +67,7 @@ public class CommentsController {
 	@RequestMapping(value = "/cinsert")
 	public ModelAndView cinsert(ModelAndView mv, CommentsVO vo, RedirectAttributes rttr) {
 		
-		List<CommentsVO> list = new ArrayList<CommentsVO>();
-    	list = service.selectList();
-    	
-    	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
-		String uri = "board/commentsForm";
+		String uri = "redirect:comment";
 		if ( service.insert(vo) > 0 ) { 
     		rttr.addFlashAttribute("message", "~~ 새글 등록 완료 !!! ~~");
     	}else {
@@ -86,8 +81,7 @@ public class CommentsController {
 	@RequestMapping(value = "/cupdate")
 	public ModelAndView cupdate(ModelAndView mv, CommentsVO vo, RedirectAttributes rttr) {
 		
-		String uri = "board/commentsForm";
-		mv.addObject("apple", vo);
+		String uri = "redirect:comment";
 		if ( service.update(vo) > 0 ) { 
     		rttr.addFlashAttribute("message", "~~ 글수정 성공 !!! ~~");
     	}else {
@@ -101,11 +95,7 @@ public class CommentsController {
 	@RequestMapping(value = "/cdelete")
 	public ModelAndView cdelete(ModelAndView mv, CommentsVO vo, RedirectAttributes rttr) {
 		
-		List<CommentsVO> list = new ArrayList<CommentsVO>();
-    	list = service.selectList();
-    	
-    	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
-		String uri = "board/commentsForm";
+		String uri = "redirect:comment";
 		if ( service.delete(vo) > 0 ) { 
 			rttr.addFlashAttribute("message", "~~ 글삭제 성공 !!! ~~");
     	}else {
