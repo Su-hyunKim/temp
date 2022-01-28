@@ -25,12 +25,12 @@
 		</c:if>
 		<table width=100%>
 			<tr height="30" bgcolor="GreenYellow" align="center">
-				<th>Seq</th><th>ID</th><th>댓글 내용</th><th>등록 시간</th><th>수정 / 삭제</th>
+				<th>Seq</th><th>ID</th><th>댓글 내용</th><th>별점</th><th>등록 시간</th><th>수정 / 삭제</th>
 			</tr>	
 			<c:forEach var="list" items="${banana}">
 				<tr height="30" align="center">
 					<td width="5%">${list.reply_seq}</td><td width="10%">${list.member_id}</td>
-					<td width="55%">${list.texts}</td><td width="20%">${list.regdate}</td>
+					<td width="55%">${list.texts}</td><td width="5%">${list.rating}</td><td width="15%">${list.regdate}</td>
 					<td width="10%">
 						<a href="cdetail?reply_seq=${list.reply_seq}">글수정</a>&nbsp;&nbsp;
 						<a href="cdelete?reply_seq=${list.reply_seq}">글삭제</a>
@@ -38,8 +38,8 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<a href="home" >[Home]</a>
 	</div>
 </div>
+<h4><a href="home" >[Home]</a></h4>
 </body>
 </html>

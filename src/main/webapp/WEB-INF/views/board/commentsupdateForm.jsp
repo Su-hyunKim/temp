@@ -16,20 +16,27 @@
 <link rel="stylesheet" href="resources/lib/plugins/fontawesome-free/css/all.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="resources/lib/dist/css/adminlte.min.css">
+<script>
+function 함수이름(){  
+       location.reload();
+}
+</script>
 </head>
 <body>
-<form action="cupdate" method="post">
+<form action="cupdate" method="post" id="modal_form">
 <div class="wrapper">
 	<div>
 		<s:csrfInput/>
 		<table>
-			<tr height="40"><td bgcolor="HoneyDew ">리뷰글 번호</td>
-				<td><input class="form-control input-sm" name="member_id" type="text" value="${apple.root_seq}" readonly></td></tr>
-			<tr height="40"><td bgcolor="HoneyDew ">댓글 번호</td>
-				<td><input class="form-control input-sm" name="member_id" type="text" value="${apple.reply_seq}" readonly></td></tr>
-			<tr height="40"><td bgcolor="HoneyDew ">I D</td>
-				<td><input class="form-control input-sm" name="member_id" type="text" value="${apple.member_id}" readonly></td></tr>
-			<tr height="40"><td bgcolor="HoneyDew ">별점</td>
+			<tr height="40"><th bgcolor="HoneyDew ">리뷰글 번호</th><th bgcolor="HoneyDew ">댓글 번호</th>
+				<th bgcolor="HoneyDew ">I D</th><th bgcolor="HoneyDew ">등록 시간</th></tr>
+				
+			<tr height="40">
+				<td><input class="form-control input-sm" name="root_seq" type="text" value="${apple.root_seq}" readonly></td>
+				<td><input class="form-control input-sm" name="reply_seq" type="text" value="${apple.reply_seq}" readonly></td>
+				<td><input class="form-control input-sm" name="member_id" type="text" value="${apple.member_id}" readonly></td>
+				<td><input class="form-control input-sm" name="regdate" type="text" value="${apple.regdate}" readonly></td>
+			<tr height="40"><th bgcolor="HoneyDew ">별점</th>
 				<td>
 					<div class="star-rating">
 						<input type="radio" id="5-stars" name="rating" value="5" v-model="rating"/>
@@ -44,22 +51,20 @@
 						<label for="1-star" class="star">★</label>
 					</div>
 				</td>
+				
 			</tr>
-			<tr height="40"><td bgcolor="HoneyDew ">댓글 내용</td>
+			<tr height="40"><th bgcolor="HoneyDew ">댓글 내용</th>
+				<td colspan="2">
+				<input class="form-control input-sm" name="texts" type="text" value="${apple.texts}">
+				</td>
 				<td>
-				<textarea name="content" rows="5" cols="50">${apple.texts}</textarea>
-				</td></tr>
-			<tr height="40"><td bgcolor="HoneyDew ">등록 시간</td>
-				<td><input class="form-control input-sm" name="regdate" type="text" value="${apple.regdate}" readonly></td></tr>
-			<tr height="40"><td></td>
+				<input type="submit" value="수정">&nbsp;&nbsp;
+				</td>
+			</tr>
 		</table>
 	</div>
 	<div class="form-group col-sm-2"> 
-		<input type="submit" value="수정">&nbsp;&nbsp;
-		<input type="reset" value="취소">
-	</div> 
-	<div class="form-group col-sm-2"> 
-		<a href="comment" >댓글 목록</a>
+		<h6><a href="comment" >댓글 목록</a></h6>
 	</div> 
 </div>
 <s:csrfInput/>

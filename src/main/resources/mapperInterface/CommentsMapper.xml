@@ -49,7 +49,8 @@
 	<update id="update">
 		update comments 
 		set 
-			texts=#{texts}, 
+			rating=#{rating},
+			texts=#{texts}
 		where reply_seq=#{reply_seq}
 	</update>
 	
