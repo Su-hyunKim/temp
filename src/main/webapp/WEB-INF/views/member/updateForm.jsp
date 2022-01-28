@@ -174,12 +174,14 @@
  		$('#else').click(function(){
 			if($('#else').prop("checked")) $('#else_direct').show();
 			else $('#else_direct').hide();
-		}); 
+		}); 			
 		$('input[type="checkbox"]').each(function(){
-			if("${apple.interest}"!="" && $(this).val().indexOf("${apple.interest}")!=-1)
-				$(this).prop('checked',true);
+			if( "${apple.interest}".indexOf( $(this).val() )!=-1) {
+				$(this).trigger('click');
+			}
 			else $(this).prop('checked',false);
 		});
+		$('#else_direct').val( "${apple.interest}".substring("${apple.interest}".lastIndexOf(":")+1) );
 		// 이메일
 		$('#email_direct').show();
  		$('#email_tail').change(function(){
@@ -187,15 +189,18 @@
 			else $('#email_direct').hide();
 		}); 
 		$('#email').val( "${apple.email}".substring(0,"${apple.email}".indexOf("@")) );
+		
 		$('#email_tail option[value="direct"]').prop('selected',true);
+		
 		$('#email_direct').val( "${apple.email}".substring("${apple.email}".indexOf("@")+1) );
 	}
 
 	$(function(){
 		$('td input[type="reset"]').click(function(e){
 			$(".select_img").attr("src","${apple.profile}");
-			//initial();
-		});	
+			initial();
+		});
+		initial();
 	});
 	
 </script>
@@ -283,15 +288,15 @@
 	}
 </style>
 </head>
-<body onload=initial()>
+<body>
 <div class="center">
 	<h1>회원정보수정</h1>
-	<form action="join" method="post" enctype="multipart/form-data" id="myForm">
+	<form action="mupdate" method="post" enctype="multipart/form-data" id="myForm">
 		<table>
 			<tr>
 				<th><label for="member_id">I  D</label></th>
 				<td>
-					<input type="text" name="member_id" id="member_id" value="${apple.member_id}" size="20" style="width:50%" disabled><br>
+					<input type="text" name="member_id" id="member_id" value='${apple.member_id}' size="20" style="width:50%" readonly><br>
 					<span id="iMessage" class="eMessage"></span>
 				</td>
 			</tr>
@@ -314,7 +319,7 @@
 					<script>
 /* 					$('input[name="gender"]').each(function(){
 						if($(this).val()=="${apple.gender}") $(this).prop('checked',true);
-					}); */
+					});  */
 					</script>
 				</td>
 			</tr>

@@ -47,6 +47,7 @@
 			for(var i=0; i<$('#searchBar1 input[type="checkbox"]:checked').length; i++)
 				url+='&check='+$($('#searchBar1 input[type="checkbox"]:checked')[i]).val();
 			url = 'mlist?'+url.substring(1);
+			console.log(url);
 			$.ajax({
 				type:'get',
 				url:url,
@@ -64,10 +65,8 @@
 		});
 		
 		$('#listSearch2').click(function(e){
-			let url = '';
-			for(var i=0; i<$('#searchBar2 input[type="checkbox"]:checked').length; i++)
-				url+='&check='+$($('#searchBar2 input[type="checkbox"]:checked')[i]).val();
-			url = 'masclist';
+			let url = 'masclist?searchType='+ $('#searchBar2 select').val();
+			console.log(url);
 			$.ajax({
 				type:'get',
 				url:url,
@@ -100,14 +99,55 @@
 </div>
 <div id="searchBar2">
 	<form action="masclist" method="get">
-		<label><input type="checkbox" name="check" value="member_id">I D&nbsp;</label>
-		<label><input type="checkbox" name="check" value="name">이름&nbsp;</label>
-		<label><input type="checkbox" name="check" value="birthday">생일&nbsp;</label>
-		<label><input type="checkbox" name="check" value="point">포인트&nbsp;&nbsp;</label>
+		<select name='searchType'>
+			<option value="member_id">I D
+			<option value="name">이름
+			<option value="birthday">생일
+			<option value="point">포인트
+		</select>
  		<button id="listSearch2">검색</button>&nbsp;		
 		<input type="reset" value="취소">
 	</form>
 </div>
+
+
+
+
+<!-- <script>
+$(function() {	
+	// SearchType 이 '---' 면 keyword 클리어
+	$('#searchType').change(function() {
+		if ($(this).val()=='n') $('#keyword').val('');
+	}); //change
+	// 검색후 요청
+	$('#searchBtn').on("click", function() {
+		self.location="mcplist"
+			+"${pageMaker.makeQuery(1)}"
+			+"&searchType="
+			+$('#searchType').val()
+			+'&keyword='
+			+$('#keyword').val()
+	}); //on_click
+	
+}) //ready
+
+</script> -->
+<!-- Paging2  ver02 : SearchCriteria 적용 -->
+<%--  <div id="searchBar">
+	<select name="searchType" id="searchType">
+		<option value="n" <c:out value="${pageMaker.cri.searchType==null ? 'selected':''}"/> >---</option>
+		<option value="i" <c:out value="${pageMaker.cri.searchType=='i' ? 'selected':''}"/> >ID</option>
+		<option value="a" <c:out value="${pageMaker.cri.searchType=='a' ? 'selected':''}"/> >Name</option>
+		<option value="l" <c:out value="${pageMaker.cri.searchType=='l' ? 'selected':''}"/> >Level</option>
+		<option value="r" <c:out value="${pageMaker.cri.searchType=='r' ? 'selected':''}"/> >추천인</option>
+		<option value="b" <c:out value="${pageMaker.cri.searchType=='b' ? 'selected':''}"/> >Birthday</option>
+		<option value="ia" <c:out value="${pageMaker.cri.searchType=='ia' ? 'selected':''}"/> >ID or Name</option>
+	</select>
+	<input type="text" name="keyword" id="keyword" value="${pageMaker.cri.keyword}">
+	<button id="searchBtn">Search</button>
+</div> --%>
+
+
 <div id="targetList">
 <c:if test="${not empty message}">
 => ${message}<br>

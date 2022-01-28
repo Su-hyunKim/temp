@@ -128,7 +128,9 @@ public class MemberController {
 	
 	// ** Check 오름차순 List
 	@RequestMapping(value = "/masclist")
-	public ModelAndView masclist(ModelAndView mv, MemberVO vo) {		
+	public ModelAndView masclist(ModelAndView mv, MemberVO vo) {	
+		
+
 		// ** Check_Box
 		// String[] check = request.getParameterValues("check");
 		// => vo 에 배열 Type의 check 컬럼을 추가하면 편리
@@ -143,14 +145,68 @@ public class MemberController {
 		
 		if(list!=null && list.size()>0) mv.addObject("banana",list);
 		else mv.addObject("message","~~ 출력할 자료가 1건도 없습니다 ~~");
-		mv.setViewName("member/mCheckList");
+		mv.setViewName("member/memberList");
 		return mv;
 	} //masclist
+
+	
+//	// ** Member PageList 2. 
+//	@RequestMapping(value = "/mcplist")
+//	// ** ver01 : Criteria PageList
+//	//public ModelAndView mcplist(ModelAndView mv, Criteria cri, PageMaker pageMaker) {
+//	// ** ver02 : SearchCriteria PageList
+//	public ModelAndView mcplist(ModelAndView mv, SearchCriteria cri, PageMaker pageMaker) {	
+//		// 1) Criteria 처리 
+//		// => setCurrPage, setRowsPerPage 는 Parameter 로 전달되어,
+//		//    setCurrPage(..) , setRowsPerPage(..) 는 자동처리됨(스프링에 의해)
+//		//    -> cri.setCurrPage(Integer.parseInt(request.getParameter("currPage")))
+//		// => 그러므로 currPage 이용해서 sno, eno 계산만 하면됨
+//		cri.setSnoEno();
+//		
+//		// 2) 서비스처리
+//		// => List 처리, (totalRowCount 는 PageMaker 처리에서) 
+//		// ** ver01
+//		// mv.addObject("banana", service.criPList(cri)); 
+//		// ** ver02 : searchType, keyword 에 따른 조건검색
+	
+//		// => service 에 메서드 추가 searchList(cri) , searchRowsCount(cri)
+// ** PageList 2.2) SearchCriteria PageList
+//	int searchRowsCount(SearchCriteria cri);
+//	List<MemberVO> searchList(SearchCriteria cri);	
+	
+//	<select id="searchRowsCount" resultType="int">
+//	select count(*) from member where (id!='admin' 
+//	<include refid="search"></include>	
+//</select>
+//	<select id="searchList" resultType="vo.MemberVO">
+//		select id, password, name, 
+//		 	DECODE(lev,'A','관리자','B','나무','C','잎새','새싹') lev, 
+//		 	birthd, point, weight, rid, uploadfile from 
+//		(select m.*, ROW_NUMBER() OVER(order by id asc) rnum from member m where id!='admin' 
+//		<include refid="search"></include>
+//		where rnum between #{sno} and #{eno}
+//</select>	
+	
+//		mv.addObject("banana", service.searchList(cri));
+//		
+//		// 3) PageMaker 처리
+//		pageMaker.setCri(cri);
+//		// ** ver01
+//		//pageMaker.setTotalRowCount(service.totalRowCount()); 
+//		// ** ver02
+//		pageMaker.setTotalRowCount(service.searchRowsCount(cri));
+//		
+//		mv.addObject("pageMaker", pageMaker);
+//		mv.setViewName("member/mCriList");
+//		return mv;
+//	} //mcplist
+	
 	
 	@RequestMapping(value = "/mdetail")
 	public ModelAndView mdetail(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
 		String uri = "member/memberDetail";
 		String id = vo.getMember_id();
+		System.out.println(vo.getMember_id());
 		List<AuthVO> list = service.authList(vo);
 		if(id==null) id = "";
 		vo=service.selectOne(vo);
@@ -326,6 +382,7 @@ public class MemberController {
 	@RequestMapping(value = "/mupdate")
 	public ModelAndView mupdate(HttpServletRequest request, 
 			ModelAndView mv, MemberVO vo, RedirectAttributes rttr) throws IOException {
+		System.out.println("ddd");
 		String uri = null; 
 		// ** Service 
 		// => 성공후 
@@ -368,11 +425,11 @@ public class MemberController {
 			 // => redirect시 message 전달가능
 			 
 			 //request.getSession().setAttribute("loginName", vo.getName());
-			 uri = "redirect:mdetail";  // redirect 로 처리함 (재요청처리)
+			 uri = "redirect:mdetail?member_id="+vo.getMember_id();  // redirect 로 처리함 (재요청처리)
 		 }else { 
 			 // update 실패 : 수정가능한 폼 출력할수있도록 요청 
 			 rttr.addFlashAttribute("message", "~~ 회원정보 수정 실패!!, 다시 하세요 ~~");
-			 uri="redirect:mupdate?member_id="+vo.getMember_id();
+			 uri="redirect:mupdatef?member_id="+vo.getMember_id();
 		 }
 		
 		mv.setViewName(uri); 
