@@ -25,7 +25,8 @@
 									resultPage = body.substring(body.indexOf('<img src="resources/image/logo.png"'),
 										body.indexOf('<div class="modal">'));
 								modal(300,260);
-								$('.modal_content').html(resultPage);	
+								$('.modal_content').html(resultPage);
+								$('.modal_content #idOK').focus();
 							},
 					error:function() {
 								alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
@@ -87,10 +88,10 @@
 	function nmCheck() {
 		let name=$('#name').val();
 		if (name.length<2) {
-			$('#nMessage').html(' ~~ name 은 2자 이상 입니다 ~~');
+			$('#nMessage').html(' ~~ 이름은 2자 이상 입니다 ~~');
 			return false;
 		}else if (name.replace(/[a-z.가-힣]/gi,'').length > 0) {
-			$('#nMessage').html(' ~~ name 은 한글 또는 영문 으로만 입력 하세요 ~~');
+			$('#nMessage').html(' ~~ 이름은 한글 또는 영문 으로만 입력 하세요 ~~');
 			return false;
 		}else {
 			$('#nMessage').html('');

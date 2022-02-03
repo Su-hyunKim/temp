@@ -49,7 +49,7 @@
 					}
 				},
 				error: function() {
-					$('#message').html("~~ Ajax_jslogin Test Error ~~");
+					$('#message').html("~~ 서버 오류 입니다 ~~");
 				}
 			}); //ajax
 			return false;

@@ -27,7 +27,7 @@ public class MemberVO{
 	private String remarks;
 	private Boolean enabled; // '0':휴면(false) '1':active(true)
 	private List<AuthVO> authList;
-	private MultipartFile profilef;	
+	private MultipartFile profilef;		
 	private String[] check;
 	// ** 배열타입 (CheckBox 처리) 
 	// => 배열타입 검색조건 처리
