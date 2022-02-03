@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import criteria.MultiCheckSearchCriteria;
-import mapperInterface.MemberMapper;
+import mapperInterface.SellerMapper;
 import vo.AuthVO;
 import vo.MemberVO;
 
@@ -22,12 +22,12 @@ import vo.MemberVO;
 //    -> 아래 PageVO<MemberVO> pageList(PageVO<MemberVO> pvo) 확인 
 
 @Service
-public class MemberServiceImpl implements MemberService {
+public class SellerServiceImpl implements SellerService {
 	
 	//@Setter(onMethod = @Autowired) 
 	// => onMethod 속성은 생성되는 setter에 @AutoWired 어노테이션을 추가해줌.
 	@Autowired
-	MemberMapper dao;
+	SellerMapper dao;
 	// MemberMapper 의 인스턴스를 스프링이 생성 해주고 이를 주입받아 실행함
 	// 단, 설정화일에 <mybatis-spring:scan base-package="mapperInterface"/> 추가해야함
 

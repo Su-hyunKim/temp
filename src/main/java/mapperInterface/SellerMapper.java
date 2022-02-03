@@ -1,4 +1,4 @@
-package service;
+package mapperInterface;
 
 import java.util.List;
 
@@ -6,14 +6,14 @@ import criteria.MultiCheckSearchCriteria;
 import vo.AuthVO;
 import vo.MemberVO;
 
-
-public interface MemberService {
+public interface SellerMapper {
+	
 	List<AuthVO> authList(MemberVO vo);
-	List<MemberVO> checkList(MultiCheckSearchCriteria cri);
+	List<MemberVO> checkList(MultiCheckSearchCriteria cri);	
 	List<MemberVO> ascList(MemberVO vo);
 	int updateLastAccess(MemberVO vo);
 	int changeStatus(MemberVO vo);
-		
+	
 	// 기본 CRUD
 	List<MemberVO> selectList(); //selectList
 	MemberVO selectOne(MemberVO vo); //selectOne
@@ -21,4 +21,4 @@ public interface MemberService {
 	int update(MemberVO vo); //update
 	int delete(MemberVO vo); //delete
 
-}
+} //interface

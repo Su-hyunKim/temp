@@ -8,34 +8,7 @@
 <meta charset="UTF-8">
 <title>징검다리 : 회원가입</title>
 <script src="resources/lib/inCheck.js"></script>
-<script>
-	$(function(){
-		$('#idDup').click(function(e){
-			if (!fChecks[0].bool) {
-				if(fChecks[0].func()) fChecks[0].bool=true;
-				else $('#member_id').css({border:redbox});
-			}else {
-				$.ajax({
-					type:'get',
-					url:"midcheck?member_id="+$('#member_id').val(),
-					success:function(resultPage) {
-								let body = resultPage.substring(resultPage.lastIndexOf('<body>')+6,
-									resultPage.lastIndexOf('</body>'));
-								if(body.indexOf('<img src="resources/image/logo.png"')!=-1)
-									resultPage = body.substring(body.indexOf('<img src="resources/image/logo.png"'),
-										body.indexOf('<div class="modal">'));
-								modal(300,260);
-								$('.modal_content').html(resultPage);	
-							},
-					error:function() {
-								alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
-							}
-				}); //ajax
-			}
-			e.stopPropagation();
-		}); //click	
-	});//ready
-	 
+<script> 
 	fChecks = [
 		new FocusoutCheck(false,'member_id',idCheck,'iMessage','아이디를'),
 		new FocusoutCheck(false,'password',pwCheck,'pMessage','비밀번호를'),
@@ -52,51 +25,62 @@
 
 	redbox = '3px solid red';
 	original = '1px solid #ddd';
-	
-	function idCheck() {
-		let id=$('#member_id').val(); 	
-		if (id.length<4) {
-			$('#iMessage').html('~~ id 는 4자 이상 입니다 ~~');
-			return false;
-		}else if ( id.replace(/[a-z.0-9]/gi ,'').length > 0 ) {
-			$('#iMessage').html('~~ id 는 영문자, 숫자로만 입력 하세요 ~~');
-			return false;
-		}else {
-			$('#iMessage').html('');
-			return true;
-		}
-	} //idCheck
 
-	function pwCheck() {
-		let password=$('#password').val()
-		if (password.length<8) {
-			$('#pMessage').html('~~ password 는 8자 이상 입니다 ~~');
-			return false;
-		}else if ( password.replace(/[!-*.@]/gi,'').length >= password.length ) {
-			$('#pMessage').html('~~ password 는 특수문자가 반드시 1개 이상 포함되어야 합니다 ~~');
-			return false;
-		}else if ( password.replace(/[a-z.0-9.!-*.@]/gi ,'').length > 0 ) {
-			$('#pMessage').html('password 는 영문자, 숫자, 특수문자 로만 입력 하세요');
-			return false;
-		}else {
-			$('#pMessage').html('');
-			return true;
-		}
-	} //password
-
-	function nmCheck() {
-		let name=$('#name').val();
+	function cnCheck() {
+		let name=$('#company_name').val();
 		if (name.length<2) {
-			$('#nMessage').html(' ~~ name 은 2자 이상 입니다 ~~');
+			$('#nMessage').html(' ~~ 상호명은 2자 이상 입니다 ~~');
 			return false;
 		}else if (name.replace(/[a-z.가-힣]/gi,'').length > 0) {
-			$('#nMessage').html(' ~~ name 은 한글 또는 영문 으로만 입력 하세요 ~~');
+			$('#nMessage').html(' ~~ 상호명은 한글 또는 영문 으로만 입력 하세요 ~~');
 			return false;
 		}else {
 			$('#nMessage').html('');
 			return true;
 		}	
-	} //name
+	} //company_name
+	
+	function rnCheck() {
+		let name=$('#representative').val();
+		if (name.length<2) {
+			$('#representative').html(' ~~ 대표자명은 2자 이상 입니다 ~~');
+			return false;
+		}else if (name.replace(/[a-z.가-힣]/gi,'').length > 0) {
+			$('#representative').html(' ~~ 대표자명은 한글 또는 영문 으로만 입력 하세요 ~~');
+			return false;
+		}else {
+			$('#representative').html('');
+			return true;
+		}	
+	} //representative
+	
+	function phoCheck() {
+		let phone=$('#phone').val();
+		if (phone.length<10) {
+			$('#phMessage').html(' ~~ 사업자등록번호를 입력해주세요 ~~ ');
+			return false;
+		}else if ( $.isNumeric(phone)==false || phone.replace(/[.]/g,'').length < phone.length) {
+			$('#phMessage').html(' ~~ 사업자등록번호는 숫자로만 입력해주세요 ~~ ');
+			return false;
+		}else {
+			$('#phMessage').html('');
+			return true;
+		}
+	} //phone
+	
+	function phoCheck() {
+		let phone=$('#phone').val();
+		if (phone.length<10) {
+			$('#phMessage').html(' ~~ 법인등록번호를 입력해주세요 ~~ ');
+			return false;
+		}else if ( $.isNumeric(phone)==false || phone.replace(/[.]/g,'').length < phone.length) {
+			$('#phMessage').html(' ~~ 법인등록번호는 숫자로만 입력해주세요 ~~ ');
+			return false;
+		}else {
+			$('#phMessage').html('');
+			return true;
+		}
+	} //phone
 
 	function bdCheck() {
 		let birthday=$('#birthday').val();
@@ -249,43 +233,13 @@
 	</h3></pre>
 	 -->
  	<form action="join" method="post" enctype="multipart/form-data" id="myForm">
-
-	<div class="input_div">
-		<label for="member_id">
-			<span>*아이디</span>
-			<input type="text" name="member_id" id="member_id" placeholder="4자 이상 영문 또는 숫자" size="20" style="width:61%">&nbsp;
-			<input type="button" value="ID중복확인" id="idDup" style="width:30%"><br>
-			<span id="iMessage" class="eMessage"></span>
-		</label>
-	</div>
-
-	<div class="input_div">
-		<label for="password">
-			<span>*비밀번호</span>
-			<s:csrfInput />	
-			<input type="password" name="password" id="password" placeholder="8자 이상 특수문자(1자 이상 반드시 포함), 영문, 숫자" size="20"><br>
-			<span id="pMessage" class="eMessage"></span>
-		</label>
-	</div>
 	
  	<div class="input_div">
 		<span>프로필 사진</span>
 		<img src="resources/uploadImage/basicman.png" class="select_img" width="100" height="100"><br>
-		<input type="file" name="profilef" id="profilef">
-		<script>
-		// 해당 파일의 서버상의 경로를 src로 지정하는것으로는 클라이언트 영역에서 이미지는 표시될수 없기 때문에
-		// 이를 해결하기 위해 FileReader이라는 Web API를 사용
-		// => 이 를 통해 url data를 얻을 수 있음.
-		//    ( https://developer.mozilla.org/ko/docs/Web/API/FileReader)
-		// ** FileReader
-		// => 웹 애플리케이션이 비동기적으로 데이터를 읽기 위하여 읽을 파일을 가리키는File
-		//    혹은 Blob 객체를 이용해 파일의 내용을(혹은 raw data버퍼로) 읽고 
-		//    사용자의 컴퓨터에 저장하는 것을 가능하게 해줌.	
-		// => FileReader.onload 이벤트의 핸들러.
-		//    읽기 동작이 성공적으로 완료 되었을 때마다 발생.
-		// => e.target : 이벤트를 유발시킨 DOM 객체
-  		
-			$('#profilef').change(function(){
+		<input type="file" name="logof" id="logof">
+		<script>  		
+			$('#logof').change(function(){
 				if(this.files && this.files[0]) {
 					var reader = new FileReader;
 			 			reader.onload = function(e) {
@@ -302,27 +256,41 @@
 	</div>
 	
 	<div class="input_div">
-		<label for="name">
-			<span>*이름</span>
-			<input type="text" name="name" id="name" placeholder="2자 이상 한글 또는 영문" size="20"><br>
+		<label for="company_name">
+			<span>*상호명</span>
+			<input type="text" name="company_name" id="company_name" placeholder="2자 이상 한글 또는 영문" size="20"><br>
 			<span id="nMessage" class="eMessage"></span>
 		</label>
 	</div>
 	
 	<div class="input_div">
-		<span>*성별</span>
-			<label for="man">남자</label>
-			<input type="radio" name="gender" class="gender_radio" id="man" value="M">
-			<label for="woman">여자</label>
-			<input type="radio" name="gender" class="gender_radio" id="woman" value="F">
-			<label for="neither">해당항목없음</label>
-			<input type="radio" name="gender" class="gender_radio" id="neither" value="N" checked>
+		<label for="representative">
+			<span>*대표자명</span>
+			<input type="text" name="representative" id="representative" placeholder="2자 이상 한글 또는 영문" size="20"><br>
+			<span id="nMessage" class="eMessage"></span>
+		</label>
+	</div>
+
+	<div class="input_div">
+		<label for="employer_id">
+			<span>*사업자등록번호</span>
+			<input type="text" name="employer_id" id="employer_id" placeholder='"-" 없이 번호만 입력해주세요'><br>
+			<span id="phMessage" class="eMessage"></span>
+		</label>
 	</div>
 	
 	<div class="input_div">
-		<label for="birthday">
-			<span>*생년월일</span>
-			<input type="date" name="birthday" id="birthday"><br>
+		<label for="corporation_id">
+			<span>*법인등록번호</span>
+			<input type="text" name="corporation_id" id="corporation_id" placeholder='"-" 없이 번호만 입력해주세요'><br>
+			<span id="phMessage" class="eMessage"></span>
+		</label>
+	</div>
+	
+	<div class="input_div">
+		<label for="launch_date">
+			<span>*사업개시일</span>
+			<input type="date" name="launch_date" id="launch_date"><br>
 			<span id="bMessage" class="eMessage"></span>
 		</label>
 	</div>	
@@ -330,12 +298,12 @@
 	<div class="input_div">
 		<label>
 			<span>*주소</span>
-			<input type="text" name="address1" id="address1" placeholder="우편번호" style="width:61%">
+			<input type="text" name="location1" id="location1" placeholder="우편번호" style="width:61%">
 			<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" style="width:30%"><br>
 			<span id="a1Message" class="eMessage"></span>
-			<input type="text" name="address2" id="address2" placeholder="주소"><br>
+			<input type="text" name="location2" id="location2" placeholder="주소"><br>
 			<span id="a2Message" class="eMessage"></span>
-			<input type="text" name="address3" id="address3" placeholder="상세주소"><br>
+			<input type="text" name="location3" id="location3" placeholder="상세주소"><br>
 			<span id="a3Message" class="eMessage"></span>
 			<input type="text" name="extraAddress" id="extraAddress" placeholder="참고항목"><br>
 				
@@ -393,12 +361,12 @@
 			                }
 			
 			                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-			                document.getElementById("address1").value = data.zonecode;
-			                document.getElementById("address2").value = addr;
+			                document.getElementById("location1").value = data.zonecode;
+			                document.getElementById("location2").value = addr;
 			                // 커서를 상세주소 필드로 이동한다.
-			                document.getElementById("address1").focus();
-			                document.getElementById("address2").focus();
-			                document.getElementById("address3").focus();
+			                document.getElementById("location1").focus();
+			                document.getElementById("location2").focus();
+			                document.getElementById("location3").focus();
 			
 			                // iframe을 넣은 element를 안보이게 한다.
 			                // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
@@ -439,9 +407,9 @@
 	</div>
 		
 	<div class="input_div">
-		<label for="email">
+		<label for="business_email">
 			<span>*이메일</span>
-			<input type="text" name="email" id="email" placeholder="인증용 이메일">&nbsp;@&nbsp;
+			<input type="text" name="business_email" id="business_email" placeholder="인증용 이메일">&nbsp;@&nbsp;
 			<select id="email_tail">
 				<option value="">선택</option>
 				<option value="naver.com">naver.com</option>
@@ -462,36 +430,45 @@
 	</div>
 	
 	<div class="input_div">
-		<label for="phone">
-			<span>*전화번호</span>
-			<input type="text" name="phone" id="phone" placeholder='"-" 없이 번호만 입력해주세요'><br>
+		<label for="business_phone">
+			<span>*office 전화번호</span>
+			<input type="text" name="business_phone" id="business_phone" placeholder='"-" 없이 번호만 입력해주세요'><br>
 			<span id="phMessage" class="eMessage"></span>
 		</label>
 	</div>		
+
+	<div class="input_div">
+		<label for="business_type">
+		<span>*업태</span>
+			<select id="business_type">
+				<option value="">선택</option>
+				<option value="naver.com">naver.com</option>
+				<option value="daum.net">daum.net</option>
+				<option value="gmail.com">gmail.com</option>
+				<option value="nate.com">nate.com</option>
+				<option value="direct">직접입력</option>
+			</select>
+		</label>
+	</div>
+	
+	<div class="input_div">
+		<label for="business_type">
+		<span>*종목</span>
+			<select id="business_items">
+				<option value="">선택</option>
+				<option value="naver.com">naver.com</option>
+				<option value="daum.net">daum.net</option>
+				<option value="gmail.com">gmail.com</option>
+				<option value="nate.com">nate.com</option>
+				<option value="direct">직접입력</option>
+			</select>
+		</label>
+	</div>
 		
 	<div class="input_div">
-		<input type="hidden" value="" name="interest">
-		<span>관심사</span>
-		<label><input type="checkbox" name="check" value="IT/모바일">IT/모바일&nbsp;</label>
-		<label><input type="checkbox" name="check" value="시사">&nbsp;시사&nbsp;</label>
-		<label><input type="checkbox" name="check" value="스포츠">&nbsp;스포츠&nbsp;</label>
-		<label><input type="checkbox" name="check" value="여행">여행&nbsp;</label><br>
-		<label><input type="checkbox" name="check" value="자동차">&nbsp;자동차</label>
-		<label><input type="checkbox" name="check" value="건강">&nbsp;건강&nbsp;</label>
-		<label><input type="checkbox" name="check" value="패션/뷰티">&nbsp;패션/뷰티&nbsp;</label>
-		<label><input type="checkbox" name="check" value="기타" id="else">&nbsp;기타</label>
-		<input type="text" id="else_direct" class="direct" placeholder="기타 입력"><br>
-		<script>
-			$('#else').click(function(){
-				if($('#else').prop("checked")) $('#else_direct').show();
-				else $('#else_direct').hide();
-			});
-		</script>
-	</div>	
-	<div class="input_div">
-		<label for="sns">
-			<span>SNS</span>
-			<input type="text" name="sns" id="sns" placeholder="SNS계정 url"><br><br>
+		<label for="tax_office">
+			<span>관할세무소</span>
+			<input type="text" name="tax_office" id="tax_office" placeholder="세무소이름"><br><br>
 		</label>
 	</div>		
 

@@ -38,7 +38,7 @@
 		<c:if test="${idUse=='F'}">
 			${newID} 는 이미 사용중 입니다<br>
 			다시 입력 하세요<br><br>
-			<input type="button" value="입력창으로" onclick="closeModal()">
+			<input type="button" value="입력창으로" onclick="closeModal()" id="idOK">
 			<!-- 부모창(joinForm, opener)에 남아있는 사용자가 입력한 id 를 지워주고,
   		     현재(this)창 의 id 에 포커스를 주고 재입력 유도 
   		     JScript 코드 필요함-->

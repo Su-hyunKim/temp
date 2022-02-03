@@ -7,7 +7,7 @@ import vo.AuthVO;
 import vo.MemberVO;
 
 
-public interface MemberService {
+public interface SellerService {
 	List<AuthVO> authList(MemberVO vo);
 	List<MemberVO> checkList(MultiCheckSearchCriteria cri);
 	List<MemberVO> ascList(MemberVO vo);

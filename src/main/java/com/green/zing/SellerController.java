@@ -23,7 +23,7 @@ import vo.MemberVO;
 //=> Mapper 는 null 을 return 하지 않으므로 길이로 확인 
 
 @Controller
-public class MemberController {
+public class SellerController {
 	@Autowired
 	MemberService service;
 	@Autowired
@@ -31,78 +31,7 @@ public class MemberController {
 	@Autowired
 	MemberMailSendService mailsender;
 	
-	@RequestMapping(value = "/loginf")
-	public ModelAndView loginf(ModelAndView mv, HttpServletRequest request) {
-		if("login".equals(request.getParameter("R"))) {
-			mv.addObject("R","login");
-			mv.setViewName("home");
-		}else mv.setViewName("member/loginForm");
-		return mv;
-	}
-		
-//	// ** JSON Login	
-//	@RequestMapping(value = "/login")
-//	public ModelAndView login(HttpServletRequest request, MemberVO vo,
-//			HttpServletResponse response, ModelAndView mv) {
-//		// ** jsonView 사용시 response 의 한글 처리
-//		response.setContentType("text/html; charset=UTF-8");
-//		
-//		// ** 마지막 접속시간 update service.updateLastAccess(vo);
-//		
-//		// 1) request 처리
-//		String id =vo.getMember_id();
-//		String password = vo.getPassword();
-//		// 2) service 처리
-//		vo = service.selectOne(vo);
-//		if ( vo != null ) { // ID 는 일치 -> Password 확인
-//			if ( passwordEncoder.matches(password, vo.getPassword()) ) {
-//				// Login 성공 -> login 정보 session에 보관, home (새로고침)
-//				mv.addObject("loginSuccess", "T");
-//				request.getSession().setAttribute("loginID", id);
-//				request.getSession().setAttribute("loginName", vo.getName());
-//			}else { //Password 오류 -> 재로그인 유도 (loginForm 으로)
-//				mv.addObject("loginSuccess", "F");
-//				mv.addObject("message", "~~ Password 오류,  다시 하세요 ~~");
-//			}
-//		}else { // ID 오류 -> 재로그인 유도 (loginForm 으로)
-//			mv.addObject("loginSuccess", "F");
-//			mv.addObject("message", "~~ ID 오류,  다시 하세요 ~~");
-//		} //else
-//		mv.setViewName("jsonView");
-//		return mv; // => /WEB-INF/views/jsonView.jsp -> 안되도록 servlet-context.xml 설정
-//	}//login
-	 	
-	
-//	@RequestMapping(value = "/logout")
-//	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response,
-//			ModelAndView mv, MemberVO vo) throws ServletException, IOException {	
-//		// ** jsonView 사용시 response 의 한글 처리
-//		response.setContentType("text/html; charset=UTF-8");
-//		
-//		// ** 마지막 접속시간 update
-//		service.updateLastAccess(vo);
-//		
-//		// ** session 인스턴스 정의 후 삭제하기
-//		// => 매개변수: 없거나, true, false
-//		// => false : session 이 없을때 null 을 return;
-//		HttpSession session = request.getSession(false);
-//		if (session!=null) session.invalidate();
-//		mv.addObject("message", "~~ 로그아웃 되었습니다 ~~");
-//		mv.setViewName("jsonView");
-//		return mv;
-//	} //logout	
-	
-	//SSLogoutf => post 방식으로 처리하기위해 ssLogoutForm 사용 Test	
-	@RequestMapping(value = "/logoutf")
-	public ModelAndView logoutf(ModelAndView mv, MemberVO vo) {
-		// ** 마지막 접속시간 update
-		service.updateLastAccess(vo);		
-		mv.setViewName("member/logoutForm");
-		return mv;
-	} //logoutf
-
-	
-	@RequestMapping(value = "/mlist")
+	@RequestMapping(value = "/slist")
 	public ModelAndView mlist(ModelAndView mv, MultiCheckSearchCriteria cri) {
 		cri.setSnoEno();
 		List<MemberVO> list = service.checkList(cri);
@@ -166,7 +95,7 @@ public class MemberController {
 //	} //mcplist
 	
 	
-	@RequestMapping(value = "/mdetail")
+	@RequestMapping(value = "/sdetail")
 	public ModelAndView mdetail(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
 		String uri = "member/memberDetail";
 		String id = vo.getMember_id();
@@ -184,26 +113,8 @@ public class MemberController {
 		mv.setViewName(uri);
 		return mv;
 	}
-	
-	@RequestMapping(value = "/mypage")
-	public ModelAndView mypage(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
-		// ** 마지막 접속시간 update
-		service.updateLastAccess(vo);
-		
-		String uri = "member/mypage";
-		String id = vo.getMember_id();
-		vo=service.selectOne(vo);
-		if (vo != null) {
-			mv.addObject("apple", vo);	
-		}else {
-			rttr.addFlashAttribute("message","~~ "+id+"님의 자료는 존재하지 않습니다 ~~");
-			uri = "redirect:home";
-		}
-		mv.setViewName(uri);
-		return mv;
-	}
 
-	@RequestMapping(value = "/joinf")
+	@RequestMapping(value = "/sregf")
 	public ModelAndView joinf(ModelAndView mv, HttpServletRequest request) {
 		if("joinf".equals(request.getParameter("R"))) {
 			mv.addObject("R","joinf");
@@ -212,22 +123,9 @@ public class MemberController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/midcheck")
-	public ModelAndView midcheck(ModelAndView mv, MemberVO vo) {
-		// 입력한 newID 보관
-		mv.addObject("newID", vo.getMember_id());
-		if ( service.selectOne(vo) != null ) {
-			mv.addObject("idUse", "F"); // 사용불가
-		}else {
-			mv.addObject("idUse", "T"); // 사용가능
-		}
-		mv.setViewName("member/idDupCheck"); 
-		return mv;
-	} //midcheck
-	
 	// ** Join
 	// Spring AOP Transaction 적용됨
-	@RequestMapping(value = "/join")
+	@RequestMapping(value = "/sreg")
 	public ModelAndView join(HttpServletRequest request, ModelAndView mv, MemberVO vo,
 			RedirectAttributes rttr) 
 					 	throws IOException {		
@@ -310,29 +208,7 @@ public class MemberController {
 		return mv;
 	} //join
 	
-	@RequestMapping(value = "/emailauth")
-	public ModelAndView emailauth(ModelAndView mv, MemberVO vo, HttpServletRequest request) {
-		String url;
-		String key= request.getParameter("key");
-		
-		System.out.println("key => "+key);
-			
-		vo = service.selectOne(vo);
-		if( (vo!=null) && key.length()!=0 && key.equals(request.getParameter("auth_no")) ) {
-			vo.setStatus("1");
-			vo.setEnabled(true);
-			service.changeStatus(vo);
-			url = "redirect:authjoin?member_id="+vo.getMember_id();
-		}else {
-			if(vo!=null) service.delete(vo);
-			mv.addObject("message","인증에 실패했습니다.");
-			url = "home";
-		}		
-		mv.setViewName(url); 
-		return mv;
-	} //emailauth
-	
-	@RequestMapping(value = "/mupdatef")
+	@RequestMapping(value = "/supdatef")
 	public ModelAndView mupdatef(ModelAndView mv, HttpServletRequest request, MemberVO vo) {
 		// ** 마지막 접속시간 update
 		service.updateLastAccess(vo);
@@ -343,7 +219,7 @@ public class MemberController {
 	}
 	
 	// ** Member Update(비밀번호 수정은 별개) **
-	@RequestMapping(value = "/mupdate")
+	@RequestMapping(value = "/supdate")
 	public ModelAndView mupdate(HttpServletRequest request, 
 			ModelAndView mv, MemberVO vo, RedirectAttributes rttr) throws IOException {
 		System.out.println("ddd");

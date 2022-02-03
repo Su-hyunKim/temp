@@ -100,7 +100,7 @@
 	</tr>
 	<tr>
 		<th>Authorities</th>
-		<td><c:forEach var="auth" items="${apple.authList}">${auth}</c:forEach></td>
+		<td><c:forEach var="auth" items="${apple.authList}">${auth.authority}&nbsp;</c:forEach></td>
 	</tr>
 	<tr>
 		<th>Status</th>
