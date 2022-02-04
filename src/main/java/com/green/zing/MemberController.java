@@ -317,19 +317,17 @@ public class MemberController {
 		String key= request.getParameter("key");
 		String R = request.getParameter("R");
 		
-		System.out.println("key => "+key);
-				
+		System.out.println("key => "+key);		
 		vo = service.selectOne(vo);
-		if( (vo!=null) && key.length()!=0 && key.equals(request.getParameter("auth_no")) ) {
+		if( vo!=null && key.length()!=0 && key.equals(request.getParameter("auth_no")) ) {
 			if(R==null) {
 				vo.setStatus("1");
+				vo.setEnabled(true);
+				service.changeStatus(vo);
 				url = "redirect:authjoin?member_id="+vo.getMember_id();
 			}else if(R.equals("sreg")) {
-				vo.setStatus("1");
 				url = "redirect:authsreg?member_id="+vo.getMember_id();
-			}
-			vo.setEnabled(true);
-			service.changeStatus(vo);		
+			}		
 		}else {
 			if(vo!=null && R==null) service.delete(vo);
 			else if(vo!=null && R.equals("sreg")) service.deleteSeller(vo);

@@ -7,7 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,8 +26,6 @@ public class SellerController {
 	@Autowired
 	SellerService service;
 	@Autowired
-	PasswordEncoder passwordEncoder;
-	@Autowired
 	MemberMailSendService mailsender;
 	
 	@RequestMapping(value = "/slist")
@@ -38,7 +35,7 @@ public class SellerController {
 		// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
 		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
 		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");		
-		mv.setViewName("member/memberList");
+		mv.setViewName("seller/sellerList");
 		return mv;
 	} //slist
 
@@ -123,12 +120,20 @@ public class SellerController {
 		return mv;
 	}
 	
-	// ** Join
+	// ** 판매자전환
 	// Spring AOP Transaction 적용됨
 	@RequestMapping(value = "/sreg")
 	public ModelAndView sreg(HttpServletRequest request, ModelAndView mv, SellerVO vo,
 			RedirectAttributes rttr) 
-					 	throws IOException {		
+					 	throws IOException {	
+		// ** 거래중지 회원 확인
+		if("6".equals(vo.getStatus())){
+			service.delete(vo);
+			mv.addObject("message","거래중지 회원입니다.");
+			mv.setViewName("home");
+			return mv;
+		}
+		
 		// ** Uploadfile (Image) 처리
 		// => MultipartFile 타입의 uploadfilef 의 정보에서 
 		//    upload된 image 와 화일명을 get 처리,
@@ -172,10 +177,10 @@ public class SellerController {
 		if ( logof !=null && !logof.isEmpty() ) {
 			// Image 를 선택했음 -> Image 처리 (realPath+화일명)
 			// 1) 물리적 위치에 Image 저장 
-			file1=realPath + vo.getCorporation_id(); //  전송된File명 추출 & 연결
+			file1=realPath + vo.getMember_id() + vo.getEmployer_id(); //  전송된File명 추출 & 연결
 			logof.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
 			// 2) Table 저장위한 경로 
-			file2 = "resources/uploadImage/"+ vo.getCorporation_id();
+			file2 = "resources/uploadImage/" + vo.getMember_id() + vo.getEmployer_id();
 		}
 		vo.setLogo(file2);
 		
@@ -195,7 +200,7 @@ public class SellerController {
 			//rttr.addFlashAttribute("R","login"); // 성공시 홈으로 이동 후 로그인 form 클릭
 		}else { 
 			// insert 실패
-			rttr.addFlashAttribute("message", "~~ 회원가입 실패!!, 다시 하세요 ~~");
+			rttr.addFlashAttribute("message", "~~ 판매자전환 실패!!, 다시 하세요 ~~");
 			rttr.addFlashAttribute("R","sregf");
 		}
 			mv.setViewName(uri);
@@ -208,11 +213,11 @@ public class SellerController {
 		service.updateLastAccess(vo);
 		vo = service.selectOne(vo);
 		mv.addObject("apple",vo);
-		mv.setViewName("member/updateForm");
+		mv.setViewName("seller/updateForm");
 		return mv;
 	}
 	
-	// ** Member Update(비밀번호 수정은 별개) **
+	// ** Seller Update
 	@RequestMapping(value = "/supdate")
 	public ModelAndView mupdate(HttpServletRequest request, 
 			ModelAndView mv, SellerVO vo, RedirectAttributes rttr) throws IOException {
@@ -246,27 +251,22 @@ public class SellerController {
 			// 2.2) Table 저장위한 값 set
 			file2 = "resources/uploadImage/" + profilef.getOriginalFilename();
 			vo.setProfile(file2);
-		}
-		
-		// ** Password 암호화
-		// => BCryptPasswordEncoder 적용
-		//    encode(rawData) -> digest 생성 & vo 에 set
-		//vo.setPassword(passwordEncoder.encode(vo.getPassword()));		
+		}	
 		
 		if ( service.update(vo) > 0 ) {
 			 // update 성공
-			 rttr.addFlashAttribute("message", "~~ 회원정보 수정 완료 !!!  ~~") ; 
+			 rttr.addFlashAttribute("message", "~~ 판매자정보 수정 완료 !!!  ~~") ; 
 			 // => redirect시 message 전달가능
 			 
 			 //request.getSession().setAttribute("loginName", vo.getName());
-			 uri = "redirect:mdetail?member_id="+vo.getMember_id();  // redirect 로 처리함 (재요청처리)
+			 uri = "redirect:sdetail?member_id="+vo.getMember_id();  // redirect 로 처리함 (재요청처리)
 		 }else { 
 			 // update 실패 : 수정가능한 폼 출력할수있도록 요청 
-			 rttr.addFlashAttribute("message", "~~ 회원정보 수정 실패!!, 다시 하세요 ~~");
-			 uri="redirect:mupdatef?member_id="+vo.getMember_id();
+			 rttr.addFlashAttribute("message", "~~ 판매자정보 수정 실패!!, 다시 하세요 ~~");
+			 uri="redirect:supdatef?member_id="+vo.getMember_id();
 		 }
 		
 		mv.setViewName(uri); 
 		return mv;
-	} //mupdate
+	} //supdate
 }

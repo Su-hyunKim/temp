@@ -13,9 +13,9 @@
 		select authority from member_auth where member_id=#{member_id}
 	</select>
 
-<!-- 멤버리스트 -->
+<!-- 리스트 -->
 	<sql id="list">
-		select member_id,company_name,representative,employer_id,corporation_id
+		select member_id,company_name,representative,employer_id,corporation_id,
  		SUBSTR(launch_date,1,INSTR(launch_date,'-')-1) launch_date,
  		SUBSTR(location2,1,INSTR(location2,' ')-1) location2
 	</sql>
@@ -91,9 +91,9 @@
 <!-- ** Seller Search, Check, Range, Order List --> 
    <select id="checkList" resultType="vo.SellerVO">
 		<include refid="list"></include> from
-		(select m.*, ROW_NUMBER() OVER(order by
+		(select s.*, ROW_NUMBER() OVER(order by
    		<include refid="selectColumn"></include>	
-		) rnum from member m where member_id!='admin'
+		) rnum from seller s where member_id!='admin'
 		<include refid="search"></include>
 		<include refid="address"></include>
 		<include refid="date"></include>
@@ -111,13 +111,13 @@
 
 	<sql id="selectColumn">
 		<choose>
-			<when test="column=='member_id'.toString()">
-				member_id <include refid="selectOrder"></include>	
+			<when test="column=='employer_id'.toString()">
+				employer_id <include refid="selectOrder"></include>	
 			</when>
 			<when test="column=='company_name'.toString()">
 				company_name <include refid="selectOrder"></include>
 			</when>
-		  	<when test="column=='representativr'.toString()">
+		  	<when test="column=='representative'.toString()">
 				representative <include refid="selectOrder"></include>
 			</when>
 		  	<when test="column=='launch_date'.toString()">
@@ -129,7 +129,7 @@
 		  	<when test="column=='corporation_id'.toString()">
 				corporation_id <include refid="selectOrder"></include>
 			</when>
-		  	<otherwise>employer_id <include refid="selectOrder"></include></otherwise>
+		  	<otherwise>member_id <include refid="selectOrder"></include></otherwise>
 		</choose>
 	</sql>
  	
@@ -138,15 +138,15 @@
 			<bind name="keyVal" value="'%'+keyword+'%'"/>
 		</if>
 		<choose>
-			<when test="searchType=='i'.toString()">
-				and member_id LIKE #{keyVal} 
+			<when test="searchType=='c'.toString()">
+				and company_name LIKE #{keyVal} 
 			</when>
-			<when test="searchType=='a'.toString()">
-  				and name Like #{keyVal} 
+			<when test="searchType=='r'.toString()">
+  				and representative Like #{keyVal} 
 	  		</when>
-		  	<when test="searchType=='ia'.toString()">
-		  		and member_id Like #{keyVal}
-		  		or  name Like #{keyVal} 
+		  	<when test="searchType=='cr'.toString()">
+		  		and (company_name Like #{keyVal}
+		  		or representative Like #{keyVal})
 		  	</when>
 		  	<otherwise></otherwise>
 		</choose>

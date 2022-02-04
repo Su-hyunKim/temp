@@ -117,7 +117,7 @@ input[type="range"]::-webkit-slider-thumb {
 			console.log(url);
 			$.ajax({
 				type:'get',
-				url:'mlist?'+url,
+				url:'slist?'+url,
 				success:function(resultPage){
 					resultPage = resultPage.substring(
 							resultPage.lastIndexOf('"targetList">')+13,
@@ -184,25 +184,25 @@ input[type="range"]::-webkit-slider-thumb {
 	inputRight.addEventListener("input", setRightValue);
 		</script>
 
-	<form action="mlist" method="get">
+	<form action="slist" method="get">
 		<select name="searchType" id="searchType">
 			<option value="n">---</option>
-			<option value="i">ID</option>
-			<option value="a">Name</option>
-			<option value="ia">ID or Name</option>
+			<option value="c">회사명</option>
+			<option value="r">대표자</option>
+			<option value="cr">회사명 or 대표자</option>
 		</select>
 		<input type="text" name="keyword" id="keyword">
-		<br>주소지&nbsp;&nbsp;
+		<br>사업장 소재지&nbsp;&nbsp;
 		<label><input type="checkbox" name="check1" value="서울">서울&nbsp;</label>
 		<label><input type="checkbox" name="check1" value="경기">경기&nbsp;</label>
 		<label><input type="checkbox" name="check1" value="인천">인천&nbsp;</label>
 		<br>
 		<select name='column'>
-			<option value="member_id">I D
-			<option value="name">이름
-			<option value="birthday">생일
-			<option value="point">포인트
-			<option value="last_access">최근접속일시
+			<option value="company_name">회사명
+			<option value="representative">대표자
+			<option value="launch_date">사업개시년
+			<option value="location2">사업장 소재지
+			<option value="employer_id">사업자등록번호
 		</select>
 		<label><input type="radio" name="order" value="asc" checked>오름차순&nbsp;</label>
 		<label><input type="radio" name="order" value="desc">내림차순&nbsp;</label>
@@ -211,7 +211,7 @@ input[type="range"]::-webkit-slider-thumb {
 	</form>
 </div>
 <div class="wrapped">
-<h1>회원검색</h1>
+<h1>판매자검색</h1>
 
 
 <!-- <script>
@@ -257,8 +257,8 @@ $(function() {
 <table width=100%>
 <thead>
 <tr>
-	<th>I D</th><th>이름</th><th>성별</th><th>생년</th>
-	<th>주소지</th><th>point</th><th>Last Access</th>
+	<th>I D</th><th>회사명</th><th>대표자</th><th>사업자등록번호</th>
+	<th>사업개시</th><th>사업장</th>
 </tr>
 </thead>
 <tbody>	
@@ -272,13 +272,8 @@ $(function() {
 		${list.member_id} 
 	</c:if>
 	</th>
-	<td>${list.name}</td>
-	<td>
-		<c:if test="${list.gender=='F'}">여</c:if>
-		<c:if test="${list.gender=='M'}">남</c:if>
-		<c:if test="${list.gender=='N'}">N</c:if>
-	</td>
-	<td>${list.birthday}</td><td>${list.address2}</td><td>${list.point}</td><td>${list.last_access}</td>
+	<td>${list.company_name}</td><td>${list.representative}</td><td>${list.employer_id}</td>
+	<td>${list.launch_date}</td><td>${list.location2}</td>
 </tr>
 </tbody>
 </c:forEach>

@@ -85,6 +85,7 @@
  	<aop:config>
 		<aop:pointcut expression="execution(* com.green.zing..*join(..)) ||
 			execution(* com.green.zing..*update(..)) ||
+			execution(* com.green.zing..emailauth(..)) ||
 			execution(* com.green.zing..*reg(..))" id="myPointcut"/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="myPointcut" />
     </aop:config>
