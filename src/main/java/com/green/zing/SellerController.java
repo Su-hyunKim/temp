@@ -16,16 +16,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import criteria.MultiCheckSearchCriteria;
 import service.MemberMailSendService;
-import service.MemberService;
+import service.SellerService;
 import vo.AuthVO;
-import vo.MemberVO;
+import vo.SellerVO;
 
 //=> Mapper 는 null 을 return 하지 않으므로 길이로 확인 
 
 @Controller
 public class SellerController {
 	@Autowired
-	MemberService service;
+	SellerService service;
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	@Autowired
@@ -34,7 +34,7 @@ public class SellerController {
 	@RequestMapping(value = "/slist")
 	public ModelAndView mlist(ModelAndView mv, MultiCheckSearchCriteria cri) {
 		cri.setSnoEno();
-		List<MemberVO> list = service.checkList(cri);
+		List<SellerVO> list = service.checkList(cri);
 		// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
 		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
 		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");		
@@ -96,7 +96,7 @@ public class SellerController {
 	
 	
 	@RequestMapping(value = "/sdetail")
-	public ModelAndView mdetail(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
+	public ModelAndView mdetail(ModelAndView mv, SellerVO vo, RedirectAttributes rttr) {
 		String uri = "member/memberDetail";
 		String id = vo.getMember_id();
 		System.out.println(vo.getMember_id());
@@ -116,17 +116,17 @@ public class SellerController {
 
 	@RequestMapping(value = "/sregf")
 	public ModelAndView joinf(ModelAndView mv, HttpServletRequest request) {
-		if("joinf".equals(request.getParameter("R"))) {
-			mv.addObject("R","joinf");
+		if("sregf".equals(request.getParameter("R"))) {
+			mv.addObject("R","sregf");
 			mv.setViewName("home");
-		}else mv.setViewName("member/joinForm");
+		}else mv.setViewName("seller/registerForm");
 		return mv;
 	}
 	
 	// ** Join
 	// Spring AOP Transaction 적용됨
 	@RequestMapping(value = "/sreg")
-	public ModelAndView join(HttpServletRequest request, ModelAndView mv, MemberVO vo,
+	public ModelAndView sreg(HttpServletRequest request, ModelAndView mv, SellerVO vo,
 			RedirectAttributes rttr) 
 					 	throws IOException {		
 		// ** Uploadfile (Image) 처리
@@ -148,8 +148,8 @@ public class SellerController {
 		// 2) 위 의 값을 이용해서 실제저장위치 확인 
 		// => 개발중인지, 배포했는지 에 따라 결정
 		if (realPath.contains(".eclipse."))
-	//		 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
-			realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+			 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+	//		realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
 		else realPath += "resources\\uploadImage\\";
 		
 		// ** 폴더 만들기 (File 클래스활용)
@@ -168,48 +168,41 @@ public class SellerController {
 		//    -> void transferTo(File destFile),
 		//    -> boolean isEmpty()
 		
-		MultipartFile profilef = vo.getProfilef();
-		if ( profilef !=null && !profilef.isEmpty() ) {
+		MultipartFile logof = vo.getLogof();
+		if ( logof !=null && !logof.isEmpty() ) {
 			// Image 를 선택했음 -> Image 처리 (realPath+화일명)
 			// 1) 물리적 위치에 Image 저장 
-			file1=realPath + profilef.getOriginalFilename(); //  전송된File명 추출 & 연결
-			profilef.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
+			file1=realPath + vo.getCorporation_id(); //  전송된File명 추출 & 연결
+			logof.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
 			// 2) Table 저장위한 경로 
-			file2 = "resources/uploadImage/"+ profilef.getOriginalFilename();
+			file2 = "resources/uploadImage/"+ vo.getCorporation_id();
 		}
-		vo.setProfile(file2);
-		
-		// ** Password 암호화
-		// => BCryptPasswordEncoder 적용
-		//    encode(rawData) -> digest 생성 & vo 에 set
-		vo.setPassword(passwordEncoder.encode(vo.getPassword()));
+		vo.setLogo(file2);
 		
 		// 2. Service 처리
 		String uri = "redirect:home";  
-		
-		if(vo.getCheck()!=null) vo.setInterest(String.join("#",vo.getCheck()));
-		
-	if ( service.insert(vo) > 0 ) { // insert 성공
-		// 인증 email 발송
-		String key = mailsender.mailSendWithMemberKey(vo.getEmail(),vo.getMember_id(),request);
-		if(key==null) key="";	
-		mv.addObject("key",key);
-		// member_id값 저장(인증실패시 delete를 하기위함)
-		mv.addObject("member_id",vo.getMember_id());
-		uri = "member/emailAuth";
-		//rttr.addFlashAttribute("message", "~~ 회원가입 완료!!, 이메일 인증 후 이용해 해주세요 ~~");
-		//rttr.addFlashAttribute("R","login"); // 성공시 홈으로 이동 후 로그인 form 클릭
-	}else { 
-		// insert 실패
-		rttr.addFlashAttribute("message", "~~ 회원가입 실패!!, 다시 하세요 ~~");
-		rttr.addFlashAttribute("R","loginf");
-	}
-		mv.setViewName(uri);
-		return mv;
-	} //join
+			
+		if ( service.insert(vo) > 0 ) { // insert 성공
+			// 인증 email 발송
+			String key = mailsender.mailSendWithMemberKey(vo.getBusiness_email(),vo.getMember_id(),request);
+			if(key==null) key="";	
+			mv.addObject("key",key);
+			// member_id값 저장(인증실패시 seller등록 취소를 하기위함)
+			mv.addObject("member_id",vo.getMember_id());
+			uri = "member/emailAuth";
+			//rttr.addFlashAttribute("message", "~~ 회원가입 완료!!, 이메일 인증 후 이용해 해주세요 ~~");
+			//rttr.addFlashAttribute("R","login"); // 성공시 홈으로 이동 후 로그인 form 클릭
+		}else { 
+			// insert 실패
+			rttr.addFlashAttribute("message", "~~ 회원가입 실패!!, 다시 하세요 ~~");
+			rttr.addFlashAttribute("R","sregf");
+		}
+			mv.setViewName(uri);
+			return mv;
+	} //sreg
 	
 	@RequestMapping(value = "/supdatef")
-	public ModelAndView mupdatef(ModelAndView mv, HttpServletRequest request, MemberVO vo) {
+	public ModelAndView mupdatef(ModelAndView mv, HttpServletRequest request, SellerVO vo) {
 		// ** 마지막 접속시간 update
 		service.updateLastAccess(vo);
 		vo = service.selectOne(vo);
@@ -221,7 +214,7 @@ public class SellerController {
 	// ** Member Update(비밀번호 수정은 별개) **
 	@RequestMapping(value = "/supdate")
 	public ModelAndView mupdate(HttpServletRequest request, 
-			ModelAndView mv, MemberVO vo, RedirectAttributes rttr) throws IOException {
+			ModelAndView mv, SellerVO vo, RedirectAttributes rttr) throws IOException {
 		System.out.println("ddd");
 		String uri = null; 
 		// ** Service 

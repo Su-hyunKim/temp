@@ -4,21 +4,21 @@ import java.util.List;
 
 import criteria.MultiCheckSearchCriteria;
 import vo.AuthVO;
-import vo.MemberVO;
+import vo.SellerVO;
 
 
 public interface SellerService {
-	List<AuthVO> authList(MemberVO vo);
-	List<MemberVO> checkList(MultiCheckSearchCriteria cri);
-	List<MemberVO> ascList(MemberVO vo);
-	int updateLastAccess(MemberVO vo);
-	int changeStatus(MemberVO vo);
+	List<AuthVO> authList(SellerVO vo);
+	List<SellerVO> checkList(MultiCheckSearchCriteria cri);
+	List<SellerVO> ascList(SellerVO vo);
+	int updateLastAccess(SellerVO vo);
+	int changeStatus(SellerVO vo);
 		
 	// 기본 CRUD
-	List<MemberVO> selectList(); //selectList
-	MemberVO selectOne(MemberVO vo); //selectOne
-	int insert(MemberVO vo); //insert
-	int update(MemberVO vo); //update
-	int delete(MemberVO vo); //delete
+	List<SellerVO> selectList(); //selectList
+	SellerVO selectOne(SellerVO vo); //selectOne
+	int insert(SellerVO vo); //insert
+	int update(SellerVO vo); //update
+	int delete(SellerVO vo); //delete
 
 }

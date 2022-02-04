@@ -80,6 +80,7 @@ $(function(){
 		switch(R){
 			case 'login': $('#loginBt').trigger('click'); break;
 			case 'joinf': $('#joinf').trigger('click'); break;
+			case 'sregf': $('#sregf').trigger('click'); break;
 		}
 	}	
 }); //ready
@@ -112,7 +113,9 @@ let ajaxBnts = [
 	new AjaxButton(['hideBanner'],'rchecklist','rchecklist','get','page'),
 	new AjaxButton(['hideBanner'],'pregistf','pregistf','get','page'),
 	new AjaxButton(['hideBanner'],'plist','plist','get','page'),
-	new AjaxButton(['hideBanner','loginID'],'mupdatef','mupdatef?member_id=','get','page')
+	new AjaxButton(['hideBanner','loginID'],'mupdatef','mupdatef?member_id=','get','page'),
+	new AjaxButton(['hideBanner'],'sregf','sregf','get','page'),
+	new AjaxButton(['hideBanner'],'supdatef','supdatef','get','page')
 ];
 
 function scale(id){

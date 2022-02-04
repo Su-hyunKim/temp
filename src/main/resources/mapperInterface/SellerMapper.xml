@@ -14,11 +14,10 @@
 	</select>
 
 <!-- 멤버리스트 -->
-	<sql id="mlist">
-		select member_id,name,gender,point,
- 		SUBSTR(birthday,1,INSTR(birthday,'-')-1) birthday,
- 		SUBSTR(address2,1,INSTR(address2,' ')-1) address2,
- 		to_char(last_access,'YYYY-MM-DD HH24:MI') last_access
+	<sql id="list">
+		select member_id,company_name,representative,employer_id,corporation_id
+ 		SUBSTR(launch_date,1,INSTR(launch_date,'-')-1) launch_date,
+ 		SUBSTR(location2,1,INSTR(location2,' ')-1) location2
 	</sql>
 
 	<sql id="grantedPoint">
@@ -28,7 +27,7 @@
 		when sum(point)>=10000 and sum(point)<100000 then '실버'
 		when sum(point)>=100000 and sum(point)<1000000 then '골드'
 		else '다이아몬드'
-		end from points where grantee=m.member_id)
+		end from points where grantee=s.member_id)
 		in]]>
    		<foreach collection="check" item="it" open="(" close=")" separator=",">
    			#{it}
@@ -43,7 +42,7 @@
 		when count(*)>=10000 and count(*)<100000 then '실버'
 		when count(*)>=100000 and count(*)<1000000 then '골드'
 		else '백만이상'
-		end from follow where following=m.member_id)
+		end from follow where following=s.member_id)
 		in]]>
    		<foreach collection="check" item="it" open="(" close=")" separator=",">
    			#{it}
@@ -59,7 +58,7 @@
 		when count(*)>=10000 and count(*)<100000 then '실버'
 		when count(*)>=100000 and count(*)<1000000 then '골드'
 		else '백만이상'
-		end from purchase where member_id=m.member_id)
+		end from purchase where member_id=s.member_id)
 		in]]>
    		<foreach collection="check" item="it" open="(" close=")" separator=",">
    			#{it}
@@ -70,7 +69,7 @@
 	<sql id="address">
 		<if test="check1 != null">
 		and
-		SUBSTR(address2,1,INSTR(address2,' ')-1)
+ 		SUBSTR(location2,1,INSTR(location2,' ')-1)
 		in
    		<foreach collection="check1" item="it" open="(" close=")" separator=",">
    			#{it}
@@ -78,10 +77,10 @@
    		</if>	
 	</sql>
 
-	<sql id="birthday">
+	<sql id="date">
 		<if test="range1 != null">
 		and
-		TO_NUMBER(SUBSTR(birthday,1,INSTR(birthday,'-')-1))
+		TO_NUMBER(SUBSTR(launch_date,1,INSTR(launch_date,'-')-1))
 		between
    		<foreach collection="range1" item="it" separator=" and ">
    			TO_NUMBER(#{it})
@@ -89,15 +88,15 @@
    		</if>	
 	</sql>
 
-<!-- ** Member Search, Check, Range, Order List --> 
-   <select id="checkList" resultType="vo.MemberVO">
-		<include refid="mlist"></include> from
+<!-- ** Seller Search, Check, Range, Order List --> 
+   <select id="checkList" resultType="vo.SellerVO">
+		<include refid="list"></include> from
 		(select m.*, ROW_NUMBER() OVER(order by
    		<include refid="selectColumn"></include>	
 		) rnum from member m where member_id!='admin'
 		<include refid="search"></include>
 		<include refid="address"></include>
-		<include refid="birthday"></include>
+		<include refid="date"></include>
  		) where rnum between #{sno} and #{eno}
    </select>
 
@@ -115,22 +114,22 @@
 			<when test="column=='member_id'.toString()">
 				member_id <include refid="selectOrder"></include>	
 			</when>
-			<when test="column=='name'.toString()">
-				name <include refid="selectOrder"></include>
+			<when test="column=='company_name'.toString()">
+				company_name <include refid="selectOrder"></include>
 			</when>
-		  	<when test="column=='gender'.toString()">
-				gender <include refid="selectOrder"></include>
+		  	<when test="column=='representativr'.toString()">
+				representative <include refid="selectOrder"></include>
 			</when>
-		  	<when test="column=='birthday'.toString()">
-				birthday <include refid="selectOrder"></include>
+		  	<when test="column=='launch_date'.toString()">
+				launch_date <include refid="selectOrder"></include>
 			</when>
-		  	<when test="column=='address2'.toString()">
-				address2 <include refid="selectOrder"></include>
+		  	<when test="column=='location2'.toString()">
+				location2 <include refid="selectOrder"></include>
 			</when>
-		  	<when test="column=='point'.toString()">
-				point <include refid="selectOrder"></include>
+		  	<when test="column=='corporation_id'.toString()">
+				corporation_id <include refid="selectOrder"></include>
 			</when>
-		  	<otherwise>last_access <include refid="selectOrder"></include></otherwise>
+		  	<otherwise>employer_id <include refid="selectOrder"></include></otherwise>
 		</choose>
 	</sql>
  	
@@ -154,7 +153,7 @@
 	</sql>
 
 	<select id="searchRowsCount" resultType="int">
-		select count(*) from member where (id!='admin' 
+		select count(*) from seller where (id!='admin' 
 		<include refid="search"></include>	
 	</select>
 
@@ -172,27 +171,27 @@
 	</update>
  	
  	<!-- ** CRUD 기본 ** -->
- 	<select id="selectList" resultType="vo.MemberVO">
- 		<include refid="mlist"></include> from member where member_id!='admin'
+ 	<select id="selectList" resultType="vo.SellerVO">
+ 		<include refid="list"></include> from seller where member_id!='admin'
  	</select>
  
- 	<select id="selectOne" resultType="vo.MemberVO">
-		select * from member where member_id = #{member_id}
+ 	<select id="selectOne" resultType="vo.SellerVO">
+		select * from seller where member_id = #{member_id}
 	</select>
 
 	<insert id="insert">
-		insert into member(member_id,name,password,gender,birthday,address1,address2,address3,email,phone,interest,sns,profile)
-		values(#{member_id},#{name},#{password},#{gender},#{birthday},#{address1},#{address2},#{address3},#{email},#{phone},#{interest},#{sns},#{profile})
+		insert into seller(company_name,representative,employer_id,corporation_id,launch_date,location1,location2,location3,business_email,business_phone,business_type,business_items,tax_office,logo)
+		values(#{company_name},#{representative},#{employer_id},#{corporation_id},#{launch_date},#{location1},#{location2},#{location3},#{business_email},#{business_phone},#{business_type},#{business_items},#{tax_office},#{logo})
 	</insert>
 	
 	<update id="update">
-		update member set (name,gender,birthday,address1,address2,address3,email,phone,interest,sns,profile)
-		= (select #{name},#{gender},#{birthday},#{address1},#{address2},#{address3},#{email},#{phone},#{interest},#{sns},#{profile} from dual)
+		update seller set (company_name,representative,employer_id,corporation_id,launch_date,location1,location2,location3,business_email,business_phone,business_type,business_items,tax_office,logo)
+		= (select #{company_name},#{representative},#{employer_id},#{corporation_id},#{launch_date},#{location1},#{location2},#{location3},#{business_email},#{business_phone},#{business_type},#{business_items},#{tax_office},#{logo} from dual)
 		where member_id=#{member_id}
 	</update>
 	
 	<delete id="delete">
-		delete from member where member_id=#{member_id}
+		delete from seller where member_id=#{member_id}
 	</delete>
  
 </mapper>
