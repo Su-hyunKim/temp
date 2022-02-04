@@ -30,7 +30,7 @@
         <div>상품후기</div>
       </div>
       <div class="item">
-        <div class="number">0</div>
+        <div class="number">${apple.point}</div>
         <div>포인트(초코)</div>
       </div>
   </div>  
@@ -87,12 +87,12 @@
         <div class="text">내 리뷰</div>
         <div class="right"> > </div>
     </a>
-    <a href="#" class="item">
+    <a href="cmylist" class="item">
         <div class="icon"><img src="resources/image/footprint.jpg" width="30" height="30"></div>
         <div class="text">내 댓글</div>
         <div class="right"> > </div>
     </a>
-    <a href="#" class="item">
+    <a href="point" class="item">
         <div class="icon"><img src="resources/image/footprint.jpg" width="30" height="30"></div>
         <div class="text">
           <span>내 지갑</span>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapperInterface.PointsMapper">
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  
+	<insert id="send">
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			select nvl(max(seq),0)+1 from points
+		</selectKey>
+		insert into points values ( 
+			#{seq},#{point},SYSDATE,#{giver},#{grantee}
+		)
+	</insert>
+	
+	<update id="updategiver">
+		update member 
+		set 
+			point = point - #{point},
+		where member_id = #{giver}
+	</update>
+	
+	<update id="updategrantee">
+		update member 
+		set 
+			point = point + #{point},
+		where member_id = #{grantee}
+	</update>
+	
+</mapper>

@@ -32,14 +32,17 @@
 					<td width="5%">${list.reply_seq}</td><td width="10%">${list.member_id}</td>
 					<td width="55%">${list.texts}</td><td width="5%">${list.rating}</td><td width="15%">${list.regdate}</td>
 					<td width="10%">
-						<a href="cdetail?reply_seq=${list.reply_seq}">글수정</a>&nbsp;&nbsp;
-						<a href="cdelete?reply_seq=${list.reply_seq}">글삭제</a>
+						<c:if test="${loginID==list.member_id  || loginID=='admin'}">
+							<a href="cdetail?reply_seq=${list.reply_seq}">글수정</a>&nbsp;&nbsp;
+							<a href="cdelete?reply_seq=${list.reply_seq}">글삭제</a>
+						</c:if>
 					</td>
 				</tr>
 			</c:forEach>
 		</table>
 	</div>
+	<h4><a href="home" >[Home]</a></h4>
 </div>
-<h4><a href="home" >[Home]</a></h4>
+
 </body>
 </html>

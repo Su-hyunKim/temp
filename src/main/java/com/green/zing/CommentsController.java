@@ -64,6 +64,19 @@ public class CommentsController {
 		return mv;
 	} //clist
 	
+	@RequestMapping(value = "/cmylist")
+	public ModelAndView cmylist(ModelAndView mv, PageVO<CommentsVO> pvo) {
+		
+		List<CommentsVO> list = new ArrayList<CommentsVO>();
+    	list = service.selectmyList();
+    	
+    	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
+    	else mv.addObject("message", "~~ 출력 자료가 없습니다 ~~");
+		
+    	mv.setViewName("board/commentsList");
+		return mv;
+	} //clist
+	
 	@RequestMapping(value = "/cinsert")
 	public ModelAndView cinsert(ModelAndView mv, CommentsVO vo, RedirectAttributes rttr) {
 		

@@ -12,6 +12,7 @@ public interface CommentsMapper {
 	int insert(CommentsVO vo); //insert
 	int update(CommentsVO vo); //update
 	int delete(CommentsVO vo); //delete
+	List<CommentsVO> selectmyList();
 	
 	
 } //interface
