@@ -32,6 +32,18 @@
 		from comments
 	</select>
 	
+	<select id="selectmyList" resultType="vo.CommentsVO">
+		select 
+			reply_seq,
+			root_seq,
+			member_id,
+			regdate,
+			texts,
+			rating 
+		from comments
+		where comments.member_id='${loginID}'
+	</select>
+	
 	<select id="selectOne" resultType="vo.CommentsVO">
 		select * from comments where reply_seq = #{reply_seq}
 	</select>
@@ -58,5 +70,6 @@
 		delete from comments
 		where reply_seq=#{reply_seq} 
 	</delete>
+	
 
 </mapper>
