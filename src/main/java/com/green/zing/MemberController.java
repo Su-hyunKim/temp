@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import criteria.MultiCheckSearchCriteria;
 import service.MemberMailSendService;
 import service.MemberService;
+import service.SellerService;
 import vo.AuthVO;
 import vo.MemberVO;
 
@@ -312,21 +313,27 @@ public class MemberController {
 	
 	@RequestMapping(value = "/emailauth")
 	public ModelAndView emailauth(ModelAndView mv, MemberVO vo, HttpServletRequest request) {
-		String url;
+		String url = "home";
 		String key= request.getParameter("key");
+		String R = request.getParameter("R");
 		
 		System.out.println("key => "+key);
-			
+				
 		vo = service.selectOne(vo);
 		if( (vo!=null) && key.length()!=0 && key.equals(request.getParameter("auth_no")) ) {
-			vo.setStatus("1");
+			if(R==null) {
+				vo.setStatus("1");
+				url = "redirect:authjoin?member_id="+vo.getMember_id();
+			}else if(R.equals("sreg")) {
+				vo.setStatus("1");
+				url = "redirect:authsreg?member_id="+vo.getMember_id();
+			}
 			vo.setEnabled(true);
-			service.changeStatus(vo);
-			url = "redirect:authjoin?member_id="+vo.getMember_id();
+			service.changeStatus(vo);		
 		}else {
-			if(vo!=null) service.delete(vo);
+			if(vo!=null && R==null) service.delete(vo);
+			else if(vo!=null && R.equals("sreg")) service.deleteSeller(vo);
 			mv.addObject("message","인증에 실패했습니다.");
-			url = "home";
 		}		
 		mv.setViewName(url); 
 		return mv;

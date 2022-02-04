@@ -13,6 +13,7 @@ public interface MemberMapper {
 	List<MemberVO> ascList(MemberVO vo);
 	int updateLastAccess(MemberVO vo);
 	int changeStatus(MemberVO vo);
+	int deleteSeller(MemberVO vo);
 	
 	// 기본 CRUD
 	List<MemberVO> selectList(); //selectList

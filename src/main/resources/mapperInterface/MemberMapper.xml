@@ -170,6 +170,11 @@
 		= (select #{enabled}, #{status}, sysdate from dual)
 		where member_id=#{member_id}
 	</update>
+ 
+ 	<!-- 판매자 삭제 -->
+	<delete id="deleteSeller">
+		delete from seller where member_id=#{member_id}
+	</delete> 
  	
  	<!-- ** CRUD 기본 ** -->
  	<select id="selectList" resultType="vo.MemberVO">

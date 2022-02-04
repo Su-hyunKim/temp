@@ -15,10 +15,10 @@
 		new FocusoutCheck(false,'employer_id',emiCheck,'eiMessage','사업자등록번호를'),
 		new FocusoutCheck(false,'corporation_id',coiCheck,'ciMessage','법인등록번호를'),
 		new FocusoutCheck(false,'launch_date',ldCheck,'lMessage','사업개시일을'),
-		new FocusoutCheck(false,'location1',ad1Check,'a1Message','우편번호를'),
-		new FocusoutCheck(false,'location2',ad2Check,'a2Message','주소를'),
-		new FocusoutCheck(false,'location3',ad3Check,'a3Message','상세주소를'),
-		new FocusoutCheck(false,'business_email',em1Check,'emMessage','이메일을'),
+		new FocusoutCheck(false,'address1',ad1Check,'a1Message','우편번호를'),
+		new FocusoutCheck(false,'address2',ad2Check,'a2Message','주소를'),
+		new FocusoutCheck(false,'address3',ad3Check,'a3Message','상세주소를'),
+		new FocusoutCheck(false,'email',em1Check,'emMessage','이메일을'),
 		new FocusoutCheck(false,'email_tail',em2Check,'emMessage','이메일을'),
 		new FocusoutCheck(true,'email_direct',em3Check,'emMessage','이메일을'),
 		new FocusoutCheck(false,'business_phone',phoCheck,'phMessage','전화번호를'),
@@ -93,11 +93,11 @@
 	} //birthday
 
 	function ad1Check() {
-		let location1=$('#location1').val();
-		if (location1.length<5) {
+		let address1=$('#address1').val();
+		if (address1.length<5) {
 			$('#a1Message').html(' ~~ 우편번호를 입력해주세요 ~~ ');
 			return false;
-		}else if ( $.isNumeric(location1)==false || location1.replace(/[.]/g,'').length < location1.length) {
+		}else if ( $.isNumeric(address1)==false || address1.replace(/[.]/g,'').length < address1.length) {
 			$('#a1Message').html(' ~~ 우편번호는 숫자로만 정확하게 입력 하세요 ~~ ');
 			return false;
 		}else {
@@ -107,7 +107,7 @@
 	} //address1
 
 	function ad2Check() {
-		if ($('#location2').val()=='') {
+		if ($('#address2').val()=='') {
 			$('#a2Message').html(' ~~ 주소를 입력해주세요 ~~ ');
 			return false;
 		}else {
@@ -117,7 +117,7 @@
 	} //address2
 
 	function ad3Check() {
-		if ($('#location3').val()=='') {
+		if ($('#address3').val()=='') {
 			$('#a3Message').html(' ~~ 상세주소를 입력해주세요 ~~ ');
 			return false;
 		}else {
@@ -127,7 +127,7 @@
 	} //address3
 
 	function em1Check() {
-		if ($('#business_email').val()=='') {
+		if ($('#email').val()=='') {
 			$('#emMessage').html(' ~~ 이메일 계정을 입력해주세요 ~~ ');
 			return false;
 		}else {
@@ -172,8 +172,12 @@
 	} //phone
 	
 	function tyCheck() {
-		if ($('#business_type').val()=='') {
-			$('#tMessage').html(' ~~ 업태를 선택해주세요 ~~ ');
+		let type = $('#business_type').val();
+		if (type.length<2) {
+			$('#tMessage').html(' ~~ 업태코드를 입력해주세요 ~~ ');
+			return false;
+		}else if ( $.isNumeric(type)==false || type.replace(/[.]/g,'').length < type.length) {
+			$('#tMessage').html(' ~~ 업태코드는 숫자로만 입력해주세요 ~~ ');
 			return false;
 		}else {
 			$('#tMessage').html('');
@@ -182,8 +186,12 @@
 	} //business_type
 	
 	function itmCheck() {
-		if ($('#business_items').val()=='') {
-			$('#itMessage').html(' ~~ 종목을 선택해주세요 ~~ ');
+		let items = $('#business_items').val();
+		if (items.length<5) {
+			$('#itMessage').html(' ~~ 종목코드를 입력해주세요 ~~ ');
+			return false;
+		}else if ( $.isNumeric(items)==false || items.replace(/[.]/g,'').length < items.length) {
+			$('#itMessage').html(' ~~ 종목코드는 숫자로만 입력해주세요 ~~ ');
 			return false;
 		}else {
 			$('#itMessage').html('');
@@ -207,7 +215,7 @@
 			width: 100%;
 			border: 1px solid #ddd;
 		}
-		#business_email,#email_tail,
+		#email,#email_tail,
 		#email_direct {
 			width:30%;
 		}
@@ -245,7 +253,8 @@
 <div class="wrapped">
 	<h1>징검다리 판매자전환</h1>
 	<div class="input_div">사업자등록을 하신 징검다리 회원이시면 판매자전환을 통해 판매자 자격을 얻을 수 있습니다.</div>
- 	<form action="sreg" method="post" enctype="multipart/form-data" id="myForm">	
+ 	<form action="sreg" method="post" enctype="multipart/form-data" id="myForm">
+ 	<input type="hidden" name="member_id" value="${loginID}">
  	<div class="input_div">
 		<span>로고 이미지</span>
 		<img src="resources/uploadImage/logo.png" class="select_img" width="100" height="100"><br>
@@ -286,7 +295,7 @@
 	<div class="input_div">
 		<label for="employer_id">
 			<span>*사업자등록번호</span>
-			<input type="text" name="employer_id" id="employer_id" placeholder='"-" 없이 번호만 입력해주세요'><br>
+			<input type="text" name="employer_id" id="employer_id" placeholder='"-" 없이 10자리의 숫자만 입력해주세요'><br>
 			<span id="eiMessage" class="eMessage"></span>
 		</label>
 	</div>
@@ -294,7 +303,7 @@
 	<div class="input_div">
 		<label for="corporation_id">
 			<span>*법인등록번호</span>
-			<input type="text" name="corporation_id" id="corporation_id" placeholder='"-" 없이 번호만 입력해주세요'><br>
+			<input type="text" name="corporation_id" id="corporation_id" placeholder='"-" 없이 13자리의 숫자만 입력해주세요'><br>
 			<span id="ciMessage" class="eMessage"></span>
 		</label>
 	</div>
@@ -310,12 +319,12 @@
 	<div class="input_div">
 		<label>
 			<span>*사업장주소</span>
-			<input type="text" name="location1" id="location1" placeholder="우편번호" style="width:61%">
+			<input type="text" name="location1" id="address1" placeholder="우편번호" style="width:61%">
 			<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" style="width:30%"><br>
 			<span id="a1Message" class="eMessage"></span>
-			<input type="text" name="location2" id="location2" placeholder="주소"><br>
+			<input type="text" name="location2" id="address2" placeholder="주소"><br>
 			<span id="a2Message" class="eMessage"></span>
-			<input type="text" name="location3" id="location3" placeholder="상세주소"><br>
+			<input type="text" name="location3" id="address3" placeholder="상세주소"><br>
 			<span id="a3Message" class="eMessage"></span>
 			<input type="text" name="extraAddress" id="extraAddress" placeholder="참고항목"><br>
 				
@@ -373,12 +382,12 @@
 			                }
 			
 			                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-			                document.getElementById("location1").value = data.zonecode;
-			                document.getElementById("location2").value = addr;
+			                document.getElementById("address1").value = data.zonecode;
+			                document.getElementById("address2").value = addr;
 			                // 커서를 상세주소 필드로 이동한다.
-			                document.getElementById("location1").focus();
-			                document.getElementById("location2").focus();
-			                document.getElementById("location3").focus();
+			                document.getElementById("address1").focus();
+			                document.getElementById("address2").focus();
+			                document.getElementById("address3").focus();
 			
 			                // iframe을 넣은 element를 안보이게 한다.
 			                // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
@@ -419,9 +428,9 @@
 	</div>
 		
 	<div class="input_div">
-		<label for="business_email">
+		<label for="email">
 			<span>*업무용 이메일</span>
-			<input type="text" name="business_email" id="business_email" placeholder="인증용 이메일">&nbsp;@&nbsp;
+			<input type="text" name="business_email" id="email" placeholder="인증용 이메일">&nbsp;@&nbsp;
 			<select id="email_tail">
 				<option value="">선택</option>
 				<option value="naver.com">naver.com</option>
@@ -451,30 +460,16 @@
 
 	<div class="input_div">
 		<label for="business_type">
-		<span>*업태</span>
-			<select id="business_type">
-				<option value="">선택</option>
-				<option value="naver.com">naver.com</option>
-				<option value="daum.net">daum.net</option>
-				<option value="gmail.com">gmail.com</option>
-				<option value="nate.com">nate.com</option>
-				<option value="direct">직접입력</option>
-			</select>
+			<span>*업태코드</span>
+			<input type="text" name="business_type" id="business_type" placeholder="사업자등록상의 2자리 코드">
 		</label>
 		<span id="tMessage" class="eMessage"></span>
 	</div>
 	
 	<div class="input_div">
 		<label for="business_items">
-		<span>*종목</span>
-			<select id="business_items">
-				<option value="">선택</option>
-				<option value="naver.com">naver.com</option>
-				<option value="daum.net">daum.net</option>
-				<option value="gmail.com">gmail.com</option>
-				<option value="nate.com">nate.com</option>
-				<option value="direct">직접입력</option>
-			</select>
+			<span>*종목코드</span>
+			<input type="text" name="business_items" id="business_items" placeholder="사업자등록상의 5자리 코드">
 		</label>
 		<span id="itMessage" class="eMessage"></span>
 	</div>
@@ -482,7 +477,7 @@
 	<div class="input_div">
 		<label for="tax_office">
 			<span>관할세무소</span>
-			<input type="text" name="tax_office" id="tax_office" placeholder="세무소이름"><br><br>
+			<input type="text" name="tax_office" id="tax_office" placeholder="세무소명"><br><br>
 		</label>
 	</div>		
 

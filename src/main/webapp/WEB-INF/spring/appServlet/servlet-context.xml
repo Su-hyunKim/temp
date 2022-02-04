@@ -84,7 +84,8 @@
  <!-- 3. Transaction AOP 설정 -->
  	<aop:config>
 		<aop:pointcut expression="execution(* com.green.zing..*join(..)) ||
-			execution(* com.green.zing..*update(..))" id="myPointcut"/>
+			execution(* com.green.zing..*update(..)) ||
+			execution(* com.green.zing..*reg(..))" id="myPointcut"/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="myPointcut" />
     </aop:config>
 	

@@ -57,6 +57,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public int deleteSeller(MemberVO vo) {
+		return dao.deleteSeller(vo);
+	}
+	
+	@Override
 	public List<MemberVO> selectList() {
 		return dao.selectList();
 	} //selectList

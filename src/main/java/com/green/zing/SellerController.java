@@ -40,7 +40,7 @@ public class SellerController {
 		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");		
 		mv.setViewName("member/memberList");
 		return mv;
-	} //mlist
+	} //slist
 
 	
 //	// ** Member PageList 2. 
@@ -148,8 +148,8 @@ public class SellerController {
 		// 2) 위 의 값을 이용해서 실제저장위치 확인 
 		// => 개발중인지, 배포했는지 에 따라 결정
 		if (realPath.contains(".eclipse."))
-			 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
-	//		realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+	//		 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+			realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
 		else realPath += "resources\\uploadImage\\";
 		
 		// ** 폴더 만들기 (File 클래스활용)
@@ -160,7 +160,7 @@ public class SellerController {
 		// => 존재하지 않으면 디렉토리 생성
 		
 		// ** 기본 이미지 지정하기 
-		String file1, file2="resources/uploadImage/basicman.png";
+		String file1, file2="resources/uploadImage/logo.png";
 		
 		// ** MultipartFile
 		// => 업로드한 파일에 대한 모든 정보를 가지고 있으며 이의 처리를 위한 메서드를 제공한다.
@@ -187,6 +187,7 @@ public class SellerController {
 			String key = mailsender.mailSendWithMemberKey(vo.getBusiness_email(),vo.getMember_id(),request);
 			if(key==null) key="";	
 			mv.addObject("key",key);
+			mv.addObject("R","sreg");
 			// member_id값 저장(인증실패시 seller등록 취소를 하기위함)
 			mv.addObject("member_id",vo.getMember_id());
 			uri = "member/emailAuth";
