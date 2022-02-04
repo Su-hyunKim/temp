@@ -16,10 +16,19 @@ public class AuthController {
 	AuthService service;
 	
 	@RequestMapping(value = "/authjoin")
-	public ModelAndView loginf(ModelAndView mv, HttpServletRequest request, AuthVO vo) {
+	public ModelAndView authjoin(ModelAndView mv, HttpServletRequest request, AuthVO vo) {
 		vo.setAuthority("ROLE_USER");
 		service.insert(vo);
 		mv.addObject("message","회원가입에 성공했습니다. 로그인 후 이용해주세요.");
+		mv.setViewName("home");
+		return mv;
+	}
+	
+	@RequestMapping(value = "/authsreg")
+	public ModelAndView authsreg(ModelAndView mv, HttpServletRequest request, AuthVO vo) {
+		vo.setAuthority("ROLE_SELLER");
+		service.insert(vo);
+		mv.addObject("message","판매자 전환에 성공했습니다.");
 		mv.setViewName("home");
 		return mv;
 	}

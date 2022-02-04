@@ -33,6 +33,7 @@
 	<form action="emailauth" method="post">
 		<input type="hidden" name="member_id" value="${member_id}">
 		<input type="hidden" name="key" value="${key}">
+		<c:if test="${not empty R}"><input type="hidden" name="R" value="${R}"></c:if>
 		<input type="text" name="auth_no" placeholder="인증키 입력">
 		<input type="submit" value="인증" id="submit">
 		<input type="reset" value="초기화">

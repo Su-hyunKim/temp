@@ -180,8 +180,8 @@
 	</select>
 
 	<insert id="insert">
-		insert into seller(company_name,representative,employer_id,corporation_id,launch_date,location1,location2,location3,business_email,business_phone,business_type,business_items,tax_office,logo)
-		values(#{company_name},#{representative},#{employer_id},#{corporation_id},#{launch_date},#{location1},#{location2},#{location3},#{business_email},#{business_phone},#{business_type},#{business_items},#{tax_office},#{logo})
+		insert into seller(member_id,company_name,representative,employer_id,corporation_id,launch_date,location1,location2,location3,business_email,business_phone,business_type,business_items,tax_office,logo)
+		values(#{member_id},#{company_name},#{representative},#{employer_id},#{corporation_id},#{launch_date},#{location1},#{location2},#{location3},#{business_email},#{business_phone},#{business_type},#{business_items},#{tax_office},#{logo})
 	</insert>
 	
 	<update id="update">
