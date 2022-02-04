@@ -250,8 +250,8 @@ public class MemberController {
 		// 2) 위 의 값을 이용해서 실제저장위치 확인 
 		// => 개발중인지, 배포했는지 에 따라 결정
 		if (realPath.contains(".eclipse."))
-	//		 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
-			realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+			 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+	//		realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
 		else realPath += "resources\\uploadImage\\";
 		
 		// ** 폴더 만들기 (File 클래스활용)

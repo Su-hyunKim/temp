@@ -46,10 +46,10 @@
 				<c:if test="${not empty loginID}">
 					<li id="mypage"><span>마이페이지</span>
 					<li id="mupdatef"><span>회원정보수정</span>
-					<li id="sregf"><span>판매자등록</span>
+					<li id="sregf"><span>판매자전환</span>
 				</c:if>
 				<c:if test="${role[1]=='ROLE_SELLER'}">			
-					<li id="mupdatef"><span>판매자정보수정</span>
+					<li id="supdatef"><span>판매자정보수정</span>
 				</c:if>
 				<script>
 				</script>

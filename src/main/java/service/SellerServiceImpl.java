@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import criteria.MultiCheckSearchCriteria;
 import mapperInterface.SellerMapper;
 import vo.AuthVO;
-import vo.MemberVO;
+import vo.SellerVO;
 
 //** interface 자동완성 
 //=> Alt + Shift + T  
@@ -32,49 +32,49 @@ public class SellerServiceImpl implements SellerService {
 	// 단, 설정화일에 <mybatis-spring:scan base-package="mapperInterface"/> 추가해야함
 
 	@Override
-	public List<AuthVO> authList(MemberVO vo) {
+	public List<AuthVO> authList(SellerVO vo) {
 		return dao.authList(vo);
 	}
 	
 	@Override
-	public List<MemberVO> checkList(MultiCheckSearchCriteria cri) {
+	public List<SellerVO> checkList(MultiCheckSearchCriteria cri) {
 		return dao.checkList(cri);
 	}
 
 	@Override
-	public List<MemberVO> ascList(MemberVO vo) {
+	public List<SellerVO> ascList(SellerVO vo) {
 		return dao.ascList(vo);
 	}
 	
 	@Override
-	public int updateLastAccess(MemberVO vo) {
+	public int updateLastAccess(SellerVO vo) {
 		return dao.updateLastAccess(vo);
 	}
 	
 	@Override
-	public int changeStatus(MemberVO vo) {
+	public int changeStatus(SellerVO vo) {
 		return dao.changeStatus(vo);
 	}
 	
 	@Override
-	public List<MemberVO> selectList() {
+	public List<SellerVO> selectList() {
 		return dao.selectList();
 	} //selectList
 	@Override
-	public MemberVO selectOne(MemberVO vo) {
+	public SellerVO selectOne(SellerVO vo) {
 		return dao.selectOne(vo);
 	} //selectOne
 
 	@Override
-	public int insert(MemberVO vo) {
+	public int insert(SellerVO vo) {
 		return dao.insert(vo) ;
 	} //insert
 	@Override
-	public int update(MemberVO vo) {
+	public int update(SellerVO vo) {
 		return dao.update(vo) ;
 	} //update
 	@Override
-	public int delete(MemberVO vo) {
+	public int delete(SellerVO vo) {
 		return dao.delete(vo) ;
 	} //delete
 	

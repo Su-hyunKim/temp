@@ -6,33 +6,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>징검다리 : 회원가입</title>
+<title>징검다리 : 판매자 전환</title>
 <script src="resources/lib/inCheck.js"></script>
 <script> 
 	fChecks = [
-		new FocusoutCheck(false,'member_id',idCheck,'iMessage','아이디를'),
-		new FocusoutCheck(false,'password',pwCheck,'pMessage','비밀번호를'),
-		new FocusoutCheck(false,'name',nmCheck,'nMessage','이름을'),
-		new FocusoutCheck(false,'birthday',bdCheck,'bMessage','생년월일을'),
-		new FocusoutCheck(false,'address1',ad1Check,'a1Message','우편번호를'),
-		new FocusoutCheck(false,'address2',ad2Check,'a2Message','주소를'),
-		new FocusoutCheck(false,'address3',ad3Check,'a3Message','상세주소를'),
-		new FocusoutCheck(false,'email',em1Check,'emMessage','이메일을'),
+		new FocusoutCheck(false,'company_name',cnCheck,'nMessage','회사명을'),
+		new FocusoutCheck(false,'representative',rnCheck,'rMessage','대표자명을'),
+		new FocusoutCheck(false,'employer_id',emiCheck,'eiMessage','사업자등록번호를'),
+		new FocusoutCheck(false,'corporation_id',coiCheck,'ciMessage','법인등록번호를'),
+		new FocusoutCheck(false,'launch_date',ldCheck,'lMessage','사업개시일을'),
+		new FocusoutCheck(false,'location1',ad1Check,'a1Message','우편번호를'),
+		new FocusoutCheck(false,'location2',ad2Check,'a2Message','주소를'),
+		new FocusoutCheck(false,'location3',ad3Check,'a3Message','상세주소를'),
+		new FocusoutCheck(false,'business_email',em1Check,'emMessage','이메일을'),
 		new FocusoutCheck(false,'email_tail',em2Check,'emMessage','이메일을'),
 		new FocusoutCheck(true,'email_direct',em3Check,'emMessage','이메일을'),
-		new FocusoutCheck(false,'phone',phoCheck,'phMessage','전화번호를')
+		new FocusoutCheck(false,'business_phone',phoCheck,'phMessage','전화번호를'),
+		new FocusoutCheck(false,'business_type',tyCheck,'tMessage','업태를'),
+		new FocusoutCheck(false,'business_items',itmCheck,'itMessage','종목을')
 	];
 
 	redbox = '3px solid red';
 	original = '1px solid #ddd';
 
 	function cnCheck() {
-		let name=$('#company_name').val();
-		if (name.length<2) {
-			$('#nMessage').html(' ~~ 상호명은 2자 이상 입니다 ~~');
-			return false;
-		}else if (name.replace(/[a-z.가-힣]/gi,'').length > 0) {
-			$('#nMessage').html(' ~~ 상호명은 한글 또는 영문 으로만 입력 하세요 ~~');
+		if ($('#company_name').val()=="") {
+			$('#nMessage').html(' ~~ 회사명을 입력해주세요 ~~');
 			return false;
 		}else {
 			$('#nMessage').html('');
@@ -43,62 +42,62 @@
 	function rnCheck() {
 		let name=$('#representative').val();
 		if (name.length<2) {
-			$('#representative').html(' ~~ 대표자명은 2자 이상 입니다 ~~');
+			$('#rMessage').html(' ~~ 대표자명은 2자 이상 입니다 ~~');
 			return false;
 		}else if (name.replace(/[a-z.가-힣]/gi,'').length > 0) {
-			$('#representative').html(' ~~ 대표자명은 한글 또는 영문 으로만 입력 하세요 ~~');
+			$('#rMessage').html(' ~~ 대표자명은 한글 또는 영문 으로만 입력 하세요 ~~');
 			return false;
 		}else {
-			$('#representative').html('');
+			$('#rMessage').html('');
 			return true;
 		}	
 	} //representative
 	
-	function phoCheck() {
-		let phone=$('#phone').val();
-		if (phone.length<10) {
-			$('#phMessage').html(' ~~ 사업자등록번호를 입력해주세요 ~~ ');
+	function emiCheck() {
+		let employerId=$('#employer_id').val();
+		if (employerId.length<10) {
+			$('#eiMessage').html(' ~~ 사업자등록번호를 입력해주세요 ~~ ');
 			return false;
-		}else if ( $.isNumeric(phone)==false || phone.replace(/[.]/g,'').length < phone.length) {
-			$('#phMessage').html(' ~~ 사업자등록번호는 숫자로만 입력해주세요 ~~ ');
+		}else if ( $.isNumeric(employerId)==false || employerId.replace(/[.]/g,'').length < employerId.length) {
+			$('#eiMessage').html(' ~~ 사업자등록번호는 숫자로만 입력해주세요 ~~ ');
 			return false;
 		}else {
-			$('#phMessage').html('');
+			$('#eiMessage').html('');
 			return true;
 		}
 	} //phone
 	
-	function phoCheck() {
-		let phone=$('#phone').val();
-		if (phone.length<10) {
-			$('#phMessage').html(' ~~ 법인등록번호를 입력해주세요 ~~ ');
+	function coiCheck() {
+		let corporationId=$('#corporation_id').val();
+		if (corporationId.length<13) {
+			$('#ciMessage').html(' ~~ 법인등록번호를 입력해주세요 ~~ ');
 			return false;
-		}else if ( $.isNumeric(phone)==false || phone.replace(/[.]/g,'').length < phone.length) {
-			$('#phMessage').html(' ~~ 법인등록번호는 숫자로만 입력해주세요 ~~ ');
+		}else if ( $.isNumeric(corporationId)==false || corporationId.replace(/[.]/g,'').length < corporationId.length) {
+			$('#ciMessage').html(' ~~ 법인등록번호는 숫자로만 입력해주세요 ~~ ');
 			return false;
 		}else {
-			$('#phMessage').html('');
+			$('#ciMessage').html('');
 			return true;
 		}
 	} //phone
 
-	function bdCheck() {
-		let birthday=$('#birthday').val();
-		if (birthday.length != 10) {
-			$('#bMessage').html(' ~~ 생년월일을 정확하게 입력 하세요 (yyyy-mm-dd) ~~');
+	function ldCheck() {
+		let launchDate=$('#launch_date').val();
+		if (launchDate.length != 10) {
+			$('#lMessage').html(' ~~ 사업개시일을 정확하게 입력 하세요 (yyyy-mm-dd) ~~');
 			return false;
 		}else {
-			$('#bMessage').html('');
+			$('#lMessage').html('');
 			return true;
 		}	
 	} //birthday
 
 	function ad1Check() {
-		let address1=$('#address1').val();
-		if (address1.length<5) {
+		let location1=$('#location1').val();
+		if (location1.length<5) {
 			$('#a1Message').html(' ~~ 우편번호를 입력해주세요 ~~ ');
 			return false;
-		}else if ( $.isNumeric(address1)==false || address1.replace(/[.]/g,'').length < address1.length) {
+		}else if ( $.isNumeric(location1)==false || location1.replace(/[.]/g,'').length < location1.length) {
 			$('#a1Message').html(' ~~ 우편번호는 숫자로만 정확하게 입력 하세요 ~~ ');
 			return false;
 		}else {
@@ -108,7 +107,7 @@
 	} //address1
 
 	function ad2Check() {
-		if ($('#address2').val()=='') {
+		if ($('#location2').val()=='') {
 			$('#a2Message').html(' ~~ 주소를 입력해주세요 ~~ ');
 			return false;
 		}else {
@@ -118,7 +117,7 @@
 	} //address2
 
 	function ad3Check() {
-		if ($('#address3').val()=='') {
+		if ($('#location3').val()=='') {
 			$('#a3Message').html(' ~~ 상세주소를 입력해주세요 ~~ ');
 			return false;
 		}else {
@@ -128,7 +127,7 @@
 	} //address3
 
 	function em1Check() {
-		if ($('#email').val()=='') {
+		if ($('#business_email').val()=='') {
 			$('#emMessage').html(' ~~ 이메일 계정을 입력해주세요 ~~ ');
 			return false;
 		}else {
@@ -159,7 +158,7 @@
 	} //email3
 
 	function phoCheck() {
-		let phone=$('#phone').val();
+		let phone=$('#business_phone').val();
 		if (phone.length<10) {
 			$('#phMessage').html(' ~~ 전화번호를 입력해주세요 ~~ ');
 			return false;
@@ -171,6 +170,26 @@
 			return true;
 		}
 	} //phone
+	
+	function tyCheck() {
+		if ($('#business_type').val()=='') {
+			$('#tMessage').html(' ~~ 업태를 선택해주세요 ~~ ');
+			return false;
+		}else {
+			$('#tMessage').html('');
+			return true;
+		}
+	} //business_type
+	
+	function itmCheck() {
+		if ($('#business_items').val()=='') {
+			$('#itMessage').html(' ~~ 종목을 선택해주세요 ~~ ');
+			return false;
+		}else {
+			$('#itMessage').html('');
+			return true;
+		}
+	} //business_items
 </script>
 <style>
 		.input_div {
@@ -188,7 +207,7 @@
 			width: 100%;
 			border: 1px solid #ddd;
 		}
-		#email,#email_tail,
+		#business_email,#email_tail,
 		#email_direct {
 			width:30%;
 		}
@@ -224,19 +243,12 @@
 </head>
 <body>
 <div class="wrapped">
-	<h1>징검다리 회원가입</h1>
-	<!-- <pre><h3>
-	=> FileUpLoad TestForm
-	=> form 과 table Tag 사용시 주의사항 : form 내부에 table 사용해야함
-	   -> form 단위작업시 인식안됨
-	   -> JQ 의 serialize, FormData 의 append all 등
-	</h3></pre>
-	 -->
- 	<form action="join" method="post" enctype="multipart/form-data" id="myForm">
-	
+	<h1>징검다리 판매자전환</h1>
+	<div class="input_div">사업자등록을 하신 징검다리 회원이시면 판매자전환을 통해 판매자 자격을 얻을 수 있습니다.</div>
+ 	<form action="sreg" method="post" enctype="multipart/form-data" id="myForm">	
  	<div class="input_div">
-		<span>프로필 사진</span>
-		<img src="resources/uploadImage/basicman.png" class="select_img" width="100" height="100"><br>
+		<span>로고 이미지</span>
+		<img src="resources/uploadImage/logo.png" class="select_img" width="100" height="100"><br>
 		<input type="file" name="logof" id="logof">
 		<script>  		
 			$('#logof').change(function(){
@@ -250,15 +262,15 @@
 		 		} // if
 			}); // change
 			$('.input_div input[type="reset"]').click(function(){
-				$(".select_img").attr("src","resources/uploadImage/basicman.png");
+				$(".select_img").attr("src","resources/uploadImage/logo.png");
 			});
 		</script>
 	</div>
 	
 	<div class="input_div">
 		<label for="company_name">
-			<span>*상호명</span>
-			<input type="text" name="company_name" id="company_name" placeholder="2자 이상 한글 또는 영문" size="20"><br>
+			<span>*회사명</span>
+			<input type="text" name="company_name" id="company_name" placeholder="사업자등록된 정보와 일치해야함" size="20"><br>
 			<span id="nMessage" class="eMessage"></span>
 		</label>
 	</div>
@@ -267,7 +279,7 @@
 		<label for="representative">
 			<span>*대표자명</span>
 			<input type="text" name="representative" id="representative" placeholder="2자 이상 한글 또는 영문" size="20"><br>
-			<span id="nMessage" class="eMessage"></span>
+			<span id="rMessage" class="eMessage"></span>
 		</label>
 	</div>
 
@@ -275,7 +287,7 @@
 		<label for="employer_id">
 			<span>*사업자등록번호</span>
 			<input type="text" name="employer_id" id="employer_id" placeholder='"-" 없이 번호만 입력해주세요'><br>
-			<span id="phMessage" class="eMessage"></span>
+			<span id="eiMessage" class="eMessage"></span>
 		</label>
 	</div>
 	
@@ -283,7 +295,7 @@
 		<label for="corporation_id">
 			<span>*법인등록번호</span>
 			<input type="text" name="corporation_id" id="corporation_id" placeholder='"-" 없이 번호만 입력해주세요'><br>
-			<span id="phMessage" class="eMessage"></span>
+			<span id="ciMessage" class="eMessage"></span>
 		</label>
 	</div>
 	
@@ -291,13 +303,13 @@
 		<label for="launch_date">
 			<span>*사업개시일</span>
 			<input type="date" name="launch_date" id="launch_date"><br>
-			<span id="bMessage" class="eMessage"></span>
+			<span id="lMessage" class="eMessage"></span>
 		</label>
 	</div>	
 	
 	<div class="input_div">
 		<label>
-			<span>*주소</span>
+			<span>*사업장주소</span>
 			<input type="text" name="location1" id="location1" placeholder="우편번호" style="width:61%">
 			<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" style="width:30%"><br>
 			<span id="a1Message" class="eMessage"></span>
@@ -408,7 +420,7 @@
 		
 	<div class="input_div">
 		<label for="business_email">
-			<span>*이메일</span>
+			<span>*업무용 이메일</span>
 			<input type="text" name="business_email" id="business_email" placeholder="인증용 이메일">&nbsp;@&nbsp;
 			<select id="email_tail">
 				<option value="">선택</option>
@@ -431,7 +443,7 @@
 	
 	<div class="input_div">
 		<label for="business_phone">
-			<span>*office 전화번호</span>
+			<span>*업무용 전화번호</span>
 			<input type="text" name="business_phone" id="business_phone" placeholder='"-" 없이 번호만 입력해주세요'><br>
 			<span id="phMessage" class="eMessage"></span>
 		</label>
@@ -449,10 +461,11 @@
 				<option value="direct">직접입력</option>
 			</select>
 		</label>
+		<span id="tMessage" class="eMessage"></span>
 	</div>
 	
 	<div class="input_div">
-		<label for="business_type">
+		<label for="business_items">
 		<span>*종목</span>
 			<select id="business_items">
 				<option value="">선택</option>
@@ -463,6 +476,7 @@
 				<option value="direct">직접입력</option>
 			</select>
 		</label>
+		<span id="itMessage" class="eMessage"></span>
 	</div>
 		
 	<div class="input_div">
@@ -474,7 +488,7 @@
 
 	<div class="input_div">
 		<span id="finalMessage" class="eMessage"></span><br>
-		<input type="submit" value="가입" onclick="return inCheck('가입')" id="submit" disabled>
+		<input type="submit" value="판매자 전환" onclick="return inCheck('판매자 전환')" id="submit">
 		<input type="reset" value="입력 초기화">&nbsp;&nbsp;
 	</div>
 	<s:csrfInput/> 
