@@ -146,8 +146,8 @@
   				and name Like #{keyVal} 
 	  		</when>
 		  	<when test="searchType=='ia'.toString()">
-		  		and member_id Like #{keyVal}
-		  		or  name Like #{keyVal} 
+		  		and (member_id Like #{keyVal}
+		  		or name Like #{keyVal}) 
 		  	</when>
 		  	<otherwise></otherwise>
 		</choose>
