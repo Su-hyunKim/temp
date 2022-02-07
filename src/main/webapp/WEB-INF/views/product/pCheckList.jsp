@@ -22,7 +22,7 @@
 <hr>
 <div id="searchBar">
 	<form action="pchecklist" method="get">
-		<b>Level : </b>
+		<b>Category : </b>
 		<input type="checkbox" name="check" value="admin">관리자&nbsp;
 		<input type="checkbox" name="check" value="apple">Apple&nbsp;
 		<input type="checkbox" name="check" value="banana">Banana&nbsp;
@@ -51,10 +51,10 @@
 	
 	 <!-- 글내용보기 기능 추가하기 -> login한 경우에만 허용 -->
 	<c:if test="${not empty loginID}">
-		<a href="pdetail?product_id=${list.product_id}">${list.product_url}</a>
+		<a href="pdetail?product_id=${list.product_id}">${list.product_imgfile}</a>
 	</c:if>
 	<c:if test="${empty loginID}">
-		${list.product_url} 
+		${list.product_imgfile} 
 	</c:if>
 	</td>
 	

@@ -78,8 +78,8 @@
 	<update id="updateLastAccess">
 		update product set last_access=sysdate where product_id=#{product_id}
 	</update> -->
- 	
- 	<!-- ** CRUD 기본 ** -->
+<!--  	
+ 	** CRUD 기본 **
  	<select id="selectList" resultType="vo.ProductVO">
  		select * from product
  	</select>
@@ -87,19 +87,19 @@
  	<select id="selectOne" resultType="vo.ProductVO">
 		select * from product where product_id = #{product_id}
 	</select>
-	<!-- #{id} : parameter 로 전달된 vo 의 id 라는 컬럼의 value 가 전달됨 -->
+	#{id} : parameter 로 전달된 vo 의 id 라는 컬럼의 value 가 전달됨 -->
 
 	<insert id="insert">
 		insert into product(product_id,product_imgfile,detprod_num,idtprod_num,category,name,currency,price,quantity,regdate,member_id,status,product_desc)
 values('#{product_id}','#{product_imgfile}','#{detprod_num}','#{idtprod_num}','#{category}','#{name}','#{currency}','#{price}','#{quantity}','#{regdate}','#{member_id}','#{status}','#{product_desc}')
 	</insert>
 	
-	<update id="update">
+	<!-- <update id="update">
 		update product set product_imgfile ='#{product_imgfile}',detprod_num='#{detprod_num}',idtprod_num='#{idtprod_num}',category='#{category}',name='#{name}',currency='#{currency}',price='#{price}',quantity='#{quantity}',regdate='#{regdate}',member_id='#{member_id}',status='#{status}',product_desc='#{product_desc}' where product_id=#{product_id}
 	</update>
 	
 	<delete id="delete">
 		delete from product where product_id=#{product_id}	
-	</delete>
+	</delete> -->
  
 </mapper>

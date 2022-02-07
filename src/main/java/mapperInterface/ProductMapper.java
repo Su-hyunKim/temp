@@ -9,7 +9,12 @@ import vo.ProductVO;
 
 public interface ProductMapper {
 
+	int countUp(ProductVO vo); //cnt
+	int totalRowCount();
+	List<ProductVO> pageList(PageVO<ProductVO> pvo);
+	int searchRowsCount(SearchCriteria cri);
 	List<ProductVO> checkList(ProductVO vo);
+	List<ProductVO> searchList(SearchCriteria cri);
 	
 	//기본 CRUD
 	List<ProductVO> selectList(); //selectList
@@ -18,12 +23,4 @@ public interface ProductMapper {
 	int update(ProductVO vo); //update
 	int delete(ProductVO vo); //delete
 
-	int countUp(ProductVO vo); //cnt
-
-	int totalRowCount();
-	List<ProductVO> pageList(PageVO<ProductVO> pvo);
-	int searchRowsCount(SearchCriteria cri);
-	
-	List<ProductVO> searchList(SearchCriteria cri);
-	
 } //interface

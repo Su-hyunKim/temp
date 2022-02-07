@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+.memberId_btn {
+	
+	margin-left: 20px;
+    width: 14%;
+    height: 38px;
+    font-weight: 600;
+    background-color: #dfe8f5;
+    font-size: 15px;
+    cursor:pointer;
+}
+
+#member_name {
+    width: 80%;
+    text-align: center;
+}

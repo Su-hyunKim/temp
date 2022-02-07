@@ -2,17 +2,22 @@ package vo;
 
 import java.util.Date;
 
-public class PurchaseVO {
+import org.springframework.web.multipart.MultipartFile;
 
-	private int purchse_seq;
-	private String product_id;
-	private	String member_id; 
-	private	String address;
-	private	String phone;
-	private	int	amount;
-	private	String payment;
-	private	Date trade_date;
-	private	int	rating;
-	private	String status;
-			
-}
+import lombok.Data;
+
+@Data
+public class PurchaseVO {
+	
+	private String purchase_id;
+	private String addressee;
+	private String member_id;
+	private String adress1;
+	private String adress2;
+	private String adress3;
+	private String purchase_status;
+	private int delivery_cost;
+	private int usePoint;
+	private Date purchaseDate;	
+
+} //class

@@ -4,88 +4,122 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>필요한 이를 이어주는 징검다리</title>
-	<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
-	<script src="resources/lib/jquery-3.2.1.min.js"></script> 
-	<script src="resources/lib/menu.js"></script>
-	
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
+<title>상품상세정보</title>
+<style>
+	hr {
+		width:100%;
+	}
+	table {
+		border-collapse:collapse;
+		text-align:left;
+		line-height:1.5;
+		border-top:1px solid #ccc;
+		border-bottom:1px solid #ccc;
+		margin:20px auto;
+	}
+	th {
+		width:150px;
+		padding:10px;
+		font-weight:bold;
+		vertical-align:top;
+	}
+	td {
+		width:350px;
+		padding:10px;
+		vertical-align:top;
+	}
+	tr:nth-child(2n) {
+		background:#efefef;
+	}
+	a {
+		width:100px;
+		text-decoration-line:none;
+		font-weight:bold;
+		margin:5px 0;
+		border:0;
+	}
+	.center {
+		text-align:center;
+	}
+</style>
 </head>
 <body>
-<c:if test="${not empty loginID}">
-<input type="hidden" id="loginID" value="${loginID}">
-</c:if>
-<h3>** 상품세부 **</h3>
+<div class="center">
+<h1>상품상세정보</h1>
 <table>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.product_id}</td>
+	<tr>
+		<th>상품ID</th><td>${apple.product_id}</td>
 	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.product_url}</td>
+	<tr>
+		<th>상품사진</th>
+		<td><img src="${apple.product_imgfile}" width="500" height="600"></td>
 	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.product_url2}</td>
+	<tr>
+		<th>상품상세번호</th><td>${apple.detprod_num}</td>
 	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.product_detprod_num}</td>
+	<tr>
+		<th>상품식별번호</th><td>${apple.idtprod_num}</td>
 	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.product_idtprod_num}</td>
+	<tr>
+		<th>카테고리</th>
+		<td>
+			<c:if test="${apple.category=='C'}">
+				의류
+			</c:if>
+			<c:if test="${apple.category=='E'}">
+				식품
+			</c:if>
+			<c:if test="${apple.category=='N'}">
+				생활용품
+			</c:if>
+			<c:if test="${apple.category=='B'}">
+				도서
+			</c:if>
+			<c:if test="${apple.category=='F'}">
+				가구
+			</c:if>
+		</td>
 	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.category}</td>
+	<tr>
+		<th>상품명</th><td>${apple.name}</td>
 	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.name}</td>
+	<tr>
+		<th>상품가격</th>
+		<td>${apple.currency}${apple.price}</td>
 	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.unit}</td>
+	<tr>
+		<th>상품수량</th><td>${apple.quantity}</td>
 	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.price}</td>
+	<tr>
+		<th>상품제조일</th><td>${apple.regdate}</td>
 	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.currency}</td>
+	<tr>
+		<th>판매자</th><td>${apple.member_id}</td>
 	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.regdate}</td>
+	<tr>
+		<th>상품상태</th><td>${apple.status}</td>
 	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.member_id}</td>
-	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.status}</td>
-	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.remarks}</td>
-	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.cnt}</td>
-	</tr>
-	<tr height="40">
-		<td bgcolor="Lavender"></td><td>${apple.check}</td>
+	<tr>
+		<th>상품설명</th><td>${apple.product_desc}</td>
 	</tr>
 	
 </table>
 <c:if test="${not empty message}">
-<hr>
 => ${message}<br>
-</c:if>
-<!-- 1) 글수정, 글삭제
-		-> 내가 쓴글인 경우, 관리자 인경우 에만 가능 
-		-> loginID 와 apple.id 가 동일한 경우
- -->
- <hr>
-<c:if test="${loginID==apple.id  || loginID=='admin'}">
-	<%-- <a href="pdetail?jcode=U&product_id=${apple.procuct_id}">글수정</a>&nbsp;&nbsp;
-	<a href="pdelete?root=${apple.root}&product_id=${apple.product_id}">글삭제</a> --%>
-		<!-- 삭제시 원글삭제 or 답글삭제 확인을 위함 -->
-</c:if> 
-<!-- 새글, 답글등록 추가하기 -->
-&nbsp;&nbsp;<a href="pregistf">상품등록</a>
-<%-- &nbsp;&nbsp;<a href="rinsertf?root=${apple.root}&step=${apple.step}&indent=${apple.indent}">답글등록</ --%>a><br>
 <hr>
-<!-- <a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp; -->
-<a href="home">[Home]</a>
+</c:if>
+<a href="pupdatef?product_id=${apple.product_id}">정보수정</a>&nbsp;
+<!-- 1) 내정보수정 -> 내정보읽기서블릿 (mdetail) 
+ 			  -> 내정보수정화면 (updateForm.jsp) : 수정후, submit 
+ 			  -> 서블릿(컨트롤러) 
+ 	 2) 관리자기능 추가 -> loghinID 는 관리자이지만, 수정대상은 현재 출력된 id
+ 	 				 -> 수정, 탈퇴 uri 에 &id=${apple.member_id} 추가 		  
+ 			  -->
+<a href="pdelete?product_id=${apple.product_id}">상품삭제</a>&nbsp;
+<a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp;<a href="home">HOME</a>
+</div>
 </body>
 </html>

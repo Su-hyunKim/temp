@@ -184,20 +184,6 @@
 		}	
 	} //regdate
 	
-	function idCheck() {
-		let id=$('#member_id').val(); 	
-		if (id.length<4) {
-			$('#iMessage').html('~~ 판매자 는 4자 이상 입니다 ~~');
-			return false;
-		}else if ( id.replace(/[a-z.0-9]/gi ,'').length > 0 ) {
-			$('#iMessage').html('~~ 판매자 는 영문자, 숫자로만 입력 하세요 ~~');
-			return false;
-		}else {
-			$('#iMessage').html('');
-			return true;
-		}
-	} //member_id
-	
 	function pstCheck() {
 		let status=$('#status').val();
 		if (status == null){
@@ -387,7 +373,7 @@
 				<option value="유로">euro</option>	
 				<option value="초코">choco</option>
 			</select>
-			<span id="psMessage" class="peMessage"></span>
+			<span id="pcMessage" class="peMessage"></span>
 		</label>
 	</div>	
 	
@@ -418,10 +404,11 @@
 	<div class="input_div">
 		<label for="member_id">
 			<span>*판매자</span>
-			<input type="text" name="member_id" id="member_id" placeholder="4자 이상 영문 또는 숫자" size="20" style="width:61%">&nbsp;
-			<input type="button" value="확인" id="" style="width:30%"><br>
-			<span id="iMessage" class="peMessage"></span>
+			<input type="hidden" name="member_id" id="member_id" >&nbsp;
+			<input id= member_name readonly ="readonly"><br>
+			<button class="member_id btn">판매자 선택</button>
 		</label>
+		<span id="iMessage" class="peMessage"></span>
 	</div>
 	
 	<div class="input_div">

@@ -2,22 +2,25 @@ package com.green.zing;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import criteria.Criteria;
 import criteria.PageMaker;
 import criteria.SearchCriteria;
 import service.ProductService;
-import vo.MemberVO;
 import vo.PageVO;
 import vo.ProductVO;
 
@@ -25,7 +28,12 @@ import vo.ProductVO;
 public class ProductController {
 	@Autowired
 	ProductService service;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
+	
+	
+		
 //		// ** Product Check List ******************************
 //		@RequestMapping(value = "/pchecklist")
 //		public ModelAndView pchecklist(ModelAndView mv, ProductVO vo) {
@@ -192,7 +200,7 @@ public class ProductController {
 			mv.setViewName("product/pidDupCheck"); 
 			return mv;
 		} //pidcheck
-		
+				
 		// ** Join
 		// Spring AOP Transaction 적용됨
 		@RequestMapping(value = "/pregist")
@@ -252,13 +260,13 @@ public class ProductController {
 			
 			// 2. Service 처리
 			String uri = "redirect:home";
-			String uri1 = "redirect:plist";
+			
 			
 			int cnt = service.insert(vo);
 			
 		if ( cnt > 0 ) { // insert 성공
 			rttr.addFlashAttribute("message", "~~ 상품등록 완료!!~~");
-			mv.setViewName(uri1);
+			mv.setViewName(uri);
 			return mv;
 		}else { 
 			// insert 실패

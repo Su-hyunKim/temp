@@ -10,11 +10,15 @@ $(function(){
 	// 스크롤 초기화
 	window.scrollTo(0,0);
 	
-	// 뒤로가기 이벤트
-/*	window.onpopstate = function(e){
-		console.log("뒤로가기");
-		history.go(-1);		
-		alert('location:${document.location},state:${JSON.stringify(e.state)}');
+	// 뒤로가기 막기
+	window.onpopstate = function(e){
+		history.go(1);
+	};
+	
+/*	// 새로고침 및 종료 이벤트
+	window.onbeforeunload = function(){
+		location.href="https://localhost:8080/Project/home";		
+		return "변경된 내용이 저장되지 않을 수 있습니다.";
 	};*/
 	
 	// 서버 통신용 버튼에 click이벤트를 연결(AjaxBnt객체 배열의 forEach)
@@ -38,7 +42,7 @@ $(function(){
 									resultPage = body.substring(body.indexOf('<img src="resources/image/logo.png"'),
 										body.indexOf('<div class="modal">'));
 								if(ajaxButton.opt.includes('modal')){
-									modal(300,350);
+									modal(300,260);
 									container = '.modal_content';
 								}
 								$(container).html(resultPage);			
@@ -47,8 +51,10 @@ $(function(){
 			$('#'+ajaxButton.id).click(function(e){	
 				if(ajaxButton.opt.includes('banner')) $('.banner').css({display:"block"});
 				else if(ajaxButton.opt.includes('hideBanner')) $('.banner').css({display:"none"});
-/*				if(document.getElementById("R")) history.replaceState({data:url},ajaxButton.id,'/'+project+'/'+url);
-				else history.pushState({data:'저장객체'},ajaxButton.id,'/'+project+'/'+url);	*/
+				/*if(document.getElementById("R")) history.replaceState({data:url},ajaxButton.id,'/'+project+'/'+url);
+				else history.pushState({data:url},ajaxButton.id,'/'+project+'/'+url);*/
+				if(document.getElementById("R")) history.replaceState(null,ajaxButton.id,'/'+project+'/'+url);
+				else history.pushState(null,ajaxButton.id,'/'+project+'/'+url);
 				$.ajax({
 					type:ajaxButton.method,
 					url:url,
@@ -74,12 +80,17 @@ $(function(){
 		switch(R){
 			case 'login': $('#loginBt').trigger('click'); break;
 			case 'joinf': $('#joinf').trigger('click'); break;
-			case 'pregistf' : $('#pregistf').trigger('click'); break;
 		}
 	}	
 }); //ready
 
-//let project = "Project";
+let fChecks;
+let redbox;
+let original;
+let hostIndex = location.href.indexOf(location.host) + location.host.length;
+//let project = location.href.substring( hostIndex, location.href.indexOf('/',hostIndex + 1) );
+let project = 'Project';
+
 class AjaxButton{
 	constructor(opt,id,url,method,convey){
 		this.opt=opt;
@@ -93,15 +104,15 @@ class AjaxButton{
 let ajaxBnts = [
 	new AjaxButton(['scale','banner'],'home',null,null,null),
 	new AjaxButton(['scale','modal'],'loginBt','loginf','get','page'),
-	//new AjaxButton(['scale','loginID','SS'],'logoutBt','logout?member_id=','post','data'),
 	new AjaxButton(['scale','modal','loginID'],'logoutBt','logoutf?member_id=','get','page'),	
 	new AjaxButton(['hideBanner'],'joinf','joinf','get','page'),
-	new AjaxButton(['hideBanner'],'comment','comments/comment','get','page'),
+	new AjaxButton(['hideBanner'],'comment','comment','get','page'),
 	new AjaxButton(['hideBanner','loginID'],'mypage','mypage?member_id=','get','page'),
 	new AjaxButton(['hideBanner'],'mlist','mlist','get','page'),
 	new AjaxButton(['hideBanner'],'rchecklist','rchecklist','get','page'),
 	new AjaxButton(['hideBanner'],'pregistf','pregistf','get','page'),
-	new AjaxButton(['hideBanner'],'plist','plist','get','page')
+	new AjaxButton(['hideBanner'],'plist','plist','get','page'),
+	new AjaxButton(['hideBanner','loginID'],'mupdatef','mupdatef?member_id=','get','page')
 ];
 
 function scale(id){

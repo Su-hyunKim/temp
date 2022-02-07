@@ -25,7 +25,7 @@
 			<ul>
 				<li id="rchecklist"><span>전체글조회</span>
 				<li><span>홍보글조회</span>
-				<li id="comment"><span>댓글작성</span>
+				<li id="comment"><span>댓글화면</span>
 				<li><span>리뷰글조회</span>
 			</ul>
 		</div>
@@ -39,12 +39,24 @@
 		</div>
 		<div id="d3">
 			<li class="title">회 원
-			<ul>
-				<li id="mypage"><span>마이페이지</span>
-				<li id="joinf"><span>회원가입</span>
-				<li><span>내정보수정</span>
-				<li><span>회원탈퇴</span>
-				<li id="mlist"><span>회원검색</span>
+			<ul>				
+				<c:if test="${empty loginID}">
+					<li id="joinf"><span>회원가입</span>
+				</c:if>
+				<c:if test="${not empty loginID}">
+					<li id="mypage"><span>마이페이지</span>
+					<li id="mupdatef"><span>회원정보수정</span>
+					<li id="sregf"><span>판매자등록</span>
+				</c:if>
+				<c:if test="${role[1]=='ROLE_SELLER'}">			
+					<li id="mupdatef"><span>판매자정보수정</span>
+				</c:if>
+				<script>
+				</script>
+				<c:if test="${loginID=='admin'}">			
+					<li id="mlist"><span>회원검색</span>
+				</c:if>
+				<li id="slist"><span>판매자검색</span>
 			</ul>
 		</div>
 	</ul>

@@ -35,10 +35,10 @@
 	
 		<!-- 로그인 했을때만 글내용을 볼 수 있도록 -->
 		<c:if test="${loginID!=null}">
-			<a href="pdetail?product_id=${list.product_id}&name=${list.name}">${list.product_url}</a>
+			<a href="pdetail?product_id=${list.product_id}&name=${list.name}">${list.product_imgfile}</a>
 		</c:if>
 		<c:if test="${loginID==null}">
-			${list.product_url}
+			${list.product_imgfile}
 		</c:if>
 	</td>
 	<td>${list.name}</td><td>${list.regdate}</td><td align="center">${list.cnt}</td>
@@ -99,7 +99,7 @@
 </c:if>  
 <c:if test="${loginID==null}"> 
 	<a href="loginf">로그인</a>&nbsp;&nbsp;
-	<a href="joinf">회원가입</a>&nbsp;&nbsp;
+	<a href="pregistf">상품등록</a>&nbsp;&nbsp;
 </c:if>
 <a href="home">HOME</a>
 </body>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+  
+<mapper namespace="mapperInterface.PurchaseMapper">
+
+	<insert id="insert">
+		insert into purchase(purchase_id,addressee,member_id,address1,address2,adress3,purchase_status,delivery_cost,usePoint,purchaseDate)
+values('#{purchase_id}','#{addressee}','#{member_id}','#{address1}','#{address2}','#{address3}','#{purchase_status}','#{delivery_cost}','#{usePoint}','#{purchaseDate}')
+	</insert>
+	
+	<!-- <update id="update">
+		update purchase set addressee='#{addressee}',member_id='#{member_id}',address1='#{address1}',address2='#{address2}',address3='#{address3}',purchase_status='#{purchase_status}',delivery_cost='#{delivery_cost}',usePoint='#{usePoint}',purchaseDate='#{purchaseDate}'where purchase_id=#{purchase_id}
+	</update>
+	
+	<delete id="delete">
+		delete from purchase where purchase_id=#{purchase_id}	
+	</delete> -->
+
+
+</mapper>

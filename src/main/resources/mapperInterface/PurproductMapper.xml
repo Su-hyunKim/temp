@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+  
+<mapper namespace="mapperInterface.PurproductMapper">
+
+	
+	<insert id="insert">
+		insert into purproduct(purchase_pid,purchase_id,product_id,product_count,price,product_dc,savePoint)
+	values('#{purchase_pid}','#{purchase_id}','#{product_id}','#{product_count}','#{price}','#{product_dc}','#{savePoint}')
+	</insert>
+	
+	<!-- <update id="update">
+		update purproduct set purchase_id='#{purchase_id}',product_id='#{product_id}',product_count='#{product_count}',price='#{price}',product_dc='#{product_dc}',savePoint='#{savePoint}'where purchase_pid='#{purchase_pid}' 
+	</update>
+	
+	<delete id="delete">
+		delete from purproduct where purchase_pid=#{purchase_pid}	
+	</delete> -->
+</mapper>
