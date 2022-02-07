@@ -32,4 +32,21 @@ public class AuthController {
 		mv.setViewName("home");
 		return mv;
 	}
+	
+	@RequestMapping(value = "/srwithdraw")
+	public ModelAndView srwithdraw(ModelAndView mv, AuthVO vo) {
+		vo.setAuthority("ROLE_SELLER");
+		service.delete(vo);
+		mv.addObject("message","판매자계정이 취소되었습니다. 판매자 정보가 삭제되었습니다. 언제든 다시 판매자전환이 가능합니다.");
+		mv.setViewName("home");
+		return mv;
+	}
+
+	@RequestMapping(value = "/mrwithdraw")
+	public ModelAndView mrwithdraw(ModelAndView mv, AuthVO vo) {
+		service.deleteMember(vo);
+		mv.addObject("message","회원탈퇴에 성공했습니다.");
+		mv.setViewName("home");
+		return mv;
+	}
 }

@@ -14,9 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import criteria.MultiCheckSearchCriteria;
+import criteria.PageMakerE;
 import service.MemberMailSendService;
 import service.SellerService;
-import vo.AuthVO;
+import vo.ProductVO;
 import vo.SellerVO;
 
 //=> Mapper 는 null 을 return 하지 않으므로 길이로 확인 
@@ -29,79 +30,29 @@ public class SellerController {
 	MemberMailSendService mailsender;
 	
 	@RequestMapping(value = "/slist")
-	public ModelAndView mlist(ModelAndView mv, MultiCheckSearchCriteria cri) {
+	public ModelAndView slist(ModelAndView mv, MultiCheckSearchCriteria cri, PageMakerE pageMaker) {
+		cri.setRowsPerPage(1);
 		cri.setSnoEno();
 		List<SellerVO> list = service.checkList(cri);
 		// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
 		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
-		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");		
+		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");	
+		pageMaker.setCri(cri);
+		pageMaker.setTotalRowCount(service.searchRowsCount(cri));
+		mv.addObject("pageMaker", pageMaker);
 		mv.setViewName("seller/sellerList");
 		return mv;
 	} //slist
-
-	
-//	// ** Member PageList 2. 
-//	@RequestMapping(value = "/mcplist")
-//	// ** ver01 : Criteria PageList
-//	//public ModelAndView mcplist(ModelAndView mv, Criteria cri, PageMaker pageMaker) {
-//	// ** ver02 : SearchCriteria PageList
-//	public ModelAndView mcplist(ModelAndView mv, SearchCriteria cri, PageMaker pageMaker) {	
-//		// 1) Criteria 처리 
-//		// => setCurrPage, setRowsPerPage 는 Parameter 로 전달되어,
-//		//    setCurrPage(..) , setRowsPerPage(..) 는 자동처리됨(스프링에 의해)
-//		//    -> cri.setCurrPage(Integer.parseInt(request.getParameter("currPage")))
-//		// => 그러므로 currPage 이용해서 sno, eno 계산만 하면됨
-//		cri.setSnoEno();
-//		
-//		// 2) 서비스처리
-//		// => List 처리, (totalRowCount 는 PageMaker 처리에서) 
-//		// ** ver01
-//		// mv.addObject("banana", service.criPList(cri)); 
-//		// ** ver02 : searchType, keyword 에 따른 조건검색
-	
-//		// => service 에 메서드 추가 searchList(cri) , searchRowsCount(cri)
-// ** PageList 2.2) SearchCriteria PageList
-//	int searchRowsCount(SearchCriteria cri);
-//	List<MemberVO> searchList(SearchCriteria cri);	
-	
-//	<select id="searchRowsCount" resultType="int">
-//	select count(*) from member where (id!='admin' 
-//	<include refid="search"></include>	
-//</select>
-//	<select id="searchList" resultType="vo.MemberVO">
-//		select id, password, name, 
-//		 	DECODE(lev,'A','관리자','B','나무','C','잎새','새싹') lev, 
-//		 	birthd, point, weight, rid, uploadfile from 
-//		(select m.*, ROW_NUMBER() OVER(order by id asc) rnum from member m where id!='admin' 
-//		<include refid="search"></include>
-//		where rnum between #{sno} and #{eno}
-//</select>	
-	
-//		mv.addObject("banana", service.searchList(cri));
-//		
-//		// 3) PageMaker 처리
-//		pageMaker.setCri(cri);
-//		// ** ver01
-//		//pageMaker.setTotalRowCount(service.totalRowCount()); 
-//		// ** ver02
-//		pageMaker.setTotalRowCount(service.searchRowsCount(cri));
-//		
-//		mv.addObject("pageMaker", pageMaker);
-//		mv.setViewName("member/mCriList");
-//		return mv;
-//	} //mcplist
-	
 	
 	@RequestMapping(value = "/sdetail")
 	public ModelAndView mdetail(ModelAndView mv, SellerVO vo, RedirectAttributes rttr) {
-		String uri = "member/memberDetail";
+		String uri = "seller/sellerDetail";
 		String id = vo.getMember_id();
-		System.out.println(vo.getMember_id());
-		List<AuthVO> list = service.authList(vo);
+		List<ProductVO> list = service.productList(vo);
 		if(id==null) id = "";
 		vo=service.selectOne(vo);
-		if (vo != null && list!=null && list.size()>0 ) {
-			vo.setAuthList(list);
+		if (vo!=null) {
+			if ( list!=null && list.size()>0 ) vo.setProductList(list);
 			mv.addObject("apple", vo);	
 		}else {
 			rttr.addFlashAttribute("message","~~ "+id+"님의 자료는 존재하지 않습니다 ~~");
@@ -177,10 +128,12 @@ public class SellerController {
 		if ( logof !=null && !logof.isEmpty() ) {
 			// Image 를 선택했음 -> Image 처리 (realPath+화일명)
 			// 1) 물리적 위치에 Image 저장 
-			file1=realPath + vo.getMember_id() + vo.getEmployer_id(); //  전송된File명 추출 & 연결
+			file1=realPath + vo.getMember_id() + "_" + vo.getEmployer_id()
+				+ logof.getOriginalFilename().substring(logof.getOriginalFilename().lastIndexOf("."));
 			logof.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
 			// 2) Table 저장위한 경로 
-			file2 = "resources/uploadImage/" + vo.getMember_id() + vo.getEmployer_id();
+			file2 = "resources/uploadImage/" + vo.getMember_id() + "_" + vo.getEmployer_id()
+				+ logof.getOriginalFilename().substring(logof.getOriginalFilename().lastIndexOf("."));
 		}
 		vo.setLogo(file2);
 		
@@ -211,6 +164,7 @@ public class SellerController {
 	public ModelAndView mupdatef(ModelAndView mv, HttpServletRequest request, SellerVO vo) {
 		// ** 마지막 접속시간 update
 		service.updateLastAccess(vo);
+		
 		vo = service.selectOne(vo);
 		mv.addObject("apple",vo);
 		mv.setViewName("seller/updateForm");
@@ -221,52 +175,49 @@ public class SellerController {
 	@RequestMapping(value = "/supdate")
 	public ModelAndView mupdate(HttpServletRequest request, 
 			ModelAndView mv, SellerVO vo, RedirectAttributes rttr) throws IOException {
-		System.out.println("ddd");
 		String uri = null; 
-		// ** Service 
-		// => 성공후 
-		//		-> 수정된 정보확인 : memberList.jsp (출력가능하도록 요청)
-		//		-> name 수정한 경우도 있을수있으므로 session 에 보관중인 loginName도 변경
-		// => 실패후 -> 다시 수정하기 : 수정가능한 폼 출력
-		
-		// ** ImageUpload 추가
-		// => Image 수정여부 확인
-		// 	  -> 수정하지않은경우 : vo에 전달된 uploadfile 값을 사용 
-		// 	  -> 수정시에만 처리
-		MultipartFile profilef = vo.getProfilef();
+
+		MultipartFile logof = vo.getLogof();
 		String file1, file2;
-		if ( profilef != null && !profilef.isEmpty() ) {
+		if ( logof != null && !logof.isEmpty() ) {
 			// 1) 저장폴더지정
 			String realPath = request.getRealPath("/");
 			if (realPath.contains(".eclipse."))
-				realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
-				//realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+			//	realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+				realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
 			else realPath += "resources\\uploadImage\\"; // 배포환경
 			File f1 = new File(realPath);
 			if ( !f1.exists() ) f1.mkdir();
 			// 2) 전송된 file 처리
 			// 2.1) Image 붙여넣기
-			file1 = realPath + profilef.getOriginalFilename();
-			profilef.transferTo(new File(file1));
+			file1 = realPath + vo.getMember_id() + "_" + vo.getEmployer_id()
+				+ logof.getOriginalFilename().substring(logof.getOriginalFilename().lastIndexOf("."));
+			logof.transferTo(new File(file1));
 			// 2.2) Table 저장위한 값 set
-			file2 = "resources/uploadImage/" + profilef.getOriginalFilename();
-			vo.setProfile(file2);
+			file2 = "resources/uploadImage/" + vo.getMember_id() + "_" + vo.getEmployer_id()
+				+ logof.getOriginalFilename().substring(logof.getOriginalFilename().lastIndexOf("."));
+			vo.setLogo(file2);
 		}	
 		
 		if ( service.update(vo) > 0 ) {
 			 // update 성공
 			 rttr.addFlashAttribute("message", "~~ 판매자정보 수정 완료 !!!  ~~") ; 
-			 // => redirect시 message 전달가능
-			 
-			 //request.getSession().setAttribute("loginName", vo.getName());
 			 uri = "redirect:sdetail?member_id="+vo.getMember_id();  // redirect 로 처리함 (재요청처리)
 		 }else { 
 			 // update 실패 : 수정가능한 폼 출력할수있도록 요청 
-			 rttr.addFlashAttribute("message", "~~ 판매자정보 수정 실패!!, 다시 하세요 ~~");
+			 rttr.addFlashAttribute("message", "~~ 판매자정보 수정 실패!!, 다시 해주세요 ~~");
 			 uri="redirect:supdatef?member_id="+vo.getMember_id();
-		 }
-		
+		 }		
 		mv.setViewName(uri); 
 		return mv;
 	} //supdate
+	
+	@RequestMapping(value = "/swithdraw")
+	public ModelAndView swithdraw(ModelAndView mv, SellerVO vo) {
+		// ** 마지막 접속시간 update
+		service.updateLastAccess(vo);
+		service.delete(vo);
+		mv.setViewName("redirect:srwithdraw?member_id="+vo.getMember_id());
+		return mv;
+	}
 }

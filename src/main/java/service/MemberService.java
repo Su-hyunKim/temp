@@ -6,11 +6,10 @@ import criteria.MultiCheckSearchCriteria;
 import vo.AuthVO;
 import vo.MemberVO;
 
-
 public interface MemberService {
 	List<AuthVO> authList(MemberVO vo);
 	List<MemberVO> checkList(MultiCheckSearchCriteria cri);
-	List<MemberVO> ascList(MemberVO vo);
+	int searchRowsCount(MultiCheckSearchCriteria cri);
 	int updateLastAccess(MemberVO vo);
 	int changeStatus(MemberVO vo);
 	int deleteSeller(MemberVO vo);

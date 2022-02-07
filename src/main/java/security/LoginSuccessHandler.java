@@ -38,11 +38,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
+		String id = request.getParameter("username");
 		HttpSession session = request.getSession();
 		List<String> roleNames = new ArrayList<>();
-		
-		System.out.println("** authentication.getAuthorities() =>"
-							+ authentication.getAuthorities());
 		
 		// authentication.getAuthorities() : Collection<....>
 		authentication.getAuthorities().forEach(
@@ -59,7 +57,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		      예제 : for (String s : list) {  System.out.println(s);  }
 		      		list.forEach(s -> System.out.println(s));*/
 		
-		session.setAttribute("loginID",request.getParameter("username"));
+		session.setAttribute("loginID",id);
 		session.setAttribute("role",roleNames);
 		
 		// response 의 한글 처리
@@ -68,6 +66,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		PrintWriter out = response.getWriter();
 		JsonObject json = new JsonObject();
 		json.addProperty("loginSuccess", "T");
+		json.addProperty("id", id);
 		out.write(new Gson().toJson(json));
 		out.flush();
 	}

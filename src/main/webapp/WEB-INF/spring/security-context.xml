@@ -33,7 +33,8 @@
 		
 		<s:access-denied-handler error-page="/accessError"/> <!-- HomeController 참고 -->
 		<s:form-login login-page="/loginf"
-					authentication-success-handler-ref="loginSuccess" />
+					authentication-success-handler-ref="loginSuccess" 
+					authentication-failure-handler-ref="loginFailure"/>
 		<s:logout logout-url="/logout" 
 				  invalidate-session="true" 
 				  delete-cookies="JSESSIONID"
@@ -41,6 +42,8 @@
 	</s:http>
 	<bean id="loginSuccess" 
 		class="security.LoginSuccessHandler" lazy-init="true"/>
+ 	<bean id="loginFailure" 
+		class="security.LoginFailureHandler" lazy-init="true"/>
 	
 	<!--** 2) 인증/권한 설정
 		* Provider

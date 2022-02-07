@@ -35,16 +35,16 @@
 					// => 서버로부터 Json 형태의 Data 를 Response 로 받음
 					//    "loginSuccess" -> "T" 성공 , 새로고침
 					//    "loginSuccess" -> "F" 실패
-					// => 성공시 : 성공message, 새로고침
+					// => 성공시 : 성공message, afterlogin처리
 					//    실패시 : 실패message, 재로그인 유도;
 					
 					// 문자열 형태의 Data를 json Object로 변환 
 					if(resultData.indexOf('<')==-1) resultData = JSON.parse(resultData);
 					if (resultData.loginSuccess=="T") {
-						location.href="home";
 						alert("~~ Login 성공 ~~");
+						location.href="afterlogin?member_id="+resultData.id;
 					}else {
-						$('#message').html("~~ ID 나 Password를 다시 확인해주세요 ~~");
+						$('#message').html(resultData.message);
 						$('#modal_form #member_id').focus();
 					}
 				},

@@ -45,7 +45,8 @@ $(function(){
 									modal(300,260);
 									container = '.modal_content';
 								}
-								$(container).html(resultPage);			
+								$(container).html(resultPage);
+								window.scrollTo(0,0);			
 							}
 			}
 			$('#'+ajaxButton.id).click(function(e){	

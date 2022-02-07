@@ -40,10 +40,10 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberVO> checkList(MultiCheckSearchCriteria cri) {
 		return dao.checkList(cri);
 	}
-
+	
 	@Override
-	public List<MemberVO> ascList(MemberVO vo) {
-		return dao.ascList(vo);
+	public int searchRowsCount(MultiCheckSearchCriteria cri) {
+		return dao.searchRowsCount(cri);
 	}
 	
 	@Override

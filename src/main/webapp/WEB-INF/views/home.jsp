@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="s"%>  
 <html>
 <head>
@@ -48,9 +48,11 @@
 					<li id="mupdatef"><span>회원정보수정</span>
 					<li id="sregf"><span>판매자전환</span>
 				</c:if>
-				<c:if test="${role[1]=='ROLE_SELLER'}">			
-					<li id="supdatef"><span>판매자정보수정</span>
-				</c:if>
+				<c:forEach var="r" items="${role}">
+					<c:if test="${r=='ROLE_SELLER'}">			
+						<li id="supdatef"><span>판매자정보수정</span>
+					</c:if>
+				</c:forEach>
 				<script>
 				</script>
 				<c:if test="${loginID=='admin'}">			

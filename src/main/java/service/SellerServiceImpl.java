@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import criteria.MultiCheckSearchCriteria;
 import mapperInterface.SellerMapper;
-import vo.AuthVO;
+import vo.ProductVO;
 import vo.SellerVO;
 
 //** interface 자동완성 
@@ -32,8 +32,8 @@ public class SellerServiceImpl implements SellerService {
 	// 단, 설정화일에 <mybatis-spring:scan base-package="mapperInterface"/> 추가해야함
 
 	@Override
-	public List<AuthVO> authList(SellerVO vo) {
-		return dao.authList(vo);
+	public List<ProductVO> productList(SellerVO vo) {
+		return dao.productList(vo);
 	}
 	
 	@Override
@@ -42,8 +42,8 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 	@Override
-	public List<SellerVO> ascList(SellerVO vo) {
-		return dao.ascList(vo);
+	public int searchRowsCount(MultiCheckSearchCriteria cri) {
+		return dao.searchRowsCount(cri);
 	}
 	
 	@Override

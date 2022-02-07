@@ -19,6 +19,7 @@
 		else{
 			var ss = second%60;
 			var mm = Math.trunc(second/60);
+			if(ss<10) ss="0"+ss;
 			document.getElementById("clock").innerHTML = "남은시간 "+mm+":"+ss;
 			setTimeout("clock()",1000);
 		}
