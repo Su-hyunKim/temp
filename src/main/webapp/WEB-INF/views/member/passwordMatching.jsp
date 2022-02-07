@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>로그인</title>
+<title>기존 비밀번호 확인</title>
 	<style>
 		table{text-align:center;}
 	</style>
@@ -13,18 +13,15 @@
  	var header = '${_csrf.headerName}';
  	var token = '${_csrf.token}';
 
-/*	Spring Security login
--> 요청명은 login , method='POST' 
--> Tag name 은 username, password 로 함
--> 스프링 시큐리티가 적용된 사이트의 Post 방식에는 CSRF 토큰을 사용함 */	
-	$('#login').hover(function(){$(this).css({cursor:"pointer"})},
+/*	스프링 시큐리티가 적용된 사이트의 Post 방식에는 CSRF 토큰을 사용함 */	
+	$('#pwmatch').hover(function(){$(this).css({cursor:"pointer"})},
 			function(){$(this).css({curcor:"default"})})
 		.click(function(e){
 			$.ajax({
 				type:"post",
-				url:"/Project/login",
+				url:"pwmatch",
 				data: {
-					username: $('#modal_form #member_id').val(),
+					member_id: ${member_id},
 					password: $('#modal_form #password').val()
 				},
 				beforeSend : function(xhr){
@@ -33,19 +30,17 @@
 				},
 				success:function(resultData) {
 					// => 서버로부터 Json 형태의 Data 를 Response 로 받음
-					//    "loginSuccess" -> "T" 성공 , 새로고침
-					//    "loginSuccess" -> "F" 실패
-					// => 성공시 : 성공message, afterlogin처리
-					//    실패시 : 실패message, 재로그인 유도;
+					//    "pwMatch" -> "T" 일치 , 다음 요청명 이행
+					//    "pwMatch" -> "F" 불일치
 					
 					// 문자열 형태의 Data를 json Object로 변환 
-					if(resultData.indexOf('<')==-1) resultData = JSON.parse(resultData);
-					if (resultData.loginSuccess=="T") {
-						alert("~~ Login 성공 ~~");
-						location.href="afterlogin?member_id="+resultData.id;
+					resultData = JSON.parse(resultData);
+					if (resultData.pwMatch=="T") {
+						alert("password 수정 화면으로 이동합니다.");
+						location.href="pwupdatef?member_id="+${member_id};
 					}else {
 						$('#message').html(resultData.message);
-						$('#modal_form #member_id').focus();
+						$('#modal_form #password').focus();
 					}
 				},
 				error: function() {
@@ -63,19 +58,18 @@
 </head>
 <body>
 <div class="wrapped">
-<h1>로그인</h1>
-<form action="login" method="post" id="modal_form">
+<h1>기존 비밀번호 확인</h1>
+<form action="pwmatch" method="post" id="modal_form">
 <table>
-	<tr><td bgcolor="gray">I D</td>
-		<td><input type="text" name="member_id" id="member_id" value="admin"></td></tr>
 	<tr><td bgcolor="gray">Password</td>
-		<td><input type="password" name="password" id="password" value="1234567!"></td></tr>
+		<td>
+			<input type="password" name="password" id="password" placeholder="password를 입력해주세요">
+			<span id="pMessage" class="eMessage"></span>
+		</td>
+	</tr>
 	<tr><td colspan="2">
-			<button id="login">Login</button>&nbsp; 
-			<input type="reset" value="Reset"><br>
-			<a href="joinf?R=joinf">[회원가입]</a>&nbsp;
-			<a href="**findid**">[아이디 찾기]</a>&nbsp;
-			<a href="**findpw**">[비밀번호 찾기]</a>			
+			<input type="submit" id="pwmatch" value="비밀번호 확인">&nbsp; 
+			<input type="reset" value="Reset">			
 		</td>
 	</tr> 
 </table>

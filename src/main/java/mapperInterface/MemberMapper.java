@@ -5,7 +5,6 @@ import java.util.List;
 import criteria.MultiCheckSearchCriteria;
 import vo.AuthVO;
 import vo.MemberVO;
-import vo.PageVO;
 
 public interface MemberMapper {
 	
@@ -14,6 +13,7 @@ public interface MemberMapper {
 	int searchRowsCount(MultiCheckSearchCriteria cri);
 	int updateLastAccess(MemberVO vo);
 	int changeStatus(MemberVO vo);
+	int updatePassword(MemberVO vo);
 	int deleteSeller(MemberVO vo);
 	
 	// 기본 CRUD

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -201,8 +202,7 @@ public class MemberController {
 	// Spring AOP Transaction 적용됨
 	@RequestMapping(value = "/join")
 	public ModelAndView join(HttpServletRequest request, ModelAndView mv, MemberVO vo,
-			RedirectAttributes rttr) 
-					 	throws IOException {		
+			RedirectAttributes rttr) throws IOException {		
 		// ** Uploadfile (Image) 처리
 		// => MultipartFile 타입의 uploadfilef 의 정보에서 
 		//    upload된 image 와 화일명을 get 처리,
@@ -284,7 +284,7 @@ public class MemberController {
 	
 	@RequestMapping(value = "/emailauth")
 	public ModelAndView emailauth(ModelAndView mv, MemberVO vo, HttpServletRequest request) {
-		String url = "home";
+		String uri = "home";
 		String key= request.getParameter("key");
 		String R = request.getParameter("R");
 		
@@ -295,16 +295,16 @@ public class MemberController {
 				vo.setStatus("1");
 				vo.setEnabled(true);
 				service.changeStatus(vo);
-				url = "redirect:authjoin?member_id="+vo.getMember_id();
+				uri = "redirect:authjoin?member_id="+vo.getMember_id();
 			}else if(R.equals("sreg")) {
-				url = "redirect:authsreg?member_id="+vo.getMember_id();
+				uri = "redirect:authsreg?member_id="+vo.getMember_id();
 			}		
 		}else {
 			if(vo!=null && R==null) service.delete(vo);
 			else if(vo!=null && R.equals("sreg")) service.deleteSeller(vo);
 			mv.addObject("message","인증에 실패했습니다.");
 		}		
-		mv.setViewName(url); 
+		mv.setViewName(uri); 
 		return mv;
 	} //emailauth
 	
@@ -331,7 +331,7 @@ public class MemberController {
 		
 		// ** ImageUpload 추가
 		// => Image 수정여부 확인
-		// 	  -> 수정하지않은경우 : vo에 전달된 uploadfile 값을 사용 
+		// 	  -> 수정하지않은경우 : vo에 전달된 profile 값을 사용 
 		// 	  -> 수정시에만 처리
 		MultipartFile profilef = vo.getProfilef();
 		String file1, file2;
@@ -355,11 +355,6 @@ public class MemberController {
 			vo.setProfile(file2);
 		}
 		
-		// ** Password 암호화
-		// => BCryptPasswordEncoder 적용
-		//    encode(rawData) -> digest 생성 & vo 에 set
-		//vo.setPassword(passwordEncoder.encode(vo.getPassword()));		
-		
 		if ( service.update(vo) > 0 ) {
 			 // update 성공
 			 rttr.addFlashAttribute("message", "~~ 회원정보 수정 완료 !!!  ~~") ; 
@@ -376,6 +371,61 @@ public class MemberController {
 		mv.setViewName(uri); 
 		return mv;
 	} //mupdate
+
+	@RequestMapping(value = "/pwmatchf")
+	public ModelAndView pwmatchf(ModelAndView mv, MemberVO vo){			
+		mv.addObject("member_id", vo.getMember_id());
+		mv.setViewName("member/passwordMatching");
+		return mv;
+	} //pwmatchf
+	
+	// ** Password Matching
+	@RequestMapping(value = "/pwmatch")
+	public ModelAndView pwmatch(ModelAndView mv, MemberVO vo, HttpServletResponse response){
+		// ** jsonView 사용시 response 의 한글 처리
+		response.setContentType("text/html; charset=UTF-8");
+		
+		String password = vo.getPassword();
+		vo = service.selectOne(vo);
+		if ( passwordEncoder.matches(password, vo.getPassword()) ) {
+			// password 일치
+			mv.addObject("pwMatch", "T"); //javascript로 다음요청(쿼리문에 member_id필수) 보내기
+		}else { //Password 불일치 -> 재입력 유도
+			mv.addObject("pwMatch", "F");
+			mv.addObject("message", "password를 다시 입력해주세요");
+		}
+		mv.setViewName("jsonView");
+		return mv;
+	} //pwmatch
+
+	@RequestMapping(value = "/pwupdatef")
+	public ModelAndView pwupdatef(ModelAndView mv, MemberVO vo){			
+		mv.addObject("member_id", vo.getMember_id());
+		mv.setViewName("member/passwordUpdateForm");
+		return mv;
+	} //pwmatchf
+	
+	// ** Password Update
+	@RequestMapping(value = "/pwupdate")
+	public ModelAndView pwupdate(ModelAndView mv, MemberVO vo, RedirectAttributes rttr){
+		String uri = null; 		
+		// ** Password 암호화
+		// => BCryptPasswordEncoder 적용
+		//    encode(rawData) -> digest 생성 & vo 에 set
+		vo.setPassword(passwordEncoder.encode(vo.getPassword()));		
+		
+		if ( service.updatePassword(vo) > 0 ) {
+			 // password 수정 성공
+			 rttr.addFlashAttribute("message", "password 수정 완료 !!!") ; 
+			 uri = "redirect:mdetail?member_id="+vo.getMember_id();
+		 }else { 
+			 // password 수정 실패 : 수정가능한 폼 출력할수있도록 요청 
+			 rttr.addFlashAttribute("message", "password 수정 실패!!, 다시 해주세요 ~~");
+			 uri="redirect:mupdatef?member_id="+vo.getMember_id();
+		 }	
+		mv.setViewName(uri); 
+		return mv;
+	} //pwupdate
 	
 	@RequestMapping(value = "/mwithdraw")
 	public ModelAndView mwithdraw(ModelAndView mv, MemberVO vo) {		

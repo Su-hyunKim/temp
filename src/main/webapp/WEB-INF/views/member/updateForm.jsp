@@ -196,11 +196,35 @@
 	}
 
 	$(function(){
+		
 		$('td input[type="reset"]').click(function(e){
 			$(".select_img").attr("src","${apple.profile}");
 			initial();
 		});
+		
 		initial();
+		
+		$('#pwUpdate').click(function(e){
+			$.ajax({
+				type:'get',
+				url:"pwmatchf?member_id="+$('#member_id').val(),
+				success:function(resultPage) {
+							let body = resultPage.substring(resultPage.lastIndexOf('<body>')+6,
+								resultPage.lastIndexOf('</body>'));
+							if(body.indexOf('<img src="resources/image/logo.png"')!=-1)
+								resultPage = body.substring(body.indexOf('<img src="resources/image/logo.png"'),
+									body.indexOf('<div class="modal">'));
+							modal(300,260);
+							$('.modal_content').html(resultPage);
+							$('.modal_content #password').focus();
+						},
+				error:function() {
+							alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
+						}
+			}); //ajax
+			e.stopPropagation();
+			e.preventDefault();
+		}); //#pwUpdate_click	
 	});
 	
 </script>
@@ -208,7 +232,7 @@
 	hr {
 		width:100%;
 	}
-	table {
+	.basic {
 		/* width:350px; */
 		border-collapse:collapse;
 		text-align:left;
@@ -217,19 +241,37 @@
 		border-bottom:1px solid #ccc;
 		margin:20px auto;
 	}
-	th {
+	.basic th {
 		width:64px;
 		padding:5px;
 		font-weight:bold;
 		vertical-align:top;
 	}
-	td {
+	.basic td {
 		width:280px;
 		padding:10px;
 		vertical-align:top;
 	}
-	tr:nth-child(2n) {
+	.basic tr:nth-child(2n) {
 		background:#efefef;
+	}	
+	.basic td span:not(.eMessage) {
+		display: block;
+		font-weight: bold;
+		font-size: 20px;
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
+	.basic td input {
+		padding: 5px 5px;
+		width: 95%;
+		border: 1px solid #ddd;
+	}	
+	.basic td input[type="radio"] {
+		width:15px;margin:0 20px 0 0;
+	}	
+	.basic td input[type="checkbox"] {
+		width:20px;margin:0
 	}
 	a {
 		width:100px;
@@ -241,37 +283,20 @@
 	.center {
 		text-align:center;
 	}
-	
-	td span:not(.eMessage) {
-		display: block;
-		font-weight: bold;
-		font-size: 20px;
-		margin-bottom: 10px;
-		margin-top: 10px;
-	}
-
-	td input {
-		padding: 5px 5px;
-		width: 95%;
-		border: 1px solid #ddd;
-	}
-	#email,#email_tail,
+	#email,
+	#email_tail,
 	#email_direct {
 		width:25%;
 	}
+	#pwUpdate,
 	td input[type="submit"],
 	td input[type="reset"] {
 		width:46%;
 	}
+	#pwUpdate:hover,
 	td input[type="submit"]:hover,
 	td input[type="reset"]:hover {
 		background:snow;
-	}
-	td input[type="radio"] {
-		width:15px;margin:0 20px 0 0;
-	}	
-	td input[type="checkbox"] {
-		width:20px;margin:0
 	}
 	#email_direct,
 	#else_direct {
@@ -292,11 +317,12 @@
 <div class="center">
 	<h1>회원정보수정</h1>
 	<form action="mupdate" method="post" enctype="multipart/form-data" id="myForm">
-		<table>
+		<table class="basic">
 			<tr>
 				<th><label for="member_id">I  D</label></th>
 				<td>
-					<input type="text" name="member_id" id="member_id" value='${apple.member_id}' size="20" style="width:50%" readonly><br>
+					<input type="text" name="member_id" id="member_id" value='${apple.member_id}' size="20" style="width:50%" readonly>
+					<input type="button" value="비밀번호 수정" id="pwUpdate"><br>
 					<span id="iMessage" class="eMessage"></span>
 				</td>
 			</tr>
@@ -539,7 +565,7 @@
 => ${message}<br>
 <hr>
 </c:if>
-<a href="mdelete?member_id=${apple.member_id}">[회원탈퇴]</a>&nbsp;
+<a href="mwithdraw?member_id=${apple.member_id}">[회원탈퇴]</a>&nbsp;
 <a href='javascript:history.go(-1)'>[이전으로]</a>&nbsp;&nbsp;<a href="home">[HOME]</a>
 </div>
 </body>

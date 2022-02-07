@@ -75,8 +75,7 @@ public class SellerController {
 	// Spring AOP Transaction 적용됨
 	@RequestMapping(value = "/sreg")
 	public ModelAndView sreg(HttpServletRequest request, ModelAndView mv, SellerVO vo,
-			RedirectAttributes rttr) 
-					 	throws IOException {	
+			RedirectAttributes rttr) throws IOException {	
 		// ** 거래중지 회원 확인
 		if("6".equals(vo.getStatus())){
 			service.delete(vo);
