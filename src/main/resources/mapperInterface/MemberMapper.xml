@@ -13,11 +13,11 @@
 		select authority from member_auth where member_id=#{member_id}
 	</select>
 
-<!-- 멤버리스트 -->
-	<sql id="mlist">
+<!-- 리스트 -->
+	<sql id="list">
 		select member_id,name,gender,point,
  		SUBSTR(birthday,1,INSTR(birthday,'-')-1) birthday,
- 		SUBSTR(address2,1,INSTR(address2,' ')-1) address2,
+ 		SUBSTR(address2,1,2) address2,
  		to_char(last_access,'YYYY-MM-DD HH24:MI') last_access
 	</sql>
 
@@ -35,44 +35,23 @@
    		</foreach> 			
 	</sql>
 
-	<sql id="follower">
-		<if test="check != null">
+	<sql id="address">
+		<if test="check1 != null">
 		and
-		<![CDATA[ (select case when count(*)<500 then '플레인'
-     	when count(*)>=500 and count(*)<10000 then '브론즈'
-		when count(*)>=10000 and count(*)<100000 then '실버'
-		when count(*)>=100000 and count(*)<1000000 then '골드'
-		else '백만이상'
-		end from follow where following=m.member_id)
-		in]]>
-   		<foreach collection="check" item="it" open="(" close=")" separator=",">
-   			#{it}
-   		</foreach>		
-   		</if>	
-	</sql>
-
-	<sql id="purchase">
-		<if test="check != null">
-		and
-		<![CDATA[ (select case when count(*)<500 then '플레인'
-     	when count(*)>=500 and count(*)<10000 then '브론즈'
-		when count(*)>=10000 and count(*)<100000 then '실버'
-		when count(*)>=100000 and count(*)<1000000 then '골드'
-		else '백만이상'
-		end from purchase where member_id=m.member_id)
-		in]]>
-   		<foreach collection="check" item="it" open="(" close=")" separator=",">
+		SUBSTR(address2,1,2)
+		in
+   		<foreach collection="check1" item="it" open="(" close=")" separator=",">
    			#{it}
    		</foreach>  		
    		</if>	
 	</sql>
 
-	<sql id="address">
-		<if test="check1 != null">
+	<sql id="gender">
+		<if test="check2 != null">
 		and
-		SUBSTR(address2,1,INSTR(address2,' ')-1)
+		gender
 		in
-   		<foreach collection="check1" item="it" open="(" close=")" separator=",">
+   		<foreach collection="check2" item="it" open="(" close=")" separator=",">
    			#{it}
    		</foreach>  		
    		</if>	
@@ -88,16 +67,41 @@
    		</foreach> 		
    		</if>	
 	</sql>
+	
+	<sql id="purchase">
+		<if test="range2 != null">
+		and
+		(select count(*) from purchase where member_id=m.member_id)
+		between
+   		<foreach collection="range2" item="it" separator="and">
+   			#{it}
+   		</foreach>  		
+   		</if>	
+	</sql>
+	
+	<sql id="follower">
+		<if test="range3 != null">
+		and
+		(select count(*) from follow where following=m.member_id)
+		between
+   		<foreach collection="range3" item="it" separator="and">
+   			#{it}
+   		</foreach>		
+   		</if>	
+	</sql>
 
 <!-- ** Member Search, Check, Range, Order List --> 
    <select id="checkList" resultType="vo.MemberVO">
-		<include refid="mlist"></include> from
+		<include refid="list"></include> from
 		(select m.*, ROW_NUMBER() OVER(order by
    		<include refid="selectColumn"></include>	
-		) rnum from member m where member_id!='admin'
+		) rnum from member m where member_id!='admin' and status!='0'
 		<include refid="search"></include>
 		<include refid="address"></include>
+		<include refid="gender"></include>
 		<include refid="birthday"></include>
+		<include refid="purchase"></include>
+		<include refid="follower"></include>
  		) where rnum between #{sno} and #{eno}
    </select>
 
@@ -154,8 +158,13 @@
 	</sql>
 
 	<select id="searchRowsCount" resultType="int">
-		select count(*) from member where (id!='admin' 
-		<include refid="search"></include>	
+		select count(*) from member m where member_id!='admin' and status!='0'
+		<include refid="search"></include>
+		<include refid="address"></include>
+		<include refid="gender"></include>
+		<include refid="birthday"></include>
+		<include refid="purchase"></include>
+		<include refid="follower"></include>		
 	</select>
 
 	<!-- myPage, 로그아웃form 요청시 last access 수정 -->
@@ -178,7 +187,7 @@
  	
  	<!-- ** CRUD 기본 ** -->
  	<select id="selectList" resultType="vo.MemberVO">
- 		<include refid="mlist"></include> from member where member_id!='admin'
+ 		<include refid="list"></include> from member where member_id!='admin' and status!='0'
  	</select>
  
  	<select id="selectOne" resultType="vo.MemberVO">

@@ -2,22 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
   
-<mapper namespace="mapperInterface.SellerMapper">
-<!--  
-** interface 를 통해 ~Mapper 접근
-=> interface ~Mapper.java 의 패키지명과 화일명과  
-   ~Mapper.xml 의 패키지명, 화일명, namespace 값은 같아야됨. -->  
+<mapper namespace="mapperInterface.SellerMapper">  
 
-<!-- authList -->
-	<select id="authList" resultType="vo.AuthVO">
-		select authority from member_auth where member_id=#{member_id}
+<!-- productList -->
+	<select id="productList" resultType="vo.ProductVO">
+		select product_id, name from product where member_id=#{member_id}
 	</select>
 
 <!-- 리스트 -->
 	<sql id="list">
 		select member_id,company_name,representative,employer_id,corporation_id,
  		SUBSTR(launch_date,1,INSTR(launch_date,'-')-1) launch_date,
- 		SUBSTR(location2,1,INSTR(location2,' ')-1) location2
+ 		SUBSTR(location2,1,2) location2,
+ 		business_type
 	</sql>
 
 	<sql id="grantedPoint">
@@ -34,44 +31,23 @@
    		</foreach> 			
 	</sql>
 
-	<sql id="follower">
-		<if test="check != null">
+	<sql id="address">
+		<if test="check1 != null">
 		and
-		<![CDATA[ (select case when count(*)<500 then '플레인'
-     	when count(*)>=500 and count(*)<10000 then '브론즈'
-		when count(*)>=10000 and count(*)<100000 then '실버'
-		when count(*)>=100000 and count(*)<1000000 then '골드'
-		else '백만이상'
-		end from follow where following=s.member_id)
-		in]]>
-   		<foreach collection="check" item="it" open="(" close=")" separator=",">
-   			#{it}
-   		</foreach>		
-   		</if>	
-	</sql>
-
-	<sql id="purchase">
-		<if test="check != null">
-		and
-		<![CDATA[ (select case when count(*)<500 then '플레인'
-     	when count(*)>=500 and count(*)<10000 then '브론즈'
-		when count(*)>=10000 and count(*)<100000 then '실버'
-		when count(*)>=100000 and count(*)<1000000 then '골드'
-		else '백만이상'
-		end from purchase where member_id=s.member_id)
-		in]]>
-   		<foreach collection="check" item="it" open="(" close=")" separator=",">
+ 		SUBSTR(location2,1,2)
+		in
+   		<foreach collection="check1" item="it" open="(" close=")" separator=",">
    			#{it}
    		</foreach>  		
    		</if>	
 	</sql>
 
-	<sql id="address">
-		<if test="check1 != null">
+	<sql id="type">
+		<if test="check2 != null">
 		and
- 		SUBSTR(location2,1,INSTR(location2,' ')-1)
+		business_type
 		in
-   		<foreach collection="check1" item="it" open="(" close=")" separator=",">
+   		<foreach collection="check2" item="it" open="(" close=")" separator=",">
    			#{it}
    		</foreach>  		
    		</if>	
@@ -88,6 +64,28 @@
    		</if>	
 	</sql>
 
+	<sql id="product">
+		<if test="range2 != null">
+		and
+		(select count(*) from purchase where member_id=s.member_id)
+		between
+   		<foreach collection="range2" item="it" separator="and">
+   			#{it}
+   		</foreach>  		
+   		</if>	
+	</sql>
+
+	<sql id="follower">
+		<if test="range3 != null">
+		and
+		(select count(*) from follow where following=s.member_id)
+		between
+   		<foreach collection="range3" item="it" separator="and">
+   			#{it}
+   		</foreach>		
+   		</if>	
+	</sql>
+
 <!-- ** Seller Search, Check, Range, Order List --> 
    <select id="checkList" resultType="vo.SellerVO">
 		<include refid="list"></include> from
@@ -96,7 +94,10 @@
 		) rnum from seller s where member_id!='admin'
 		<include refid="search"></include>
 		<include refid="address"></include>
+		<include refid="type"></include>
 		<include refid="date"></include>
+		<include refid="product"></include>
+		<include refid="follower"></include>
  		) where rnum between #{sno} and #{eno}
    </select>
 
@@ -153,8 +154,13 @@
 	</sql>
 
 	<select id="searchRowsCount" resultType="int">
-		select count(*) from seller where (id!='admin' 
-		<include refid="search"></include>	
+		select count(*) from seller s where member_id!='admin' 
+		<include refid="search"></include>
+		<include refid="address"></include>
+		<include refid="type"></include>
+		<include refid="date"></include>
+		<include refid="product"></include>
+		<include refid="follower"></include>	
 	</select>
 
 	<!-- myPage, 로그아웃form 요청시 last access 수정 -->

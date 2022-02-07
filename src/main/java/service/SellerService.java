@@ -3,14 +3,14 @@ package service;
 import java.util.List;
 
 import criteria.MultiCheckSearchCriteria;
-import vo.AuthVO;
+import vo.ProductVO;
 import vo.SellerVO;
 
 
 public interface SellerService {
-	List<AuthVO> authList(SellerVO vo);
+	List<ProductVO> productList(SellerVO vo);
 	List<SellerVO> checkList(MultiCheckSearchCriteria cri);
-	List<SellerVO> ascList(SellerVO vo);
+	int searchRowsCount(MultiCheckSearchCriteria cri);
 	int updateLastAccess(SellerVO vo);
 	int changeStatus(SellerVO vo);
 		

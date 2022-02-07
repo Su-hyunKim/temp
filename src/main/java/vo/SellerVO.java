@@ -1,5 +1,7 @@
 package vo;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -21,5 +23,5 @@ public class SellerVO extends MemberVO{
 	private String tax_office;
 	private String logo;
 	private MultipartFile logof;	
-	
+	private List<ProductVO> productList;
 } //class
