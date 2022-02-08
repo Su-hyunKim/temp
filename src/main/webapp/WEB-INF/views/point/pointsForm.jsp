@@ -46,6 +46,9 @@
 				<div class="form-group col-sm-2"> 
 						<button type="submit" class="btn btn-dark btn-block">보내기</button>
 				</div> 
+				<c:if test="${not empty message}">
+				=> ${message}<br>
+				</c:if>
 			</div> 
 		</div> 
 		<h4><a href="mypage?member_id=${loginID}&R=mypage" >[마이페이지]</a></h4>
