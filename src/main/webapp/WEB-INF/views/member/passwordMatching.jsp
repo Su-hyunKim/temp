@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -14,12 +13,15 @@
  	var token = '${_csrf.token}';
 
 /*	스프링 시큐리티가 적용된 사이트의 Post 방식에는 CSRF 토큰을 사용함 */	
-	$('#pwmatch').hover(function(){$(this).css({cursor:"pointer"})},
+ 	$('#pwmatch').hover(function(){$(this).css({cursor:"pointer"})},
 			function(){$(this).css({curcor:"default"})})
 		.click(function(e){
+			alert(token);
 			$.ajax({
 				type:"post",
-				url:"pwmatch",
+				//http://localhost:8080/Project/pwmatch?member_id=admin&password=$2a$10$jUmJ.l6S/e7ZPylDHGvf2.zEJKKSCQyPfq3Te8tzfsVw/mCzdZQNK
+				//http://localhost:8080/Project/pwmatch?member_id=admin&password=1
+				url:"pwmatch?member_id="+${member_id}+"&"+$('#modal_form #password').val(),
 				data: {
 					member_id: ${member_id},
 					password: $('#modal_form #password').val()
@@ -27,7 +29,7 @@
 				beforeSend : function(xhr){
 					// 전송전에 헤더에 csrf의 값을 설정 해야함
 					xhr.setRequestHeader(header, token);
-				},
+				}, 
 				success:function(resultData) {
 					// => 서버로부터 Json 형태의 Data 를 Response 로 받음
 					//    "pwMatch" -> "T" 일치 , 다음 요청명 이행
