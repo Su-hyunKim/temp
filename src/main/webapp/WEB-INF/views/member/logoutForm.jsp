@@ -13,7 +13,7 @@
    form Tag , Post 로 전달해야함.
 => 그러므로 a Tag 요청은 컨트롤러로 넘어가 404 발생    -->
 <p>로그아웃 하시겠습니까?</p>
-<form action="/Project/logout" method='post'>
+<form action="${pageContext.request.contextPath}/logout" method='post'>
 	<button>로그아웃</button>
 	<%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
 		=> security JSTL 사용하면 다음 1줄로 가능함 --%>

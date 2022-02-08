@@ -45,8 +45,7 @@ public class MemberController {
 	@RequestMapping(value = "/afterlogin")
 	public ModelAndView afterlogin(MemberVO vo, ModelAndView mv) {
 		String uri = "home";
-		vo = service.selectOne(vo);
-		
+		vo = service.selectOne(vo);	
 		if("7".equals(vo.getStatus())) uri = "member/reactivate";
 		else service.updateLastAccess(vo);
 		
