@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 목록</title>
+<title>팔로워목록</title>
 <link rel="stylesheet" type="text/css" href="resources/lib/main.css">
 </head>
 <body>
@@ -21,21 +21,10 @@
 </tr>	
 <c:if test="${not empty loginID}">
 	<tr  height="30" align="center">
-	<c:forEach var="list" items="${apple.member_id}">
+	<c:forEach var="followerlist" items="${apple}"></c:forEach>
+	</tr>
 </c:if>
 	
-	
-	 <!-- 글내용보기 기능 추가하기 -> login한 경우에만 허용 -->
-	
-		<a href="rdetail?root_seq=${list.root_seq}">${list.title}</a>
-	
-	<c:if test="${empty loginID}">
-		${list.title} 
-	</c:if>
-	</td>
-	<td align="left">${list.member_id}</td><td>${list.regdate}</td><td>${list.cnt}</td>
-</tr>
-</c:forEach>
 </table>
 <hr>
 <div align="center">
@@ -85,9 +74,7 @@
 </div>
 <hr>
 
-<c:if test="${not empty loginID}">
-	<a href="rinsertf">새글등록</a><br>
-</c:if>
+
 <a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp;
 <a href="home" >[Home]</a>
 </body>

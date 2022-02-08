@@ -29,15 +29,24 @@ public class FollowController {
 	FollowService service;
 
 	@RequestMapping(value = "/followMember")
-	public void followMember(HttpServletRequest request, FollowVO vo) {
-		FollowVO followVO = service.selectOne(vo);
+	public ModelAndView followMember(ModelAndView mv, HttpServletRequest request, FollowVO vo) {
 		
-		if (followVO != null) {
-			service.delete(vo);
+		System.out.println("***vo->"+vo);
+		int cnt = 0;
+		if ("delete".equals(vo.getTag())) {
+			cnt=service.delete(vo);
 		}else {
-			service.insert(vo);
+			cnt=service.insert(vo);
 		}
-		
+		if(cnt>0) {
+			mv.addObject("success","T");
+		}else {
+			mv.addObject("success","F");
+		}
+		//mv.addObject("following",service.countfollowing(vo));
+		//mv.addObject("follower",service.countfollower(vo));
+		mv.setViewName("jsonView");
+		return mv;
 	}
 	@RequestMapping(value = "/followChkMember")
 	public boolean followChkMember(HttpServletRequest request, FollowVO vo) {
@@ -82,6 +91,7 @@ public class FollowController {
 	@RequestMapping(value = "/countfollowing")
 	public ModelAndView countfollowing(ModelAndView mv, HttpServletRequest request, FollowVO vo) {
 		mv.addObject("following",service.countfollowing(vo));
+		mv.addObject("follower",service.countfollower(vo));
 		mv.setViewName("jsonView");
 		return mv;
 	}

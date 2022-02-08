@@ -7,10 +7,13 @@
 <head>
 <meta charset="UTF-8">
 <title>징검다리 : 글쓰기</title>
+<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
+<script src="resources/lib/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 <h1>징검다리 : 글쓰기</h1>
-<form action="rinsert" method="post">
+<form action="rinsert" enctype="multipart/form-data" method="post">
+<input type="hidden" name=type value="${type}">
 <table>
 	<tr height="40"><td bgcolor="aqua">아이디</td>
 		<td><input type="text" name="member_id" value="${loginID}" size="20" readonly></td></tr>
@@ -18,13 +21,21 @@
 		<td><input type="text" name="title"></td></tr>	
 	<tr height="40"><td bgcolor="aqua">내용</td>
 		<td><textarea name="content" rows="5" cols="50"></textarea></td></tr>
-	<tr height="40"><td bgcolor="aqua">상품번호</td>
-		<td><input type="text" name="product_id" id="product_id" size="20"></td>
-		<!-- 여기서 상품태그 걸어야 하나요? -->
-	</tr>		
+<c:choose>
+   <c:when test="${type=='0'}">
+   <tr height="40"><td bgcolor="aqua">상품</td>
+      <td><input type="text" name="product_id" id="product_id" size="20"></td>
+      <!-- 여기서 상품태그 걸어야 하나요? -->
+   </tr>
+   </c:when>
+   <c:when test="${not empty product_id}">
+      <input type="hidden" name="product_id" value="${product_id}">
+   </c:when>
+   <c:otherwise><input type="hidden" name="product_id" value=""></c:otherwise>   
+</c:choose>
 	<tr height="40"><td bgcolor="aqua">첨부파일</td>
 		<td><img src="" class="select_img"><br>
-			<input type="file" name="uploadfilef" id="uploadfilef">
+			<input type="file" name="filesf" id="filesf">
 			<script>
 			// 해당 파일의 서버상의 경로를 src로 지정하는것으로는 클라이언트 영역에서 이미지는 표시될수 없기 때문에
 			// 이를 해결하기 위해 FileReader이라는 Web API를 사용
@@ -38,7 +49,7 @@
 			//    읽기 동작이 성공적으로 완료 되었을 때마다 발생.
 			// => e.target : 이벤트를 유발시킨 DOM 객체
 	  		
-				$('#uploadfilef').change(function(){
+				$('#filesf').change(function(){
 					if(this.files && this.files[0]) {
 						var reader = new FileReader;
 				 			reader.onload = function(e) {

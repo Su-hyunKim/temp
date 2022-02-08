@@ -93,7 +93,7 @@
 <hr>
 
 <c:if test="${not empty loginID}">
-	<a href="rinsertf">새글등록</a><br>
+	<a href="rinsertf?type=0">홍보글등록</a><br>
 </c:if>
 <a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp;
 <a href="home" >[Home]</a>

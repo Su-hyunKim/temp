@@ -20,15 +20,19 @@ import criteria.PageMaker;
 import criteria.SearchCriteria;
 import lombok.extern.log4j.Log4j;
 import service.RootService;
+import vo.FollowVO;
 import vo.MemberVO;
 import vo.PageVO;
 import vo.RootVO;
+import service.FollowService;
 
 @Log4j
 @Controller
 public class RootController {
 	@Autowired
 	RootService service;
+	@Autowired
+	FollowService fservice;
 
 	// ** @Log4j Test
 	@RequestMapping(value = "/logj")
@@ -236,7 +240,7 @@ public class RootController {
 	} //rlist
 	
 	@RequestMapping(value = "/rdetail")
-	public ModelAndView rdetail(HttpServletRequest request, ModelAndView mv, RootVO vo) {
+	public ModelAndView rdetail(HttpServletRequest request, ModelAndView mv, RootVO vo, FollowVO fvo) {
 		
 		String uri = "board/rootDetail";
 		
@@ -262,13 +266,17 @@ public class RootController {
     	}else {
     		mv.addObject("message", "~~ 글번호에 해당하는 자료가 없습니다 ~~");
     	}
-		
+    	//following, follower 카운트
+    	fvo.setFollower(vo.getMember_id());
+    	mv.addObject("following",fservice.countfollowing(fvo));
+    	mv.addObject("follower",fservice.countfollower(fvo));
 		mv.setViewName(uri);
 		return mv;
 	} //rdetail
 	
 	@RequestMapping(value = "/rinsertf")
-	public ModelAndView rinsertf(ModelAndView mv) {
+	public ModelAndView rinsertf(ModelAndView mv, RootVO vo) {
+		mv.addObject("Type",vo.getType());
 		mv.setViewName("board/rinsertForm");
 		return mv;
 	} //rinsertf
@@ -322,16 +330,16 @@ public class RootController {
 		//    -> void transferTo(File destFile),
 		//    -> boolean isEmpty()
 		
-		MultipartFile uploadfilef = vo.getUploadfilef();
-		if ( uploadfilef !=null && !uploadfilef.isEmpty() ) {
+		MultipartFile filesf = vo.getFilesf();
+		if ( filesf !=null && !filesf.isEmpty() ) {
 			// Image 를 선택했음 -> Image 처리 (realPath+화일명)
 			// 1) 물리적 위치에 Image 저장 
-			file1=realPath + uploadfilef.getOriginalFilename(); //  전송된File명 추출 & 연결
-			uploadfilef.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
-			// 2) Table 저장위한 경로 
-			file2 = "resources/uploadImage/"+ uploadfilef.getOriginalFilename();
+			file1 = realPath + vo.getMember_id() + "_" + filesf.getOriginalFilename(); //  전송된File명 추출 & 연결
+	        filesf.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
+	         // 2) Table 저장위한 경로 
+	         file2 = "resources/uploadImage/" + vo.getMember_id() + "_" + filesf.getOriginalFilename();
 		}
-		vo.setUploadfile(file2);
+		vo.setFiles(file2);
 
 		if ( service.insert(vo) > 0 ) { 
     		// 글등록 성공 -> rlist , redirect
