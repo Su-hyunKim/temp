@@ -268,7 +268,8 @@ public class RootController {
 	} //rdetail
 	
 	@RequestMapping(value = "/rinsertf")
-	public ModelAndView rinsertf(ModelAndView mv) {
+	public ModelAndView rinsertf(ModelAndView mv, RootVO vo) {
+		mv.addObject("type",vo.getType());
 		mv.setViewName("board/rinsertForm");
 		return mv;
 	} //rinsertf
@@ -322,16 +323,16 @@ public class RootController {
 		//    -> void transferTo(File destFile),
 		//    -> boolean isEmpty()
 		
-		MultipartFile uploadfilef = vo.getUploadfilef();
-		if ( uploadfilef !=null && !uploadfilef.isEmpty() ) {
+		MultipartFile filesf = vo.getFilesf();
+		if ( filesf !=null && !filesf.isEmpty() ) {
 			// Image 를 선택했음 -> Image 처리 (realPath+화일명)
 			// 1) 물리적 위치에 Image 저장 
-			file1=realPath + uploadfilef.getOriginalFilename(); //  전송된File명 추출 & 연결
-			uploadfilef.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
+			file1 = realPath + vo.getMember_id() + "_" + filesf.getOriginalFilename(); //  전송된File명 추출 & 연결
+			filesf.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
 			// 2) Table 저장위한 경로 
-			file2 = "resources/uploadImage/"+ uploadfilef.getOriginalFilename();
+			file2 = "resources/uploadImage/" + vo.getMember_id() + "_" + filesf.getOriginalFilename();
 		}
-		vo.setUploadfile(file2);
+		vo.setFiles(file2);
 
 		if ( service.insert(vo) > 0 ) { 
     		// 글등록 성공 -> rlist , redirect

@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>로그인</title>
+	<meta charset="UTF-8">
+	<title>로그인</title>
+
 	<style>
 		table{text-align:center;}
 	</style>
@@ -12,7 +13,8 @@
  	<script>
  	var header = '${_csrf.headerName}';
  	var token = '${_csrf.token}';
-
+ 	var context = '${pageContext.request.contextPath}';
+ 	
 /*	Spring Security login
 -> 요청명은 login , method='POST' 
 -> Tag name 은 username, password 로 함
@@ -20,9 +22,10 @@
 	$('#login').hover(function(){$(this).css({cursor:"pointer"})},
 			function(){$(this).css({curcor:"default"})})
 		.click(function(e){
+			alert(context);
 			$.ajax({
 				type:"post",
-				url:"/Project/login",
+				url:context + "/login",
 				data: {
 					username: $('#modal_form #member_id').val(),
 					password: $('#modal_form #password').val()

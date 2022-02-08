@@ -17,9 +17,8 @@ public class RootVO {
 	private String product_id;
 	private int good;
 	private int cnt;
-	private String status;
-	private String uploadfile; 
-	private MultipartFile uploadfilef;
+	private String status; 
+	private MultipartFile filesf;
 	
 	private String[] check;
 	// ** 배열타입 (CheckBox 처리) 
