@@ -10,6 +10,7 @@ public interface MemberService {
 	List<AuthVO> authList(MemberVO vo);
 	List<MemberVO> checkList(MultiCheckSearchCriteria cri);
 	int searchRowsCount(MultiCheckSearchCriteria cri);
+	int totalRowCount();
 	int updateLastAccess(MemberVO vo);
 	int changeStatus(MemberVO vo);
 	int updatePassword(MemberVO vo);

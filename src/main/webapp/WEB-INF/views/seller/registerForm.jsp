@@ -9,8 +9,17 @@
 <title>징검다리 : 판매자 전환</title>
 <script src="resources/lib/inCheck.js"></script>
 <script> 
+	$(function(){
+		$('#myForm input[type="reset"]').click(function(){
+			$('#myForm .eMessage').html('');
+			$('#myForm input,#myForm select').css({border:original});
+			$(".select_img").attr("src","resources/uploadImage/logo.png");
+			$('#myForm .direct').hide();
+			window.scrollTo(0,0);
+		});
+	});
 	fChecks = [
-		new FocusoutCheck(false,'company_name',cnCheck,'nMessage','회사명을'),
+		new FocusoutCheck(false,'company_name',cnCheck,'nMessage','업체명을'),
 		new FocusoutCheck(false,'representative',rnCheck,'rMessage','대표자명을'),
 		new FocusoutCheck(false,'employer_id',emiCheck,'eiMessage','사업자등록번호를'),
 		new FocusoutCheck(false,'corporation_id',coiCheck,'ciMessage','법인등록번호를'),
@@ -22,8 +31,8 @@
 		new FocusoutCheck(false,'email_tail',em2Check,'emMessage','이메일을'),
 		new FocusoutCheck(true,'email_direct',em3Check,'emMessage','이메일을'),
 		new FocusoutCheck(false,'business_phone',phoCheck,'phMessage','전화번호를'),
-		new FocusoutCheck(false,'business_type',tyCheck,'tMessage','업태를'),
-		new FocusoutCheck(false,'business_items',itmCheck,'itMessage','종목을')
+		new FocusoutCheck(false,'business_type',tyCheck,'tMessage','업태코드를'),
+		new FocusoutCheck(false,'business_items',itmCheck,'itMessage','종목코드를')
 	];
 
 	redbox = '3px solid red';
@@ -90,7 +99,7 @@
 			$('#lMessage').html('');
 			return true;
 		}	
-	} //birthday
+	} //date
 
 	function ad1Check() {
 		let address1=$('#address1').val();
@@ -270,9 +279,6 @@
 		 				reader.readAsDataURL(this.files[0]);
 		 		} // if
 			}); // change
-			$('.input_div input[type="reset"]').click(function(){
-				$(".select_img").attr("src","resources/uploadImage/logo.png");
-			});
 		</script>
 	</div>
 	
@@ -461,7 +467,7 @@
 	<div class="input_div">
 		<label for="business_type">
 			<span>*업태코드</span>
-			<input type="text" name="business_type" id="business_type" placeholder="사업자등록상의 2자리 코드">
+			<input type="text" name="business_type" id="business_type" placeholder="사업자등록상의 2자리 숫자">
 		</label>
 		<span id="tMessage" class="eMessage"></span>
 	</div>
@@ -469,7 +475,7 @@
 	<div class="input_div">
 		<label for="business_items">
 			<span>*종목코드</span>
-			<input type="text" name="business_items" id="business_items" placeholder="사업자등록상의 5자리 코드">
+			<input type="text" name="business_items" id="business_items" placeholder="사업자등록상의 5자리 숫자">
 		</label>
 		<span id="itMessage" class="eMessage"></span>
 	</div>

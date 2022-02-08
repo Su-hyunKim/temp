@@ -6,7 +6,7 @@ $(function(){
 			else $('#'+focusoutCheck.id).css({border:redbox});
 		}); //focusout
 	}); //forEach
-	$('#myForm input[type="reset"]').click(function(){
+/*	$('#myForm input[type="reset"]').click(function(){
 		$('#myForm #idDup').prop('disabled',false);
 		$('#myForm #submit').prop('disabled',true);	
 		$('#myForm #member_id').prop('readonly',false);
@@ -14,7 +14,7 @@ $(function(){
 		$('#myForm input,#myForm select').css({border:original});
 		$('#myForm .direct').hide();
 		window.scrollTo(0,0);
-	});
+	});*/
 }); //ready
 
 if(typeof FocusoutCheck!=='class'){	

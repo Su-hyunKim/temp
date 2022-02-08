@@ -165,6 +165,10 @@
 		<include refid="purchase"></include>
 		<include refid="follower"></include>		
 	</select>
+	
+	<select id="totalRowCount" resultType="int">
+		select count(*) from member m where member_id!='admin' and status!='0'	
+	</select>
 
 <!-- myPage, 로그아웃form 요청시 last access 수정 -->
 	<update id="updateLastAccess">

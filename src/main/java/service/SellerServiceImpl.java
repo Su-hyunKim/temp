@@ -47,6 +47,11 @@ public class SellerServiceImpl implements SellerService {
 	}
 	
 	@Override
+	public int totalRowCount() {
+		return dao.totalRowCount();
+	}
+	
+	@Override
 	public int updateLastAccess(SellerVO vo) {
 		return dao.updateLastAccess(vo);
 	}

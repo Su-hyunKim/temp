@@ -47,6 +47,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public int totalRowCount() {
+		return dao.totalRowCount();
+	}
+	
+	@Override
 	public int updateLastAccess(MemberVO vo) {
 		return dao.updateLastAccess(vo);
 	}

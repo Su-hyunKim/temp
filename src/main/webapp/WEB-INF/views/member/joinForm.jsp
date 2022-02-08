@@ -35,6 +35,17 @@
 			}
 			e.stopPropagation();
 		}); //click	
+		
+		$('#myForm input[type="reset"]').click(function(){
+			$('#myForm #idDup').prop('disabled',false);
+			$('#myForm #submit').prop('disabled',true);	
+			$('#myForm #member_id').prop('readonly',false);
+			$('#myForm .eMessage').html('');
+			$('#myForm input,#myForm select').css({border:original});
+			$(".select_img").attr("src","resources/uploadImage/basicman.png");
+			$('#myForm .direct').hide();
+			window.scrollTo(0,0);
+		});
 	});//ready
 	 
 	fChecks = [
@@ -296,9 +307,6 @@
 		 				reader.readAsDataURL(this.files[0]);
 		 		} // if
 			}); // change
-			$('.input_div input[type="reset"]').click(function(){
-				$(".select_img").attr("src","resources/uploadImage/basicman.png");
-			});
 		</script>
 	</div>
 	

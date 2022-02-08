@@ -69,7 +69,7 @@
 			console.log(url);
 			$.ajax({
 				type:'get',
-				url:'slist?'+url,
+				url:'ssearchlist?'+url,
 				success:function(resultPage){
 					resultPage = resultPage.substring(
 							resultPage.lastIndexOf('"targetList">')+13,
@@ -214,11 +214,10 @@
 			<tbody>	
 <c:forEach var="list" items="${banana}">
 				<tr>
-					<th> <!-- 관리자 기능 추가하기 -->
-	<c:if test="${loginID=='admin'}">
-		<a href="sdetail?member_id=${list.member_id}">${list.member_id}</a></c:if>
-	<c:if test="${loginID!='admin'}">
-		${list.member_id}</c:if>
+					<th>
+						<a href="sdetail?member_id=${list.member_id}">
+							${list.member_id}
+						</a>
 					</th>
 					<td>${list.company_name}</td>
 					<td>${list.representative}</td>
