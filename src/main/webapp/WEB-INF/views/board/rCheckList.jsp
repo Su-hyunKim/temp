@@ -5,11 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>** Root Check List **</title>
+<title>홍보글 조회</title>
 	<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
 </head>
 <body>
-<h3>** Root Check List **</h3>
+<h3>홍보글 조회</h3>
 <br>
 <c:if test="${not empty message}">
 => ${message}<br>
@@ -18,10 +18,10 @@
 <div id="searchBar">
 	<form action="rchecklist" method="get">
 		<b>Level : </b>
-		<input type="checkbox" name="check" value="admin">관리자&nbsp;
-		<input type="checkbox" name="check" value="apple">Apple&nbsp;
-		<input type="checkbox" name="check" value="banana">Banana&nbsp;
-		<input type="checkbox" name="check" value="green">Green&nbsp;&nbsp;
+		<input type="checkbox" name="check" value="플레인">플레인&nbsp;
+		<input type="checkbox" name="check" value="브론즈">브론즈&nbsp;
+		<input type="checkbox" name="check" value="실버">실버&nbsp;
+		<input type="checkbox" name="check" value="골드">골드&nbsp;&nbsp;
 		<input type="submit" value="검색">&nbsp;
 		<input type="reset" value="취소">
 	</form>
@@ -29,7 +29,7 @@
 <hr>
 <table width=100%>
 <tr height="30" bgcolor="HoneyDew">
-	<th>Root_Seq</th><th>Title</th><th>Id</th><th>RegDate</th><th>조회수</th> 
+	<th>글번호</th><th>제목</th><th>ID</th><th>글등록일</th><th>조회수</th> 
 </tr>	
 <c:forEach var="list" items="${banana}">
 <tr  height="30" align="center">

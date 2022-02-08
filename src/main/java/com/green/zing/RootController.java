@@ -113,30 +113,24 @@ public class RootController {
 	} //axblist
 	// **********************************************************
 	
-	// ** Member PageList 2. SearchCriteria PageList
-	@RequestMapping(value = "/bcplist")
-	// ** ver02
-	public ModelAndView bcplist(ModelAndView mv, SearchCriteria cri, PageMaker pageMaker) {	
-		// 1) Criteria 처리 
-		// => setCurrPage, setRowsPerPage 는 Parameter 로 전달되어,
-		//    setCurrPage(..) , setRowsPerPage(..) 는 자동처리됨(스프링에 의해)
-		//    -> cri.setCurrPage(Integer.parseInt(request.getParameter("currPage")))
-		// => 그러므로 currPage 이용해서 sno, eno 계산만 하면됨
-		cri.setSnoEno();
-		
-		// 2) 서비스처리
-		// => List 처리, 
-		mv.addObject("banana", service.searchList(cri));
-		
-		// 3) PageMaker 처리
-		pageMaker.setCri(cri);
-		pageMaker.setTotalRowCount(service.searchRowsCount(cri));
-		
-		mv.addObject("pageMaker", pageMaker);
-		mv.setViewName("board/rCriList");
-		return mv;
-	} //rcplist
-	
+	/*
+	 * // ** Member PageList 2. SearchCriteria PageList
+	 * 
+	 * @RequestMapping(value = "/bcplist") // ** ver02 public ModelAndView
+	 * bcplist(ModelAndView mv, SearchCriteria cri, PageMaker pageMaker) { // 1)
+	 * Criteria 처리 // => setCurrPage, setRowsPerPage 는 Parameter 로 전달되어, //
+	 * setCurrPage(..) , setRowsPerPage(..) 는 자동처리됨(스프링에 의해) // ->
+	 * cri.setCurrPage(Integer.parseInt(request.getParameter("currPage"))) // =>
+	 * 그러므로 currPage 이용해서 sno, eno 계산만 하면됨 cri.setSnoEno();
+	 * 
+	 * // 2) 서비스처리 // => List 처리, mv.addObject("banana", service.searchList(cri));
+	 * 
+	 * // 3) PageMaker 처리 pageMaker.setCri(cri);
+	 * pageMaker.setTotalRowCount(service.searchRowsCount(cri));
+	 * 
+	 * mv.addObject("pageMaker", pageMaker); mv.setViewName("board/rCriList");
+	 * return mv; } //rcplist
+	 */	
 	// ** Board PageList 1.
 	@RequestMapping(value = "/rpagelist")
 	public ModelAndView rpagelist(ModelAndView mv, PageVO<RootVO> pvo) {
@@ -340,7 +334,7 @@ public class RootController {
 		vo.setUploadfile(file2);
 
 		if ( service.insert(vo) > 0 ) { 
-    		// 글등록 성공 -> blist , redirect
+    		// 글등록 성공 -> rlist , redirect
     		rttr.addFlashAttribute("message", "~~ 새글 등록 완료 !!! ~~");
     	}else {
     		mv.addObject("message", "~~ 새글 등록 실패 !!! ~~");

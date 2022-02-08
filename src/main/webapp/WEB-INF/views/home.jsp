@@ -22,6 +22,7 @@
 	<ul>
 		<div id="d1">
 			<li class="title">게시판
+			<!-- push test -->
 			<ul>
 				<li id="rchecklist"><span>전체글조회</span>
 				<li><span>홍보글조회</span>
