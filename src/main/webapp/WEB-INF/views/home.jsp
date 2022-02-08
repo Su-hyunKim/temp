@@ -18,6 +18,7 @@
 	<img  id="loginBt" src="resources/image/login.png" width="35" height="35">
 	<img  id="logoutBt" src="resources/image/logout.png" width="35" height="35">
 </div>
+<input type="hidden" id="context" value="${pageContext.request.contextPath}">
 <div class="menu">
 	<ul>
 		<div id="d1">

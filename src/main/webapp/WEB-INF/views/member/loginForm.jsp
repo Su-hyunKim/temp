@@ -22,10 +22,9 @@
 	$('#login').hover(function(){$(this).css({cursor:"pointer"})},
 			function(){$(this).css({curcor:"default"})})
 		.click(function(e){
-			alert(context);
 			$.ajax({
 				type:"post",
-				url:context + "/login",
+				url: context + "/login",
 				data: {
 					username: $('#modal_form #member_id').val(),
 					password: $('#modal_form #password').val()
