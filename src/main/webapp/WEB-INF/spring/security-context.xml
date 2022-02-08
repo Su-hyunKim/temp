@@ -20,9 +20,8 @@
 		<s:intercept-url pattern="/resources/**" access="permitAll" />
 		<s:intercept-url pattern="/joinf" access="permitAll" />
 		<s:intercept-url pattern="/midcheck" access="permitAll" />
+		<s:intercept-url pattern="/pwmatch" access="permitAll" />
 		<s:intercept-url pattern="/*update**" 
-		                   access="hasAuthority('ROLE_USER')" />
-		<s:intercept-url pattern="/pwmatch**" 
 		                   access="hasAuthority('ROLE_USER')" />
 <!-- 		<s:intercept-url pattern="/pregistf" 
 		                   access="hasAuthority('ROLE_SELLER')" /> -->

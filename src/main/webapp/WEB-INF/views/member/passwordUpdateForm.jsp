@@ -13,7 +13,10 @@
 	<input type="hidden" name="member_id" value="${member_id}">
 	<table>
 		<tr><td bgcolor="gray">Password</td>
-			<td><input type="password" name="password" placeholder="새로운 비밀번호를 입력해주세요"></td></tr>
+			<td><input type="password" name="password" placeholder="새로운 비밀번호를 입력해주세요" id="password"><br>
+				<span id="iMessage" class="eMessage"></span>
+			</td>
+		</tr>
 		<tr><td colspan="2">
 				<input type="submit">비밀번호 변경&nbsp; 
 				<input type="reset" value="Reset">			
