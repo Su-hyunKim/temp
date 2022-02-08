@@ -5,8 +5,9 @@ import vo.PointsVO;
 public interface PointsService {
 	
 	// **  CRUD
-	int send(PointsVO vo); //send
-	int updategiver(PointsVO vo); //updategiver
-	int updategrantee(PointsVO vo); //updategrantee
+	int mypoint (PointsVO pvo);
+	int send(PointsVO pvo); //send 
+	int updategiver(PointsVO pvo); //updategiver
+	int updategrantee(PointsVO pvo); //updategrantee
 	
 }

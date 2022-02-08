@@ -5,8 +5,9 @@ import vo.PointsVO;
 public interface PointsMapper {
 	
 	// **  CRUD
-	int send(PointsVO vo); //send
-	int updategiver(PointsVO vo);
-	int updategrantee(PointsVO vo);
+	int send(PointsVO pvo); //send
+	int updategiver(PointsVO pvo);
+	int updategrantee(PointsVO pvo);
+	int mypoint(PointsVO pvo);
 	
 } //interface

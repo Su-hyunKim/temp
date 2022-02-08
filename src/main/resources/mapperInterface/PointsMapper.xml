@@ -4,27 +4,33 @@
 <mapper namespace="mapperInterface.PointsMapper">
 
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-  
+  	
+  	<select id="mypoint" resultType="int">
+		select point 
+		from member
+		where member_id = #{giver}
+	</select>
+  	
 	<insert id="send">
 		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
 			select nvl(max(seq),0)+1 from points
 		</selectKey>
 		insert into points values ( 
-			#{seq},#{point},SYSDATE,#{giver},#{grantee}
+			#{seq},SYSDATE,#{giver},#{grantee},#{mypoint},#{point}
 		)
 	</insert>
 	
 	<update id="updategiver">
-		update member 
+		update member
 		set 
-			point = point - #{point},
+			point = point - #{point}
 		where member_id = #{giver}
 	</update>
 	
 	<update id="updategrantee">
-		update member 
+		update member
 		set 
-			point = point + #{point},
+			point = point + #{point}
 		where member_id = #{grantee}
 	</update>
 	

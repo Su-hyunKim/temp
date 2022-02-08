@@ -40,8 +40,8 @@ public class CommentsServiceImpl implements CommentsService{
 	}
 
 	@Override
-	public List<CommentsVO> selectmyList() {
-		return dao.selectmyList();
+	public List<CommentsVO> selectmyList(CommentsVO vo) {
+		return dao.selectmyList(vo);
 	}
 
 }
