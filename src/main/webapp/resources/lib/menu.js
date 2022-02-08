@@ -1,4 +1,6 @@
-$(function(){	
+$(function(){
+	let context = $('#context').val();
+	
 	if(document.getElementById("loginID")){
 		$('#loginBt').hide();
 		$('#logoutBt').show();
@@ -11,7 +13,7 @@ $(function(){
 	window.scrollTo(0,0);
 	
 	// 뒤로가기 막기
-	window.onpopstate = function(e){
+	window.onpopstate = function(){
 		history.go(1);
 	};
 	
@@ -52,10 +54,10 @@ $(function(){
 			$('#'+ajaxButton.id).click(function(e){	
 				if(ajaxButton.opt.includes('banner')) $('.banner').css({display:"block"});
 				else if(ajaxButton.opt.includes('hideBanner')) $('.banner').css({display:"none"});
-				/*if(document.getElementById("R")) history.replaceState({data:url},ajaxButton.id,'/'+project+'/'+url);
-				else history.pushState({data:url},ajaxButton.id,'/'+project+'/'+url);*/
-				if(document.getElementById("R")) history.replaceState(null,ajaxButton.id,'/'+project+'/'+url);
-				else history.pushState(null,ajaxButton.id,'/'+project+'/'+url);
+				/*if(document.getElementById("R")) history.replaceState({data:url},ajaxButton.id,context+'/'+url);
+				else history.pushState({data:url},ajaxButton.id,context+'/'+url);*/
+				if(document.getElementById("R")) history.replaceState(null,ajaxButton.id,context+'/'+url);
+				else history.pushState(null,ajaxButton.id,context+'/'+url);
 				$.ajax({
 					type:ajaxButton.method,
 					url:url,
@@ -91,8 +93,6 @@ let fChecks;
 let redbox;
 let original;
 let hostIndex = location.href.indexOf(location.host) + location.host.length;
-//let project = location.href.substring( hostIndex, location.href.indexOf('/',hostIndex + 1) );
-let project = 'Project';
 
 class AjaxButton{
 	constructor(opt,id,url,method,convey){
@@ -112,7 +112,7 @@ let ajaxBnts = [
 	new AjaxButton(['hideBanner'],'comment','comment','get','page'),
 	new AjaxButton(['hideBanner','loginID'],'mypage','mypage?member_id=','get','page'),
 	new AjaxButton(['hideBanner'],'mlist','mlist','get','page'),
-	new AjaxButton(['hideBanner'],'rchecklist','rchecklist','get','page'),
+	new AjaxButton(['hideBanner'],'rlist','rlist','get','page'),
 	new AjaxButton(['hideBanner'],'pregistf','pregistf','get','page'),
 	new AjaxButton(['hideBanner'],'plist','plist','get','page'),
 	new AjaxButton(['hideBanner','loginID'],'mupdatef','mupdatef?member_id=','get','page'),
