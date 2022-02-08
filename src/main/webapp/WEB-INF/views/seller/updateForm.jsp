@@ -8,82 +8,92 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0,
 	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
-<title>징검다리 : 회원정보수정</title>
+<title>징검다리 : 판매자정보수정</title>
 <script src="resources/lib/jquery-3.2.1.min.js"></script>
 <script src="resources/lib/inCheck.js"></script>
 <script>	 
 	fChecks = [
-		new FocusoutCheck(true,'member_id',idCheck,'iMessage','아이디를'),
-		new FocusoutCheck(true,'password',pwCheck,'pMessage','비밀번호를'),
-		new FocusoutCheck(true,'name',nmCheck,'nMessage','이름을'),
-		new FocusoutCheck(true,'birthday',bdCheck,'bMessage','생년월일을'),
+		new FocusoutCheck(true,'company_name',cnCheck,'nMessage','업체명을'),
+		new FocusoutCheck(true,'representative',rnCheck,'rMessage','대표자명을'),
+		new FocusoutCheck(true,'employer_id',emiCheck,'eiMessage','사업자등록번호를'),
+		new FocusoutCheck(true,'corporation_id',coiCheck,'ciMessage','법인등록번호를'),
+		new FocusoutCheck(true,'launch_date',ldCheck,'lMessage','사업개시일을'),
 		new FocusoutCheck(true,'address1',ad1Check,'a1Message','우편번호를'),
 		new FocusoutCheck(true,'address2',ad2Check,'a2Message','주소를'),
 		new FocusoutCheck(true,'address3',ad3Check,'a3Message','상세주소를'),
 		new FocusoutCheck(true,'email',em1Check,'emMessage','이메일을'),
 		new FocusoutCheck(true,'email_tail',em2Check,'emMessage','이메일을'),
 		new FocusoutCheck(true,'email_direct',em3Check,'emMessage','이메일을'),
-		new FocusoutCheck(true,'phone',phoCheck,'phMessage','전화번호를')
+		new FocusoutCheck(true,'business_phone',phoCheck,'phMessage','전화번호를'),
+		new FocusoutCheck(true,'business_type',tyCheck,'tMessage','업태를'),
+		new FocusoutCheck(true,'business_items',itmCheck,'itMessage','종목을')
 	];
 
 	redbox = '3px solid red';
 	original = '1px solid #ddd';
 	
-	function idCheck() {
-		let id=$('#member_id').val(); 	
-		if (id.length<4) {
-			$('#iMessage').html('~~ id 는 4자 이상 입니다 ~~');
-			return false;
-		}else if ( id.replace(/[a-z.0-9]/gi ,'').length > 0 ) {
-			$('#iMessage').html('~~ id 는 영문자, 숫자로만 입력 하세요 ~~');
-			return false;
-		}else {
-			$('#iMessage').html('');
-			return true;
-		}
-	} //idCheck
-
-	function pwCheck() {
-		let password=$('#password').val()
-		if (password.length<8) {
-			$('#pMessage').html('~~ password 는 8자 이상 입니다 ~~');
-			return false;
-		}else if ( password.replace(/[!-*.@]/gi,'').length >= password.length ) {
-			$('#pMessage').html('~~ password 는 특수문자가 반드시 1개 이상 포함되어야 합니다 ~~');
-			return false;
-		}else if ( password.replace(/[a-z.0-9.!-*.@]/gi ,'').length > 0 ) {
-			$('#pMessage').html('password 는 영문자, 숫자, 특수문자 로만 입력 하세요');
-			return false;
-		}else {
-			$('#pMessage').html('');
-			return true;
-		}
-	} //password
-
-	function nmCheck() {
-		let name=$('#name').val();
-		if (name.length<2) {
-			$('#nMessage').html(' ~~ name 은 2자 이상 입니다 ~~');
-			return false;
-		}else if (name.replace(/[a-z.가-힣]/gi,'').length > 0) {
-			$('#nMessage').html(' ~~ name 은 한글 또는 영문 으로만 입력 하세요 ~~');
+	function cnCheck() {
+		if ($('#company_name').val()=="") {
+			$('#nMessage').html(' ~~ 회사명을 입력해주세요 ~~');
 			return false;
 		}else {
 			$('#nMessage').html('');
 			return true;
 		}	
-	} //name
-
-	function bdCheck() {
-		let birthday=$('#birthday').val();
-		if (birthday.length != 10) {
-			$('#bMessage').html(' ~~ 생년월일을 정확하게 입력 하세요 (yyyy-mm-dd) ~~');
+	} //company_name
+	
+	function rnCheck() {
+		let name=$('#representative').val();
+		if (name.length<2) {
+			$('#rMessage').html(' ~~ 대표자명은 2자 이상 입니다 ~~');
+			return false;
+		}else if (name.replace(/[a-z.가-힣]/gi,'').length > 0) {
+			$('#rMessage').html(' ~~ 대표자명은 한글 또는 영문 으로만 입력 하세요 ~~');
 			return false;
 		}else {
-			$('#bMessage').html('');
+			$('#rMessage').html('');
 			return true;
 		}	
-	} //birthday
+	} //representative
+	
+	function emiCheck() {
+		let employerId=$('#employer_id').val();
+		if (employerId.length<10) {
+			$('#eiMessage').html(' ~~ 사업자등록번호를 입력해주세요 ~~ ');
+			return false;
+		}else if ( $.isNumeric(employerId)==false || employerId.replace(/[.]/g,'').length < employerId.length) {
+			$('#eiMessage').html(' ~~ 사업자등록번호는 숫자로만 입력해주세요 ~~ ');
+			return false;
+		}else {
+			$('#eiMessage').html('');
+			return true;
+		}
+	} //phone
+	
+	function coiCheck() {
+		let corporationId=$('#corporation_id').val();
+		if (corporationId.length<13) {
+			$('#ciMessage').html(' ~~ 법인등록번호를 입력해주세요 ~~ ');
+			return false;
+		}else if ( $.isNumeric(corporationId)==false || corporationId.replace(/[.]/g,'').length < corporationId.length) {
+			$('#ciMessage').html(' ~~ 법인등록번호는 숫자로만 입력해주세요 ~~ ');
+			return false;
+		}else {
+			$('#ciMessage').html('');
+			return true;
+		}
+	} //phone
+
+	function ldCheck() {
+		let launchDate=$('#launch_date').val();
+		if (launchDate.length != 10) {
+			$('#lMessage').html(' ~~ 사업개시일을 정확하게 입력 하세요 (yyyy-mm-dd) ~~');
+			return false;
+		}else {
+			$('#lMessage').html('');
+			return true;
+		}	
+	} //date
 
 	function ad1Check() {
 		let address1=$('#address1').val();
@@ -151,7 +161,7 @@
 	} //email3
 
 	function phoCheck() {
-		let phone=$('#phone').val();
+		let phone=$('#business_phone').val();
 		if (phone.length<10) {
 			$('#phMessage').html(' ~~ 전화번호를 입력해주세요 ~~ ');
 			return false;
@@ -164,42 +174,74 @@
 		}
 	} //phone
 	
+	function tyCheck() {
+		let type = $('#business_type').val();
+		if (type.length<2) {
+			$('#tMessage').html(' ~~ 업태코드를 입력해주세요 ~~ ');
+			return false;
+		}else if ( $.isNumeric(type)==false || type.replace(/[.]/g,'').length < type.length) {
+			$('#tMessage').html(' ~~ 업태코드는 숫자로만 입력해주세요 ~~ ');
+			return false;
+		}else {
+			$('#tMessage').html('');
+			return true;
+		}
+	} //business_type
+	
+	function itmCheck() {
+		let items = $('#business_items').val();
+		if (items.length<5) {
+			$('#itMessage').html(' ~~ 종목코드를 입력해주세요 ~~ ');
+			return false;
+		}else if ( $.isNumeric(items)==false || items.replace(/[.]/g,'').length < items.length) {
+			$('#itMessage').html(' ~~ 종목코드는 숫자로만 입력해주세요 ~~ ');
+			return false;
+		}else {
+			$('#itMessage').html('');
+			return true;
+		}
+	} //business_items
+	
 	function initial(){
-		// 성별
-		$('input[name="gender"]').each(function(){
-			if($(this).val()=="${apple.gender}") $(this).prop('checked',true);
-		});
-		// 관심사
-		$('#else_direct').hide();
- 		$('#else').click(function(){
-			if($('#else').prop("checked")) $('#else_direct').show();
-			else $('#else_direct').hide();
-		}); 			
-		$('input[type="checkbox"]').each(function(){
-			if( "${apple.interest}".indexOf( $(this).val() )!=-1) {
-				$(this).trigger('click');
-			}
-			else $(this).prop('checked',false);
-		});
-		$('#else_direct').val( "${apple.interest}".substring("${apple.interest}".lastIndexOf(":")+1) );
 		// 이메일
 		$('#email_direct').show();
  		$('#email_tail').change(function(){
 			if($('#email_tail').val()=='direct') $('#email_direct').show();
 			else $('#email_direct').hide();
 		}); 
-		$('#email').val( "${apple.email}".substring(0,"${apple.email}".indexOf("@")) );
+		$('#email').val( "${apple.business_email}".substring(0,"${apple.business_email}".indexOf("@")) );
 		
 		$('#email_tail option[value="direct"]').prop('selected',true);
 		
-		$('#email_direct').val( "${apple.email}".substring("${apple.email}".indexOf("@")+1) );
+		$('#email_direct').val( "${apple.business_email}".substring("${apple.business_email}".indexOf("@")+1) );
 	}
 
-	$(function(){
-		$('td input[type="reset"]').click(function(e){
-			$(".select_img").attr("src","${apple.profile}");
+	$(function(){		
+		$('#myForm input[type="reset"]').click(function(){
+			$('#company_name').val("${apple.company_name}");
+			$('#representative').val("${apple.representative}");
+			$('#employer_id').val("${apple.employer_id}");
+			$('#corporation_id').val("${apple.corporation_id}");
+			$('#launch_date').val("${apple.launch_date}");
+			$('#address1').val("${apple.location1}");
+			$('#address2').val("${apple.location2}");
+			$('#address3').val("${apple.location3}");
+			$('#extraAddress').val('');
+			$('#business_phone').val("${apple.business_phone}");
+			$('#business_type').val("${apple.business_type}");
+			$('#business_items').val("${apple.business_items}");
+			$('#logof').val(null);
+			$('.eMessage').html('');
+			$('input,select').css({border:original});
+			$(".select_img").attr("src","${apple.logo}");
 			initial();
+			fChecks.forEach(function(fCheck){
+				fCheck.bool=true;
+			});
+			window.scrollTo(0,0);
+			return false;
 		});
+		
 		initial();
 	});
 	
@@ -208,8 +250,8 @@
 	hr {
 		width:100%;
 	}
-	table {
-		/* width:350px; */
+	.basic {
+		width:100%;
 		border-collapse:collapse;
 		text-align:left;
 		line-height:1.5;
@@ -217,19 +259,37 @@
 		border-bottom:1px solid #ccc;
 		margin:20px auto;
 	}
-	th {
-		width:64px;
+	.basic th {
+		width:150px;
 		padding:5px;
 		font-weight:bold;
 		vertical-align:top;
 	}
-	td {
-		width:280px;
+	.basic td {
+		width:350px;
 		padding:10px;
 		vertical-align:top;
 	}
-	tr:nth-child(2n) {
+	.basic tr:nth-child(2n) {
 		background:#efefef;
+	}	
+	.basic td span:not(.eMessage) {
+		display: block;
+		font-weight: bold;
+		font-size: 20px;
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
+	.basic td input {
+		padding: 5px 5px;
+		width: 95%;
+		border: 1px solid #ddd;
+	}	
+	.basic td input[type="radio"] {
+		width:15px;margin:0 20px 0 0;
+	}	
+	.basic td input[type="checkbox"] {
+		width:20px;margin:0
 	}
 	a {
 		width:100px;
@@ -241,37 +301,21 @@
 	.center {
 		text-align:center;
 	}
-	
-	td span:not(.eMessage) {
-		display: block;
-		font-weight: bold;
-		font-size: 20px;
-		margin-bottom: 10px;
-		margin-top: 10px;
-	}
-
-	td input {
-		padding: 5px 5px;
-		width: 95%;
-		border: 1px solid #ddd;
-	}
-	#email,#email_tail,
+	#email,
+	#email_tail,
 	#email_direct {
 		width:25%;
 	}
+	#member_id,
+	#pwUpdate,
 	td input[type="submit"],
 	td input[type="reset"] {
 		width:46%;
 	}
+	#pwUpdate:hover,
 	td input[type="submit"]:hover,
 	td input[type="reset"]:hover {
 		background:snow;
-	}
-	td input[type="radio"] {
-		width:15px;margin:0 20px 0 0;
-	}	
-	td input[type="checkbox"] {
-		width:20px;margin:0
 	}
 	#email_direct,
 	#else_direct {
@@ -290,80 +334,77 @@
 </head>
 <body>
 <div class="center">
-	<h1>회원정보수정</h1>
+	<h1>판매자정보수정</h1>
+<c:if test="${not empty message}">
+=> ${message}<br>
+<hr>
+</c:if>
 	<form action="mupdate" method="post" enctype="multipart/form-data" id="myForm">
-		<table>
+		<table class="basic">
 			<tr>
 				<th><label for="member_id">I  D</label></th>
 				<td>
-					<input type="text" name="member_id" id="member_id" value='${apple.member_id}' size="20" style="width:50%" readonly><br>
-					<span id="iMessage" class="eMessage"></span>
+					<input type="text" name="member_id" id="member_id" value='${apple.member_id}' size="20" readonly>
+					<input type="button" value="비밀번호 수정" id="pwUpdate"><br>
 				</td>
 			</tr>
 			<tr>
-				<th><label for="name">이름</label></th>
+				<th><label for="company_name">업체명</label></th>
 				<td>
-					<input type="text" name="name" id="name" value="${apple.name}" size="20"><br>
+					<input type="text" name="company_name" id="company_name" value="${apple.company_name}" size="20"><br>
 					<span id="nMessage" class="eMessage"></span>			
 				</td>
 			</tr>
 			<tr>
-				<th>성별</th>
+				<th><label for="representative">대표자</label></th>
 				<td>
-					<label for="man">남자</label>
-					<input type="radio" name="gender" class="gender_radio" id="man" value="M">
-					<label for="woman">여자</label>
-					<input type="radio" name="gender" class="gender_radio" id="woman" value="F">
-					<label for="neither">해당항목없음</label>
-					<input type="radio" name="gender" class="gender_radio" id="neither" value="N">
-					<script>
-/* 					$('input[name="gender"]').each(function(){
-						if($(this).val()=="${apple.gender}") $(this).prop('checked',true);
-					});  */
-					</script>
+					<input type="text" name="representative" id="representative" value="${apple.representative}" size="20"><br>
+					<span id="rMessage" class="eMessage"></span>			
 				</td>
 			</tr>
 			<tr>
-				<th><label for="birthday">생년월일</label></th>		
+				<th><label for="business_type">업태코드</label></th>
 				<td>
-					<input type="date" name="birthday" id="birthday" value="${apple.birthday}"><br>
-					<span id="bMessage" class="eMessage"></span>				
+					<input type="text" name="business_type" id="business_type" value="${apple.business_type}" size="2"><br>
+					<span id="tMessage" class="eMessage"></span>			
 				</td>
 			</tr>
 			<tr>
-				<th>관심사</th>
+				<th><label for="business_items">종목코드</label></th>
 				<td>
-					<input type="hidden" value="${apple.interest}" name="interest">
-					<label><input type="checkbox" name="check" value="IT/모바일">IT/모바일&nbsp;</label>
-					<label><input type="checkbox" name="check" value="시사">&nbsp;시사&nbsp;</label>
-					<label><input type="checkbox" name="check" value="스포츠">&nbsp;스포츠&nbsp;</label>
-					<label><input type="checkbox" name="check" value="여행">여행&nbsp;</label><br>
-					<label><input type="checkbox" name="check" value="자동차">&nbsp;자동차</label>
-					<label><input type="checkbox" name="check" value="건강">&nbsp;건강&nbsp;</label>
-					<label><input type="checkbox" name="check" value="패션/뷰티">&nbsp;패션/뷰티&nbsp;</label>
-					<label><input type="checkbox" name="check" value="기타" id="else">&nbsp;기타</label>
-					<input type="text" id="else_direct" class="direct" placeholder="기타 입력"><br>
-			<script>
-/* 			$('#else_direct').hide();
-			$('#else').click(function(){
-				if($('#else').prop("checked")) $('#else_direct').show();
-				else $('#else_direct').hide();
-			});
-			$('input[type="checkbox"]').each(function(){
-				if("${apple.interest}"!="" && $(this).val().indexOf("${apple.interest}")!=-1)
-					$(this).prop('checked',true);
-			}); */
-			</script>	
-				</td>	
+					<input type="text" name="business_items" id="business_items" value="${apple.business_items}" size="5"><br>
+					<span id="itMessage" class="eMessage"></span>			
+				</td>
 			</tr>
 			<tr>
-				<th><label for="address1">주소</label></th>
-				<td><input type="text" name="address1" id="address1" value="${apple.address1}" style="width:50%" >
+				<th><label for="launch_date">사업개시일</label></th>		
+				<td>
+					<input type="date" name="launch_date" id="launch_date" value="${apple.launch_date}"><br>
+					<span id="lMessage" class="eMessage"></span>				
+				</td>
+			</tr>
+			<tr>
+				<th><label for="employer_id">사업자등록번호</label></th>
+				<td>
+					<input type="text" name="employer_id" id="employer_id" value="${apple.employer_id}"><br>
+					<span id="eiMessage" class="eMessage"></span>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="corporation_id">법인등록번호</label></th>
+				<td>
+					<input type="text" name="corporation_id" id="corporation_id" value="${apple.corporation_id}"><br>
+					<span id="ciMessage" class="eMessage"></span>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="address1">사업장 주소</label></th>
+				<td><input type="text" name="loaction1" id="address1" value="${apple.location1}" style="width:50%" >
 					<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" style="width:30%"><br>
 					<span id="a1Message" class="eMessage"></span>
-					<input type="text" name="address2" id="address2" value="${apple.address2}"><br>
+					<input type="text" name="location2" id="address2" value="${apple.location2}"><br>
 					<span id="a2Message" class="eMessage"></span>
-					<input type="text" name="address3" id="address3" value="${apple.address3}"><br>
+					<input type="text" name="location3" id="address3" value="${apple.location3}"><br>
 					<span id="a3Message" class="eMessage"></span>
 					<input type="text" name="extraAddress" id="extraAddress" value=""><br>
 			<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
@@ -466,16 +507,16 @@
 				</td>
 			</tr>								
 			<tr>
-				<th><label for="phone">전화번호</label></th>
+				<th><label for="business_phone">업무용 전화번호</label></th>
 				<td>
-					<input type="text" name="phone" id="phone" value="${apple.phone}"><br>
+					<input type="text" name="business_phone" id="business_phone" value="${apple.business_phone}"><br>
 					<span id="phMessage" class="eMessage"></span>
 				</td>
 			</tr>			
 			<tr>
-				<th><label for="email">이메일</label></th>
+				<th><label for="email">업무용 이메일</label></th>
 				<td>
-					<input type="text" name="email" id="email">&nbsp;@&nbsp;
+					<input type="text" name="business_email" id="email">&nbsp;@&nbsp;
 					<select id="email_tail">
 						<option value="">선택</option>
 						<option value="naver.com">naver.com</option>
@@ -485,31 +526,21 @@
 						<option value="direct">직접입력</option>
 					</select>
 					<input type="text" name="email_direct" id="email_direct" class="direct" placeholder="직접입력"><br>
-					<script>
-/* 						$('#email_direct').show();
-						$('#email_tail').change(function(){
-							if($('#email_tail').val()=='direct') $('#email_direct').show();
-							else $('#email_direct').hide();
-						});
-						$('#email').val( "${apple.email}".substring(0,"${apple.email}".indexOf("@")) );
-						$('#email_tail option[value="direct"]').prop('selected',true);
-						$('#email_direct').val( "${apple.email}".substring("${apple.email}".indexOf("@")+1) ); */
-					</script>
 					<span id="emMessage" class="eMessage"></span>		
 				</td>
 			</tr>
 			<tr>
-				<th><label for="sns">SNS</label></th>
-				<td><input type="text" name="sns" id="sns" value="${apple.sns}"></td>
+				<th><label for="tax_office">관할세무소</label></th>
+				<td><input type="text" name="tax_office" id="tax_office" value="${apple.tax_office}"></td>
 			</tr>
 			<tr>
-				<th>Image</th>
+				<th>Logo</th>
 				<td>
-					<img src="${apple.profile}" class="select_img" width="100" height="100"><br>
-					<input type="hidden" name="profile" value="${apple.profile}"><br>
-					<input type="file" name="profilef" id="profilef">
+					<img src="${apple.logo}" class="select_img" width="100" height="100"><br>
+					<input type="hidden" name="logo" value="${apple.logo}"><br>
+					<input type="file" name="logof" id="logof">
 			<script>	  		
-			$('#profilef').change(function(){
+			$('#logof').change(function(){
 				if(this.files && this.files[0]) {
 					var reader = new FileReader;
 			 			reader.onload = function(e) {
@@ -519,9 +550,6 @@
 		 				reader.readAsDataURL(this.files[0]);
 		 		} // if
 			}); // change
-/* 			$('td input[type="reset"]').click(function(){
-				$(".select_img").attr("src","${apple.profile}");
-			}); */
 			</script>
 				</td>
 			</tr>
@@ -535,11 +563,7 @@
 			<s:csrfInput/>
 		</table>
 	</form>	 
-<c:if test="${not empty message}">
-=> ${message}<br>
-<hr>
-</c:if>
-<a href="mdelete?member_id=${apple.member_id}">[회원탈퇴]</a>&nbsp;
+<a href="mwithdraw?member_id=${apple.member_id}">[회원탈퇴]</a>&nbsp;
 <a href='javascript:history.go(-1)'>[이전으로]</a>&nbsp;&nbsp;<a href="home">[HOME]</a>
 </div>
 </body>

@@ -69,7 +69,7 @@
 			console.log(url);
 			$.ajax({
 				type:'get',
-				url:'mlist?'+url,
+				url:'msearchlist?'+url,
 				success:function(resultPage){
 					resultPage = resultPage.substring(
 							resultPage.lastIndexOf('"targetList">')+13,

@@ -13,8 +13,6 @@
 <script src="resources/lib/inCheck.js"></script>
 <script>	 
 	fChecks = [
-		new FocusoutCheck(true,'member_id',idCheck,'iMessage','아이디를'),
-		new FocusoutCheck(true,'password',pwCheck,'pMessage','비밀번호를'),
 		new FocusoutCheck(true,'name',nmCheck,'nMessage','이름을'),
 		new FocusoutCheck(true,'birthday',bdCheck,'bMessage','생년월일을'),
 		new FocusoutCheck(true,'address1',ad1Check,'a1Message','우편번호를'),
@@ -28,45 +26,14 @@
 
 	redbox = '3px solid red';
 	original = '1px solid #ddd';
-	
-	function idCheck() {
-		let id=$('#member_id').val(); 	
-		if (id.length<4) {
-			$('#iMessage').html('~~ id 는 4자 이상 입니다 ~~');
-			return false;
-		}else if ( id.replace(/[a-z.0-9]/gi ,'').length > 0 ) {
-			$('#iMessage').html('~~ id 는 영문자, 숫자로만 입력 하세요 ~~');
-			return false;
-		}else {
-			$('#iMessage').html('');
-			return true;
-		}
-	} //idCheck
-
-	function pwCheck() {
-		let password=$('#password').val()
-		if (password.length<8) {
-			$('#pMessage').html('~~ password 는 8자 이상 입니다 ~~');
-			return false;
-		}else if ( password.replace(/[!-*.@]/gi,'').length >= password.length ) {
-			$('#pMessage').html('~~ password 는 특수문자가 반드시 1개 이상 포함되어야 합니다 ~~');
-			return false;
-		}else if ( password.replace(/[a-z.0-9.!-*.@]/gi ,'').length > 0 ) {
-			$('#pMessage').html('password 는 영문자, 숫자, 특수문자 로만 입력 하세요');
-			return false;
-		}else {
-			$('#pMessage').html('');
-			return true;
-		}
-	} //password
 
 	function nmCheck() {
 		let name=$('#name').val();
 		if (name.length<2) {
-			$('#nMessage').html(' ~~ name 은 2자 이상 입니다 ~~');
+			$('#nMessage').html(' ~~ 이름은 2자 이상 입니다 ~~');
 			return false;
 		}else if (name.replace(/[a-z.가-힣]/gi,'').length > 0) {
-			$('#nMessage').html(' ~~ name 은 한글 또는 영문 으로만 입력 하세요 ~~');
+			$('#nMessage').html(' ~~ 이름은 한글 또는 영문 으로만 입력 하세요 ~~');
 			return false;
 		}else {
 			$('#nMessage').html('');
@@ -174,10 +141,12 @@
  		$('#else').click(function(){
 			if($('#else').prop("checked")) $('#else_direct').show();
 			else $('#else_direct').hide();
-		}); 			
+		});
+		if("${apple.interest}".indexOf("기타:")!=-1) $('#else_direct').show();
+		else $('#else_direct').hide();
 		$('input[type="checkbox"]').each(function(){
-			if( "${apple.interest}".indexOf( $(this).val() )!=-1) {
-				$(this).trigger('click');
+			if("${apple.interest}".indexOf( $(this).val() )!=-1) {
+				$(this).prop('checked',true);
 			}
 			else $(this).prop('checked',false);
 		});
@@ -195,36 +164,72 @@
 		$('#email_direct').val( "${apple.email}".substring("${apple.email}".indexOf("@")+1) );
 	}
 
-	$(function(){
-		
-		$('td input[type="reset"]').click(function(e){
+	$(function(){		
+		$('#myForm input[type="reset"]').click(function(){
+			$('#name').val("${apple.name}");
+			$('#birthday').val("${apple.birthday}");
+			$('#address1').val("${apple.address1}");
+			$('#address2').val("${apple.address2}");
+			$('#address3').val("${apple.address3}");
+			$('#extraAddress').val('');
+			$('#phone').val("${apple.phone}");
+			$('#sns').val("${apple.sns}");
+			$('#else_direct').val("${apple.interest}".substring("${apple.interest}".indexOf("기타:")+1));
+			$('.eMessage').html('');
+			$('#profilef').val(null);
+			$('input,select').css({border:original});
 			$(".select_img").attr("src","${apple.profile}");
 			initial();
+			fChecks.forEach(function(fCheck){
+				fCheck.bool=true;
+			});
+			window.scrollTo(0,0);
+			return false;
 		});
 		
 		initial();
 		
-		$('#pwUpdate').click(function(e){
+		$('#pwUpdate').click(function(){
 			$.ajax({
 				type:'get',
 				url:"pwmatchf?member_id="+$('#member_id').val(),
 				success:function(resultPage) {
-							let body = resultPage.substring(resultPage.lastIndexOf('<body>')+6,
-								resultPage.lastIndexOf('</body>'));
-							if(body.indexOf('<img src="resources/image/logo.png"')!=-1)
-								resultPage = body.substring(body.indexOf('<img src="resources/image/logo.png"'),
-									body.indexOf('<div class="modal">'));
-							modal(300,260);
-							$('.modal_content').html(resultPage);
-							$('.modal_content #password').focus();
+							let width = 300;
+							let height = 260;
+							$('.pwmodal').css({
+								position:"fixed",
+								top:0,
+								left:0,
+								width:"100%",
+								height:"100%", 
+								background:"rgba(0,0,0,0.5)",
+								display:"block"
+							});
+							$('.pwmodal_content').css({
+								position:"fixed",
+								width:width,
+								height:height,
+								top:(window.innerHeight-height)/2,
+								left:(window.innerWidth-width)/2,
+								background:"white",
+								display:"block",
+								border:"0px solid gray",
+								borderRadius:"5px 5px",
+							});
+							$('.pwmodal_content').html(resultPage);
+							$('.pwmodal_content #password').focus();
 						},
 				error:function() {
 							alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
 						}
 			}); //ajax
-			e.stopPropagation();
-			e.preventDefault();
+			return false;
 		}); //#pwUpdate_click	
+		
+ 		$('.pwmodal').click(function(e){
+			$('.pwmodal,.pwmodal_content').hide();
+			e.stopPropagation();
+		});
 	});
 	
 </script>
@@ -233,7 +238,7 @@
 		width:100%;
 	}
 	.basic {
-		/* width:350px; */
+		width:100%;
 		border-collapse:collapse;
 		text-align:left;
 		line-height:1.5;
@@ -288,6 +293,7 @@
 	#email_direct {
 		width:25%;
 	}
+	#member_id,
 	#pwUpdate,
 	td input[type="submit"],
 	td input[type="reset"] {
@@ -316,14 +322,17 @@
 <body>
 <div class="center">
 	<h1>회원정보수정</h1>
+<c:if test="${not empty message}">
+=> ${message}<br>
+<hr>
+</c:if>
 	<form action="mupdate" method="post" enctype="multipart/form-data" id="myForm">
 		<table class="basic">
 			<tr>
 				<th><label for="member_id">I  D</label></th>
 				<td>
-					<input type="text" name="member_id" id="member_id" value='${apple.member_id}' size="20" style="width:50%" readonly>
+					<input type="text" name="member_id" id="member_id" value='${apple.member_id}' size="20" readonly>
 					<input type="button" value="비밀번호 수정" id="pwUpdate"><br>
-					<span id="iMessage" class="eMessage"></span>
 				</td>
 			</tr>
 			<tr>
@@ -342,11 +351,6 @@
 					<input type="radio" name="gender" class="gender_radio" id="woman" value="F">
 					<label for="neither">해당항목없음</label>
 					<input type="radio" name="gender" class="gender_radio" id="neither" value="N">
-					<script>
-/* 					$('input[name="gender"]').each(function(){
-						if($(this).val()=="${apple.gender}") $(this).prop('checked',true);
-					});  */
-					</script>
 				</td>
 			</tr>
 			<tr>
@@ -368,18 +372,7 @@
 					<label><input type="checkbox" name="check" value="건강">&nbsp;건강&nbsp;</label>
 					<label><input type="checkbox" name="check" value="패션/뷰티">&nbsp;패션/뷰티&nbsp;</label>
 					<label><input type="checkbox" name="check" value="기타" id="else">&nbsp;기타</label>
-					<input type="text" id="else_direct" class="direct" placeholder="기타 입력"><br>
-			<script>
-/* 			$('#else_direct').hide();
-			$('#else').click(function(){
-				if($('#else').prop("checked")) $('#else_direct').show();
-				else $('#else_direct').hide();
-			});
-			$('input[type="checkbox"]').each(function(){
-				if("${apple.interest}"!="" && $(this).val().indexOf("${apple.interest}")!=-1)
-					$(this).prop('checked',true);
-			}); */
-			</script>	
+					<input type="text" id="else_direct" class="direct" placeholder="기타 입력"><br>	
 				</td>	
 			</tr>
 			<tr>
@@ -511,16 +504,6 @@
 						<option value="direct">직접입력</option>
 					</select>
 					<input type="text" name="email_direct" id="email_direct" class="direct" placeholder="직접입력"><br>
-					<script>
-/* 						$('#email_direct').show();
-						$('#email_tail').change(function(){
-							if($('#email_tail').val()=='direct') $('#email_direct').show();
-							else $('#email_direct').hide();
-						});
-						$('#email').val( "${apple.email}".substring(0,"${apple.email}".indexOf("@")) );
-						$('#email_tail option[value="direct"]').prop('selected',true);
-						$('#email_direct').val( "${apple.email}".substring("${apple.email}".indexOf("@")+1) ); */
-					</script>
 					<span id="emMessage" class="eMessage"></span>		
 				</td>
 			</tr>
@@ -545,9 +528,6 @@
 		 				reader.readAsDataURL(this.files[0]);
 		 		} // if
 			}); // change
-/* 			$('td input[type="reset"]').click(function(){
-				$(".select_img").attr("src","${apple.profile}");
-			}); */
 			</script>
 				</td>
 			</tr>
@@ -561,12 +541,9 @@
 			<s:csrfInput/>
 		</table>
 	</form>	 
-<c:if test="${not empty message}">
-=> ${message}<br>
-<hr>
-</c:if>
 <a href="mwithdraw?member_id=${apple.member_id}">[회원탈퇴]</a>&nbsp;
 <a href='javascript:history.go(-1)'>[이전으로]</a>&nbsp;&nbsp;<a href="home">[HOME]</a>
 </div>
+<div class="pwmodal"></div><div class="pwmodal_content"></div>
 </body>
 </html>

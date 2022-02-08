@@ -63,11 +63,11 @@
 			<td>${apple.representative}</td>
 		</tr>
 		<tr>
-			<th>업테</th>
+			<th>업태코드</th>
 			<td>${apple.business_type}</td>
 		</tr>
 		<tr>
-			<th>업종</th>
+			<th>종목코드</th>
 			<td>${apple.business_items}</td>
 		</tr>
 		<tr>
@@ -117,9 +117,11 @@
 => ${message}<br>
 <hr>
 </c:if>
+<c:if test="${loginID==apple.member_id or loginID=='admin'}">
 	<a href="supdatef?member_id=${apple.member_id}">판매자정보수정</a>&nbsp;
 	<a href="mdetail?member_id=${apple.member_id}">회원상세정보</a>&nbsp;
-	<a href='javascript:if(confirm("정말로 판매자계정을 취소하시겠습니까?")) location.href="swithdraw?member_id=${apple.member_id}";'>판매자계정취소</a>&nbsp;
+	<a href='javascript:if(confirm("정말로 판매자계정을 취소하시겠습니까?")) location.href="swithdraw?member_id=${apple.member_id}";'>판매자계정취소</a><br>
+</c:if>
 	<a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp;<a href="home">HOME</a>
 </div>
 </body>

@@ -128,6 +128,21 @@ public class MemberController {
 	public ModelAndView mlist(ModelAndView mv, MultiCheckSearchCriteria cri, PageMakerE pageMaker) {
 		cri.setRowsPerPage(5);
 		cri.setSnoEno();		
+		List<MemberVO> list = service.selectList();
+		// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
+		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
+		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");
+		pageMaker.setCri(cri);
+		pageMaker.setTotalRowCount(service.totalRowCount());
+		mv.addObject("pageMaker", pageMaker);
+		mv.setViewName("member/memberList");
+		return mv;
+	} //mlist
+	
+	@RequestMapping(value = "/msearchlist")
+	public ModelAndView msearchlist(ModelAndView mv, MultiCheckSearchCriteria cri, PageMakerE pageMaker) {
+		cri.setRowsPerPage(5);
+		cri.setSnoEno();		
 		List<MemberVO> list = service.checkList(cri);
 		// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
 		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
@@ -137,7 +152,7 @@ public class MemberController {
 		mv.addObject("pageMaker", pageMaker);
 		mv.setViewName("member/memberList");
 		return mv;
-	} //mlist	
+	} //msearchlist
 	
 	@RequestMapping(value = "/mdetail")
 	public ModelAndView mdetail(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
@@ -410,8 +425,7 @@ public class MemberController {
 	
 	// ** Password Update
 	@RequestMapping(value = "/pwupdate")
-	public ModelAndView pwupdate(ModelAndView mv, MemberVO vo, RedirectAttributes rttr){
-		String uri = null; 		
+	public ModelAndView pwupdate(ModelAndView mv, MemberVO vo, RedirectAttributes rttr){	
 		// ** Password 암호화
 		// => BCryptPasswordEncoder 적용
 		//    encode(rawData) -> digest 생성 & vo 에 set
@@ -420,13 +434,11 @@ public class MemberController {
 		if ( service.updatePassword(vo) > 0 ) {
 			 // password 수정 성공
 			 rttr.addFlashAttribute("message", "password 수정 완료 !!!") ; 
-			 uri = "redirect:mdetail?member_id="+vo.getMember_id();
 		 }else { 
 			 // password 수정 실패 : 수정가능한 폼 출력할수있도록 요청 
 			 rttr.addFlashAttribute("message", "password 수정 실패!!, 다시 해주세요 ~~");
-			 uri="redirect:mupdatef?member_id="+vo.getMember_id();
 		 }	
-		mv.setViewName(uri); 
+		mv.setViewName("redirect:mupdatef?member_id="+vo.getMember_id()); 
 		return mv;
 	} //pwupdate
 	

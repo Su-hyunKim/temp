@@ -11,6 +11,7 @@ public interface SellerMapper {
 	List<ProductVO> productList(SellerVO vo);
 	List<SellerVO> checkList(MultiCheckSearchCriteria cri);	
 	int searchRowsCount(MultiCheckSearchCriteria cri);
+	int totalRowCount();
 	int updateLastAccess(SellerVO vo);
 	int changeStatus(SellerVO vo);
 	

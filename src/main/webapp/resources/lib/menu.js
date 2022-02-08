@@ -92,7 +92,6 @@ $(function(){
 let fChecks;
 let redbox;
 let original;
-let hostIndex = location.href.indexOf(location.host) + location.host.length;
 
 class AjaxButton{
 	constructor(opt,id,url,method,convey){
@@ -118,7 +117,7 @@ let ajaxBnts = [
 	new AjaxButton(['hideBanner','loginID'],'mupdatef','mupdatef?member_id=','get','page'),
 	new AjaxButton(['hideBanner'],'sregf','sregf','get','page'),
 	new AjaxButton(['hideBanner'],'slist','slist','get','page'),
-	new AjaxButton(['hideBanner'],'supdatef','supdatef','get','page')
+	new AjaxButton(['hideBanner','loginID'],'supdatef','supdatef?member_id=','get','page')
 ];
 
 function scale(id){
