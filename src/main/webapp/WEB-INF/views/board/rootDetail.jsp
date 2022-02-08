@@ -15,6 +15,8 @@
 	</tr>
 	<tr height="40">
 		<td>I D</td><td>${apple.member_id}</td>
+		<a href="/followMember" id="followFlag"></a>
+	<!-- 	팔로잉 팔로워 카운트 표시 -->
 	</tr>
 	<tr height="40">
 		<td>제목</td><td>${apple.title}</td>
@@ -33,6 +35,7 @@
 	<tr height="40">
 		<td>조회수</td><td>${apple.cnt}</td>
 	</tr>
+	
 </table>
 <c:if test="${not empty message}">
 <hr>
@@ -54,5 +57,29 @@
  --%><hr>
 <a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp;
 <a href="home">HOME</a>
+<script>
+window.onload(function(){
+	// follow 서블릿 호출 
+	// var data = [jsonType data ]
+	$.ajax({ 
+		url: "/followChkMember", 
+		type: "GET", 
+		dataType: "json", 
+		data: data, 
+		success: function(data){  // true or false
+			if(data){ 
+				$("$followFlag").val("팔로잉");
+			}else{
+				$("$followFlag").val("팔로우"); 
+			}
+		}, 
+		error: function (request, status, error){ 
+			
+		} 
+	});
+
+	
+});
+</script>
 </body>
 </html>
