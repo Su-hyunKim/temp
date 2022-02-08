@@ -65,10 +65,11 @@ public class CommentsController {
 	} //clist
 	
 	@RequestMapping(value = "/cmylist")
-	public ModelAndView cmylist(ModelAndView mv, PageVO<CommentsVO> pvo) {
+	public ModelAndView cmylist(HttpServletRequest request, ModelAndView mv, PageVO<CommentsVO> pvo, CommentsVO vo) {
 		
 		List<CommentsVO> list = new ArrayList<CommentsVO>();
-    	list = service.selectmyList();
+		vo.setMember_id((String)request.getSession().getAttribute("loginID") );
+    	list = service.selectmyList(vo);
     	
     	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
     	else mv.addObject("message", "~~ 출력 자료가 없습니다 ~~");

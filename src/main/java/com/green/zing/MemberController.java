@@ -158,7 +158,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/mypage")
-	public ModelAndView mypage(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
+	public ModelAndView mypage(ModelAndView mv, MemberVO vo, RedirectAttributes rttr, HttpServletRequest request) {
 		// ** 마지막 접속시간 update
 		service.updateLastAccess(vo);
 		
@@ -166,7 +166,11 @@ public class MemberController {
 		String id = vo.getMember_id();
 		vo=service.selectOne(vo);
 		if (vo != null) {
-			mv.addObject("apple", vo);	
+			mv.addObject("apple", vo);
+			if("mypage".equals(request.getParameter("R"))) {
+				mv.addObject("R","mypage");
+				uri="home";
+			}
 		}else {
 			rttr.addFlashAttribute("message","~~ "+id+"님의 자료는 존재하지 않습니다 ~~");
 			uri = "redirect:home";

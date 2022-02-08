@@ -24,7 +24,7 @@
 			<div class="card-header with-border"> 
 				<h3 class="card-title">보유중인 포인트</h3>
 				<div class="form-group col-sm-2"> 
-				<input class="form-control input-sm" name="mypoint" type="text" value="${point}" readonly>
+				<input class="form-control input-sm" name="mypoint" type="text" value="${mypoint}" readonly>
 				</div>
 			</div> 
 			<div class="card-header with-border"> 
@@ -48,6 +48,7 @@
 				</div> 
 			</div> 
 		</div> 
+		<h4><a href="mypage?member_id=${loginID}&R=mypage" >[마이페이지]</a></h4>
 	</div> 
 	<s:csrfInput/> 
 </form>

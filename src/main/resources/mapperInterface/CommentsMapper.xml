@@ -41,7 +41,7 @@
 			texts,
 			rating 
 		from comments
-		where comments.member_id='${loginID}'
+		where comments.member_id=#{member_id}
 	</select>
 	
 	<select id="selectOne" resultType="vo.CommentsVO">

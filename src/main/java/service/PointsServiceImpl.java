@@ -13,18 +13,18 @@ public class PointsServiceImpl implements PointsService{
 	PointsMapper dao;
 	
 	@Override
-	public int send(PointsVO vo) {
-		return dao.send(vo) ;
+	public int send(PointsVO pvo) {
+		return dao.send(pvo) ;
 	}
 
 	@Override
-	public int updategiver(PointsVO vo) {
-		return dao.updategiver(vo);
+	public int updategiver(PointsVO pvo) {
+		return dao.updategiver(pvo);
 	}
 
 	@Override
-	public int updategrantee(PointsVO vo) {
-		return dao.updategrantee(vo);
+	public int updategrantee(PointsVO pvo) {
+		return dao.updategrantee(pvo);
 	}
 
 }

@@ -82,6 +82,7 @@ $(function(){
 			case 'login': $('#loginBt').trigger('click'); break;
 			case 'joinf': $('#joinf').trigger('click'); break;
 			case 'sregf': $('#sregf').trigger('click'); break;
+			case 'mypage': $('#mypage').trigger('click'); break;
 		}
 	}	
 }); //ready
