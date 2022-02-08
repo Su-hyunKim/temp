@@ -1,6 +1,5 @@
 package com.green.zing;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,8 @@ public class PointsController {
 	PointsService service;
 	
 	@RequestMapping(value = "/point")
-	public ModelAndView point(HttpServletRequest request, MemberVO mvo, ModelAndView mv) {
-		request.setAttribute("mypoint", mvo.getPoint());
+	public ModelAndView point(HttpServletRequest request, PointsVO pvo, ModelAndView mv) {
+		mv.addObject("mypoint", service.mypoint(pvo));
 		mv.setViewName("point/pointsForm");
 		return mv;
 	}

@@ -27,4 +27,9 @@ public class PointsServiceImpl implements PointsService{
 		return dao.updategrantee(pvo);
 	}
 
+	@Override
+	public int mypoint(PointsVO pvo) {
+		return dao.mypoint(pvo);
+	}
+
 }

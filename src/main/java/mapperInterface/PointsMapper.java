@@ -8,5 +8,6 @@ public interface PointsMapper {
 	int send(PointsVO pvo); //send
 	int updategiver(PointsVO pvo);
 	int updategrantee(PointsVO pvo);
+	int mypoint(PointsVO pvo);
 	
 } //interface
