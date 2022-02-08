@@ -15,12 +15,14 @@
 		=> BCryptPasswordEncoder 설정 ( root ~.xml 에 있음 )
 	-->
 	<s:http use-expressions="true">
-		<!-- ** 로그인과 resources 는 접근 허용 (안해주면 ~.js 화일 인식안됨)  -->
+		<!-- ** 로그인과 resources 는 접근 허용 (안해주면 ~.js 파일 인식안됨)  -->
 	 	<s:intercept-url pattern="/login*" access="permitAll" />
 		<s:intercept-url pattern="/resources/**" access="permitAll" />
-		<s:intercept-url pattern="/join*" access="permitAll" />
+		<s:intercept-url pattern="/joinf" access="permitAll" />
 		<s:intercept-url pattern="/midcheck" access="permitAll" />
-		<s:intercept-url pattern="/mupdate*" 
+		<s:intercept-url pattern="/*update**" 
+		                   access="hasAuthority('ROLE_USER')" />
+		<s:intercept-url pattern="/pwmatch**" 
 		                   access="hasAuthority('ROLE_USER')" />
 <!-- 		<s:intercept-url pattern="/pregistf" 
 		                   access="hasAuthority('ROLE_SELLER')" /> -->

@@ -57,6 +57,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public int updatePassword(MemberVO vo) {
+		return dao.updatePassword(vo);
+	}
+	
+	@Override
 	public int deleteSeller(MemberVO vo) {
 		return dao.deleteSeller(vo);
 	}

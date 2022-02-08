@@ -61,7 +61,7 @@
 				url+='&check1='+$($('#searchBar input[name="check1"]:checked')[i]).val();
 			for(var i=0; i<$('#searchBar input[name="check2"]:checked').length; i++)
 				url+='&check2='+$($('#searchBar input[name="check2"]:checked')[i]).val();
-			for(var i=0; i<$('#searchBar input[name^="range"]').length/2; i++){
+			for(var i=1; i<=$('#searchBar input[name^="range"]').length/2; i++){
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[0]).val();
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[1]).val();
 			}
@@ -89,7 +89,7 @@
 				url+='&check1='+$($('#searchBar input[name="check1"]:checked')[i]).val();
 			for(var i=0; i<$('#searchBar input[name="check2"]:checked').length; i++)
 				url+='&check2='+$($('#searchBar input[name="check2"]:checked')[i]).val();
-			for(var i=0; i<$('#searchBar input[name^="range"]').length/2; i++){
+			for(var i=1; i<=$('#searchBar input[name^="range"]').length/2; i++){
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[0]).val();
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[1]).val();
 			}
@@ -200,7 +200,7 @@
 => ${message}<br>
 </c:if>
 <br>
-		<table width=100%>
+		<table>
 			<thead>
 				<tr>
 					<th>I D</th><th>이름</th><th>성별</th><th>생년</th>
@@ -227,16 +227,16 @@
 					<td>${list.point}</td>
 					<td>${list.last_access}</td>
 				</tr>
-			</tbody>
 </c:forEach>
+			</tbody>
 		</table>				
 		<div align="center">
 			<!-- Paging 
 				SearchCriteria 적용 -> pageMaker.searchQuery(?) 		
 				 1)  First << ,  Prev <  처리 -->
 			<c:if test="${pageMaker.prev && pageMaker.spageNo>1}">
-				<a onclick=paging("${pageMaker.searchQuery(1)}");>FF</a>&nbsp;
-				<a onclick=paging("${pageMaker.searchQuery(pageMaker.spageNo-1)}");>Prev</a>
+				<a onclick="paging(${pageMaker.searchQuery(1)})">FF</a>&nbsp;
+				<a onclick="paging(${pageMaker.searchQuery(pageMaker.spageNo-1)})">Prev</a>
 			</c:if>
 			<!-- 2) sPageNo ~ ePageNo 까지, displayPageNo 만큼 표시 -->
 			<c:forEach var="i" begin="${pageMaker.spageNo}" end="${pageMaker.epageNo}">
@@ -244,14 +244,14 @@
 					<font size="5" color="#036">${i}</font>&nbsp;
 				</c:if>
 				<c:if test="${i!=pageMaker.cri.currPage}">
-					<a onclick=paging("${pageMaker.searchQuery(i)}");>${i}</a>&nbsp;
+					<a onclick="paging(${pageMaker.searchQuery(i)})">${i}</a>&nbsp;
 				</c:if>
 			</c:forEach>
 			&nbsp;
 			<!-- 3) Next >  ,  Last >>  처리 -->
 			<c:if test="${pageMaker.next && pageMaker.epageNo>0}">
-				<a onclick=paging("${pageMaker.searchQuery(pageMaker.epageNo+1)}");>Next</a>&nbsp;
-				<a onclick=paging("${pageMaker.searchQuery(pageMaker.lastPageNo)}");>LL</a>&nbsp;&nbsp;
+				<a onclick="paging(${pageMaker.searchQuery(pageMaker.epageNo+1)})">Next</a>&nbsp;
+				<a onclick="paging(${pageMaker.searchQuery(pageMaker.lastPageNo)})">LL</a>&nbsp;&nbsp;
 			</c:if>
 		</div>
 	</div>

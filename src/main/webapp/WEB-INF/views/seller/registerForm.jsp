@@ -278,7 +278,7 @@
 	
 	<div class="input_div">
 		<label for="company_name">
-			<span>*회사명</span>
+			<span>*업체명</span>
 			<input type="text" name="company_name" id="company_name" placeholder="사업자등록된 정보와 일치해야함" size="20"><br>
 			<span id="nMessage" class="eMessage"></span>
 		</label>

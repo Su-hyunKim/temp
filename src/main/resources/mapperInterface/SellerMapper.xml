@@ -4,12 +4,12 @@
   
 <mapper namespace="mapperInterface.SellerMapper">  
 
-<!-- productList -->
+<!-- Product List -->
 	<select id="productList" resultType="vo.ProductVO">
 		select product_id, name from product where member_id=#{member_id}
 	</select>
 
-<!-- 리스트 -->
+<!-- 검색결과 리스트 -->
 	<sql id="list">
 		select member_id,company_name,representative,employer_id,corporation_id,
  		SUBSTR(launch_date,1,INSTR(launch_date,'-')-1) launch_date,
@@ -86,7 +86,7 @@
    		</if>	
 	</sql>
 
-<!-- ** Seller Search, Check, Range, Order List --> 
+	<!-- Seller Search, Check, Range, Order List --> 
    <select id="checkList" resultType="vo.SellerVO">
 		<include refid="list"></include> from
 		(select s.*, ROW_NUMBER() OVER(order by
@@ -163,12 +163,12 @@
 		<include refid="follower"></include>	
 	</select>
 
-	<!-- myPage, 로그아웃form 요청시 last access 수정 -->
+<!-- myPage, 로그아웃form 요청시 last access 수정 -->
 	<update id="updateLastAccess">
 		update member set last_access=sysdate where member_id=#{member_id}
 	</update>
 
-	<!-- 휴면계정 7, 회원탈퇴 8, 회원제명 9 /  인가 1 -->
+<!-- 회원탈퇴 8, 회원제명 9 /  인가 1, 휴면계정 7 -->
 	<update id="changeStatus">
 		update member
 		set (enabled, status, last_access)
@@ -176,7 +176,7 @@
 		where member_id=#{member_id}
 	</update>
  	
- 	<!-- ** CRUD 기본 ** -->
+ <!-- CRUD 기본 -->
  	<select id="selectList" resultType="vo.SellerVO">
  		<include refid="list"></include> from seller where member_id!='admin'
  	</select>

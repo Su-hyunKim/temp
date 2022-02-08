@@ -59,9 +59,9 @@
 			url += 'column='+ $('#searchBar select[name="column"]').val()+"&order="+$('#searchBar input[name="order"]:checked').val();
 			for(var i=0; i<$('#searchBar input[name="check1"]:checked').length; i++)
 				url+='&check1='+$($('#searchBar input[name="check1"]:checked')[i]).val();
-			for(var i=0; i<$('#searchBar input[name="check2"]:checked').length; i++)
-				url+='&check2='+$($('#searchBar input[name="check2"]:checked')[i]).val();
-			for(var i=0; i<$('#searchBar input[name^="range"]').length; i++){
+			for(var i=0; i<$('#searchBar select[name="check2"]>option:selected').length; i++)
+				url+='&check2='+$($('#searchBar select[name="check2"]>option:selected')[i]).val();
+			for(var i=1; i<=$('#searchBar input[name^="range"]').length/2; i++){
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[0]).val();
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[1]).val();
 			}
@@ -87,9 +87,9 @@
 			let url = query;
 			for(var i=0; i<$('#searchBar input[name="check1"]:checked').length; i++)
 				url+='&check1='+$($('#searchBar input[name="check1"]:checked')[i]).val();
-			for(var i=0; i<$('#searchBar input[name="check2"]:checked').length; i++)
-				url+='&check2='+$($('#searchBar input[name="check2"]:checked')[i]).val();
-			for(var i=0; i<$('#searchBar input[name^="range"]').length; i++){
+			for(var i=0; i<$('#searchBar select[name="check2"]>option:selected').length; i++)
+				url+='&check2='+$($('#searchBar select[name="check2"]>option:selected')[i]).val();
+			for(var i=1; i<=$('#searchBar input[name^="range"]').length/2; i++){
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[0]).val();
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[1]).val();
 			}
@@ -145,11 +145,15 @@
 				<input type="text" name="range3" value="1000000">명
 			</td>
 		</tr>
-		<tr><th>업태</th>
+		<tr><th><label for="check2">업태</label></th>
 			<td>
-				<label><input type="checkbox" name="check2" value="00">00&nbsp;</label>
-				<label><input type="checkbox" name="check2" value="01">01&nbsp;</label>
-				<label><input type="checkbox" name="check2" value="02">02&nbsp;</label>
+				<select name='check2' id="check2">
+					<option value="00">00
+					<option value="01">01
+					<option value="02">02
+					<option value="03">03
+					<option value="04">04
+				</select>
 			</td>
 		</tr>		
 		<tr><th>사업장</th>
@@ -176,7 +180,7 @@
 		<tr><th>출력순서</th>
 			<td>
 				<select name='column'>
-					<option value="company_name">회사명
+					<option value="company_name">업체명
 					<option value="representative">대표자
 					<option value="launch_date">사업개시년
 					<option value="location2">사업장 소재지
@@ -200,10 +204,10 @@
 => ${message}<br>
 </c:if>
 <br>
-		<table width=100%>
+		<table>
 			<thead>
 				<tr>
-					<th>I D</th><th>회사명</th><th>대표자</th>
+					<th>I D</th><th>업체명</th><th>대표자</th>
 					<th>사업자등록번호</th><th>사업개시</th><th>사업장</th>
 				</tr>
 			</thead>
@@ -222,16 +226,16 @@
 					<td>${list.launch_date}</td>
 					<td>${list.location2}</td>
 				</tr>
-			</tbody>
 </c:forEach>
+			</tbody>			
 		</table>				
 		<div align="center">
 			<!-- Paging 
 				SearchCriteria 적용 -> pageMaker.searchQuery(?) 		
 				 1)  First << ,  Prev <  처리 -->
 			<c:if test="${pageMaker.prev && pageMaker.spageNo>1}">
-				<a onclick=paging("${pageMaker.searchQuery(1)}");>FF</a>&nbsp;
-				<a onclick=paging("${pageMaker.searchQuery(pageMaker.spageNo-1)}");>Prev</a>
+				<a onclick="paging(${pageMaker.searchQuery(1)})">FF</a>&nbsp;
+				<a onclick="paging(${pageMaker.searchQuery(pageMaker.spageNo-1)})">Prev</a>
 			</c:if>
 			<!-- 2) sPageNo ~ ePageNo 까지, displayPageNo 만큼 표시 -->
 			<c:forEach var="i" begin="${pageMaker.spageNo}" end="${pageMaker.epageNo}">
@@ -239,14 +243,14 @@
 					<font size="5" color="#036">${i}</font>&nbsp;
 				</c:if>
 				<c:if test="${i!=pageMaker.cri.currPage}">
-					<a onclick=paging("${pageMaker.searchQuery(i)}");>${i}</a>&nbsp;
+					<a onclick="paging(${pageMaker.searchQuery(i)})">${i}</a>&nbsp;
 				</c:if>
 			</c:forEach>
 			&nbsp;
 			<!-- 3) Next >  ,  Last >>  처리 -->
 			<c:if test="${pageMaker.next && pageMaker.epageNo>0}">
-				<a onclick=paging("${pageMaker.searchQuery(pageMaker.epageNo+1)}");>Next</a>&nbsp;
-				<a onclick=paging("${pageMaker.searchQuery(pageMaker.lastPageNo)}");>LL</a>&nbsp;&nbsp;
+				<a onclick="paging(${pageMaker.searchQuery(pageMaker.epageNo+1)})">Next</a>&nbsp;
+				<a onclick="paging(${pageMaker.searchQuery(pageMaker.lastPageNo)})">LL</a>&nbsp;&nbsp;
 			</c:if>
 		</div>
 	</div>
