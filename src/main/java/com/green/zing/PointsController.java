@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import service.MemberService;
 import service.PointsService;
-import vo.MemberVO;
 import vo.PointsVO;
 
 @Controller
@@ -17,6 +17,8 @@ public class PointsController {
 		
 	@Autowired 
 	PointsService service;
+	@Autowired
+	MemberService mservice;
 	
 	@RequestMapping(value = "/point")
 	public ModelAndView point(HttpServletRequest request, PointsVO pvo, ModelAndView mv) {
@@ -27,16 +29,18 @@ public class PointsController {
 	
 	@RequestMapping(value = "/psend")
 	public ModelAndView psend(ModelAndView mv, PointsVO pvo, RedirectAttributes rttr) {
+		String uri = "redirect:point?giver="+pvo.getGiver();
 		
-		String uri = "redirect:point";
-		if ( service.send(pvo) > 0 ) { 
-			service.updategiver(pvo);
-			service.updategrantee(pvo);
-    		rttr.addFlashAttribute("message", "포인트 전송 완료");
-    	}else {
-    		mv.addObject("message", "포인트 전송 실패");
-    		uri = "point/pointsForm";
-    	}
+		if (pvo.getPoint() > pvo.getMypoint()) { 
+			rttr.addFlashAttribute("message","보유 포인트가 보내는 포인트보다 적습니다."); 
+		} else {
+			if (service.updategrantee(pvo)>0) {
+				service.updategiver(pvo);
+				rttr.addFlashAttribute("message", "포인트 전송 완료");
+			} else {
+				rttr.addFlashAttribute("message","포인트 전송 실패 => 받으실 분의 아이디를 확인해 주세요.");
+			}
+		}
 		
 		mv.setViewName(uri);
 		return mv;
