@@ -176,11 +176,12 @@
 	
 	function tyCheck() {
 		let type = $('#business_type').val();
-		if (type.length<2) {
-			$('#tMessage').html(' ~~ 업태코드를 입력해주세요 ~~ ');
+		if (type.length<0) {
+			$('#tMessage').html(' ~~ 업태를 입력해주세요 ~~ ');
 			return false;
-		}else if ( $.isNumeric(type)==false || type.replace(/[.]/g,'').length < type.length) {
-			$('#tMessage').html(' ~~ 업태코드는 숫자로만 입력해주세요 ~~ ');
+		}else if ( type.replace(/[가-힣 .,]/gi,'').length > 0 ) {
+			//공백포함 한글 또는 ','
+			$('#tMessage').html(' ~~ 업태를 올바르게 입력해주세요 ~~ ');
 			return false;
 		}else {
 			$('#tMessage').html('');
@@ -190,11 +191,11 @@
 	
 	function itmCheck() {
 		let items = $('#business_items').val();
-		if (items.length<5) {
-			$('#itMessage').html(' ~~ 종목코드를 입력해주세요 ~~ ');
+		if (items.length<0) {
+			$('#itMessage').html(' ~~ 종목를 입력해주세요 ~~ ');
 			return false;
-		}else if ( $.isNumeric(items)==false || items.replace(/[.]/g,'').length < items.length) {
-			$('#itMessage').html(' ~~ 종목코드는 숫자로만 입력해주세요 ~~ ');
+		}else if ( items.replace(/[가-힣 .,]/gi,'').length > 0 ) {
+			$('#itMessage').html(' ~~ 종목를 올바르게 입력해주세요 ~~ ');
 			return false;
 		}else {
 			$('#itMessage').html('');
@@ -339,13 +340,12 @@
 => ${message}<br>
 <hr>
 </c:if>
-	<form action="mupdate" method="post" enctype="multipart/form-data" id="myForm">
+	<form action="supdate" method="post" enctype="multipart/form-data" id="myForm">
 		<table class="basic">
 			<tr>
 				<th><label for="member_id">I  D</label></th>
 				<td>
 					<input type="text" name="member_id" id="member_id" value='${apple.member_id}' size="20" readonly>
-					<input type="button" value="비밀번호 수정" id="pwUpdate"><br>
 				</td>
 			</tr>
 			<tr>
@@ -363,16 +363,16 @@
 				</td>
 			</tr>
 			<tr>
-				<th><label for="business_type">업태코드</label></th>
+				<th><label for="business_type">업태</label></th>
 				<td>
-					<input type="text" name="business_type" id="business_type" value="${apple.business_type}" size="2"><br>
+					<input type="text" name="business_type" id="business_type" value="${apple.business_type}" size="20"><br>
 					<span id="tMessage" class="eMessage"></span>			
 				</td>
 			</tr>
 			<tr>
-				<th><label for="business_items">종목코드</label></th>
+				<th><label for="business_items">종목</label></th>
 				<td>
-					<input type="text" name="business_items" id="business_items" value="${apple.business_items}" size="5"><br>
+					<input type="text" name="business_items" id="business_items" value="${apple.business_items}" size="20"><br>
 					<span id="itMessage" class="eMessage"></span>			
 				</td>
 			</tr>
@@ -399,7 +399,7 @@
 			</tr>
 			<tr>
 				<th><label for="address1">사업장 주소</label></th>
-				<td><input type="text" name="loaction1" id="address1" value="${apple.location1}" style="width:50%" >
+				<td><input type="text" name="location1" id="address1" value="${apple.location1}" style="width:50%" >
 					<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" style="width:30%"><br>
 					<span id="a1Message" class="eMessage"></span>
 					<input type="text" name="location2" id="address2" value="${apple.location2}"><br>

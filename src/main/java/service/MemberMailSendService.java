@@ -51,7 +51,7 @@ public class MemberMailSendService {
 	}
 
 	// 회원가입, 판매자전환 시 발송 이메일(인증키 발송)
-	public String mailSendWithMemberKey(String email, String member_id, HttpServletRequest request) {
+	public String mailSendWithMemberKey(String email, String member_id) {
 		
 		String key = getKey(false, 20);
 		//dao.GetKey(vo.getKey(vo)); 
@@ -75,15 +75,15 @@ public class MemberMailSendService {
 	} //mailSendWithMemberKey
 	
 	// 임시비밀번호 발송 이메일
-	public String mailSendWithTempararyPW(String email, String member_id, HttpServletRequest request) {		
-		String key = getKey(false, 20);
+	public String mailSendWithTempararyPW(String email, String member_id) {		
+		String key = getKey(false, 15);
 		MimeMessage mail = mailSender.createMimeMessage();
 		String htmlStr = "<h2>안녕하세요 징검다리 입니다!</h2><br><br>"
 				+ "<h3>" + member_id + "님</h3>" + "<p>"
 				+ "임시비밀번호는 "+key+" 입니다.<br>임시비밀번호로 로그인 후 회원정보수정에서 비밀번호를 수정해 주시기 바랍니다.</p>"
 				+ "(혹시 잘못 전달된 메일이라면 이 이메일을 무시하셔도 됩니다)";
 		try {
-			mail.setSubject("[임시비밀번호] 징검다리 임시비밀번호 전송 메일입니다", "utf-8");
+			mail.setSubject("[임시비밀번호] 징검다리 임시비밀번호 발급 메일입니다", "utf-8");
 			mail.setText(htmlStr, "utf-8", "html");
 			mail.addRecipient(RecipientType.TO, new InternetAddress(email));
 			mailSender.send(mail);

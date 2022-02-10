@@ -38,9 +38,10 @@ function inCheck(result){
 			check*=0;
 		}
 	});
+	if(result=='판매자 전환') check *= checkentrepreneurCheck();
 	if(check!=0){
-		if (confirm("정말 "+result+" 하십니까 ? (Yes:확인 / No:취소)")==false) {   
-			alert('~~ '+result+'이(가) 취소 되었습니다 ~~');
+		if (confirm("정말 "+result+" 하시겠습니까 ? (Yes:확인 / No:취소)")==false) {   
+			alert(result+'이(가) 취소 되었습니다.');
 		 	return false;
 		}else{
 			fChecks.forEach(function(focusoutCheck){

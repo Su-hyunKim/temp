@@ -17,6 +17,8 @@
 			$('#myForm .direct').hide();
 			window.scrollTo(0,0);
 		});
+	 	header = '${_csrf.headerName}';
+	 	token = '${_csrf.token}';
 	});
 	fChecks = [
 		new FocusoutCheck(false,'company_name',cnCheck,'nMessage','업체명을'),
@@ -31,8 +33,8 @@
 		new FocusoutCheck(false,'email_tail',em2Check,'emMessage','이메일을'),
 		new FocusoutCheck(true,'email_direct',em3Check,'emMessage','이메일을'),
 		new FocusoutCheck(false,'business_phone',phoCheck,'phMessage','전화번호를'),
-		new FocusoutCheck(false,'business_type',tyCheck,'tMessage','업태코드를'),
-		new FocusoutCheck(false,'business_items',itmCheck,'itMessage','종목코드를')
+		new FocusoutCheck(false,'business_type',tyCheck,'tMessage','업태를'),
+		new FocusoutCheck(false,'business_items',itmCheck,'itMessage','종목을')
 	];
 
 	redbox = '3px solid red';
@@ -182,11 +184,12 @@
 	
 	function tyCheck() {
 		let type = $('#business_type').val();
-		if (type.length<2) {
-			$('#tMessage').html(' ~~ 업태코드를 입력해주세요 ~~ ');
+		if (type.length<0) {
+			$('#tMessage').html(' ~~ 업태를 입력해주세요 ~~ ');
 			return false;
-		}else if ( $.isNumeric(type)==false || type.replace(/[.]/g,'').length < type.length) {
-			$('#tMessage').html(' ~~ 업태코드는 숫자로만 입력해주세요 ~~ ');
+		}else if ( type.replace(/[가-힣 .,]/gi,'').length > 0 ) {
+			//공백포함 한글 또는 ','
+			$('#tMessage').html(' ~~ 업태를 올바르게 입력해주세요 ~~ ');
 			return false;
 		}else {
 			$('#tMessage').html('');
@@ -196,17 +199,55 @@
 	
 	function itmCheck() {
 		let items = $('#business_items').val();
-		if (items.length<5) {
-			$('#itMessage').html(' ~~ 종목코드를 입력해주세요 ~~ ');
+		if (items.length<0) {
+			$('#itMessage').html(' ~~ 종목를 입력해주세요 ~~ ');
 			return false;
-		}else if ( $.isNumeric(items)==false || items.replace(/[.]/g,'').length < items.length) {
-			$('#itMessage').html(' ~~ 종목코드는 숫자로만 입력해주세요 ~~ ');
+		}else if ( items.replace(/[가-힣 .,]/gi,'').length > 0 ) {
+			$('#itMessage').html(' ~~ 종목를 올바르게 입력해주세요 ~~ ');
 			return false;
 		}else {
 			$('#itMessage').html('');
 			return true;
 		}
 	} //business_items
+
+ 	var header;
+ 	var token;
+	
+	function entrepreneurCheck() {
+		var data = {
+			      "b_no": "0000000000",
+			      "start_dt": "20000101",
+			      "p_nm": "홍길동",
+			      "p_nm2": "홍길동",
+			      "b_nm": "(주)테스트",
+			      "corp_no": "0000000000000",
+			      "b_sector": "",
+			      "b_type": ""
+			   }; 			   
+		$.ajax({
+			url: "https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=gR214+X/dVCCYEH9wwnr+ohOiI3tMd/D3yUYOdR+2KGZBCn8qG4MQRczOsT9hm/jhMiMjokwNqxJN++4Cf50xQ==",
+			//gR214+X/dVCCYEH9wwnr+ohOiI3tMd/D3yUYOdR+2KGZBCn8qG4MQRczOsT9hm/jhMiMjokwNqxJN++4Cf50xQ==
+			//gR214%2BX%2FdVCCYEH9wwnr%2BohOiI3tMd%2FD3yUYOdR%2B2KGZBCn8qG4MQRczOsT9hm%2FjhMiMjokwNqxJN%2B%2B4Cf50xQ%3D%3D
+			type: "POST",
+			data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+			beforeSend : function(xhr){
+				// 전송전에 헤더에 csrf의 값을 설정 해야함
+				xhr.setRequestHeader(header, token);
+			},
+			dataType: "JSON",
+			contentType: "application/json",
+			accept: "application/json",
+			success: function(result) {
+				console.log(result);
+			},
+			error: function(result) {
+				console.log(result.responseText); //responseText의 에러메세지 확인
+			}
+		});
+		if(1!=1) return 0;
+		else return 1;
+	}
 </script>
 <style>
 		.input_div {
@@ -260,6 +301,7 @@
 </head>
 <body>
 <div class="wrapped">
+<button onclick=entrepreneurCheck()>test</button>
 	<h1>징검다리 판매자전환</h1>
 	<div class="input_div">사업자등록을 하신 징검다리 회원이시면 판매자전환을 통해 판매자 자격을 얻을 수 있습니다.</div>
  	<form action="sreg" method="post" enctype="multipart/form-data" id="myForm">
@@ -466,16 +508,16 @@
 
 	<div class="input_div">
 		<label for="business_type">
-			<span>*업태코드</span>
-			<input type="text" name="business_type" id="business_type" placeholder="사업자등록상의 2자리 숫자">
+			<span>*업태</span>
+			<input type="text" name="business_type" id="business_type" placeholder="사업자등록상의 업태">
 		</label>
 		<span id="tMessage" class="eMessage"></span>
 	</div>
 	
 	<div class="input_div">
 		<label for="business_items">
-			<span>*종목코드</span>
-			<input type="text" name="business_items" id="business_items" placeholder="사업자등록상의 5자리 숫자">
+			<span>*종목</span>
+			<input type="text" name="business_items" id="business_items" placeholder="사업자등록상의 종목">
 		</label>
 		<span id="itMessage" class="eMessage"></span>
 	</div>
