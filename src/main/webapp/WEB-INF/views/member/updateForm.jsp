@@ -18,9 +18,9 @@
 		new FocusoutCheck(true,'address1',ad1Check,'a1Message','우편번호를'),
 		new FocusoutCheck(true,'address2',ad2Check,'a2Message','주소를'),
 		new FocusoutCheck(true,'address3',ad3Check,'a3Message','상세주소를'),
-		new FocusoutCheck(true,'email',em1Check,'emMessage','이메일을'),
+/* 		new FocusoutCheck(true,'email',em1Check,'emMessage','이메일을'),
 		new FocusoutCheck(true,'email_tail',em2Check,'emMessage','이메일을'),
-		new FocusoutCheck(true,'email_direct',em3Check,'emMessage','이메일을'),
+		new FocusoutCheck(true,'email_direct',em3Check,'emMessage','이메일을'), */
 		new FocusoutCheck(true,'phone',phoCheck,'phMessage','전화번호를')
 	];
 
@@ -86,7 +86,7 @@
 		}
 	} //address3
 
-	function em1Check() {
+/* 	function em1Check() {
 		if ($('#email').val()=='') {
 			$('#emMessage').html(' ~~ 이메일 계정을 입력해주세요 ~~ ');
 			return false;
@@ -115,7 +115,7 @@
 			$('#emMessage').html('');
 			return true;
 		}
-	} //email3
+	} //email3 */
 
 	function phoCheck() {
 		let phone=$('#phone').val();
@@ -152,14 +152,14 @@
 		});
 		$('#else_direct').val( "${apple.interest}".substring("${apple.interest}".lastIndexOf(":")+1) );
 		// 이메일
-		$('#email_direct').show();
- 		$('#email_tail').change(function(){
+ 		$('#email_direct').show();
+ /*		$('#email_tail').change(function(){
 			if($('#email_tail').val()=='direct') $('#email_direct').show();
 			else $('#email_direct').hide();
-		}); 
+		}); */
 		$('#email').val( "${apple.email}".substring(0,"${apple.email}".indexOf("@")) );
 		
-		$('#email_tail option[value="direct"]').prop('selected',true);
+/* 		$('#email_tail option[value="direct"]').prop('selected',true);  */
 		
 		$('#email_direct').val( "${apple.email}".substring("${apple.email}".indexOf("@")+1) );
 	}
@@ -494,16 +494,16 @@
 			<tr>
 				<th><label for="email">이메일</label></th>
 				<td>
-					<input type="text" name="email" id="email">&nbsp;@&nbsp;
-					<select id="email_tail">
+					<input type="text" name="email" id="email" readonly>&nbsp;@&nbsp;
+<%-- 					<select id="email_tail">
 						<option value="">선택</option>
 						<option value="naver.com">naver.com</option>
 						<option value="daum.net">daum.net</option>
 						<option value="gmail.com">gmail.com</option>
 						<option value="nate.com">nate.com</option>
 						<option value="direct">직접입력</option>
-					</select>
-					<input type="text" name="email_direct" id="email_direct" class="direct" placeholder="직접입력"><br>
+					</select> --%>
+					<input type="text" name="email_direct" id="email_direct" class="direct" placeholder="직접입력" readonly><br>
 					<span id="emMessage" class="eMessage"></span>		
 				</td>
 			</tr>

@@ -285,7 +285,7 @@ public class MemberController {
 		
 	if ( service.insert(vo) > 0 ) { // insert 성공
 		// 인증 email 발송
-		String key = mailsender.mailSendWithMemberKey(vo.getEmail(),vo.getMember_id(),request);
+		String key = mailsender.mailSendWithMemberKey(vo.getEmail(),vo.getMember_id());
 		if(key==null) key="";	
 		mv.addObject("key",key);
 		// member_id값 저장(인증실패시 delete를 하기위함)
@@ -409,7 +409,6 @@ public class MemberController {
 			// password 일치
 			mv.addObject("pwMatch", "T"); //javascript로 다음요청(쿼리문에 member_id필수) 보내기
 		}else { //Password 불일치 -> 재입력 유도
-			mv.addObject("pwMatch", "F");
 			mv.addObject("message", "password를 다시 입력해주세요");
 		}
 		mv.setViewName("jsonView");
@@ -449,5 +448,70 @@ public class MemberController {
 		service.changeStatus(vo);
 		mv.setViewName("redirect:mrwithdraw?member_id="+vo.getMember_id());
 		return mv;
-	}	
+	}
+	
+	@RequestMapping(value = "/findidf")
+	public ModelAndView findidf(ModelAndView mv){			
+		mv.setViewName("member/findIdForm");
+		return mv;
+	} //findidf
+	
+	@RequestMapping(value = "/findid")
+	public ModelAndView findid(ModelAndView mv, MemberVO vo, HttpServletResponse response){
+		// ** jsonView 사용시 response 의 한글 처리
+		response.setContentType("text/html; charset=UTF-8");
+		String id = "";
+		List<MemberVO> list = null;
+		if( vo.getEmail()!=null && !("".equals(vo.getEmail())) ) list = service.findIdByEmail(vo);
+		else if( vo.getBirthday()!=null && !("".equals(vo.getBirthday())) ) list = service.findIdByBirthday(vo);
+		if ( list!=null && list.size()>0 ) { // ID있음
+			mv.addObject("exist", "T"); //javascript로 다음요청(쿼리문에 member_id필수) 보내기
+			for(int i=0; i<list.size(); i++)
+				id += " " + list.get(i).getMember_id();
+			mv.addObject("id", id);
+		}else { //ID없음 -> 재입력 유도
+			mv.addObject("message", "해당하는 ID가 없습니다.");
+		}
+		mv.setViewName("jsonView");
+		return mv;
+	} //findid
+	
+	@RequestMapping(value = "/findpwf")
+	public ModelAndView findpwf(ModelAndView mv){			
+		mv.setViewName("member/findPassword1");
+		return mv;
+	} //findpwf
+
+	@RequestMapping(value = "/idcheck")
+	public ModelAndView idcheck(ModelAndView mv, MemberVO vo){
+		vo = service.selectOne(vo);
+		if(vo!=null) mv.addObject("exist","T");
+		else mv.addObject("message","해당하는 ID가 없습니다.");
+		mv.setViewName("jsonView");
+		return mv;
+	} //idcheck
+	
+	@RequestMapping(value = "/sendpwf")
+	public ModelAndView sendpwf(ModelAndView mv, MemberVO vo){
+		vo = service.selectOne(vo);
+		mv.addObject("apple",vo);
+		mv.setViewName("member/findPassword2");
+		return mv;
+	} //sendpwf
+	
+	@RequestMapping(value = "/sendpw")
+	public ModelAndView sendpw(ModelAndView mv, MemberVO vo){	
+		String password = mailsender.mailSendWithTempararyPW(vo.getEmail(),vo.getMember_id());
+		vo.setPassword( passwordEncoder.encode(password) );		
+		if ( service.updatePassword(vo) > 0 ) {
+			 // password 수정 성공
+			mv.addObject("message","임시비밀번호가 발송되었습니다. 비밀번호를 반드시 수정하시기 바랍니다.");
+		 }else { 
+			 // password 수정 실패 : 수정가능한 폼 출력할수있도록 요청 
+			 mv.addObject("message", "임시비밀번호 발급 실패!!, 다시 해주세요 ~~");
+		 }		
+		mv.setViewName("home");
+		return mv;
+	} //sendpw
+
 }

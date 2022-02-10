@@ -16,6 +16,9 @@
 				<prop key="mail.smtp.auth">true</prop>
 				<prop key="mail.smtp.starttls.enable">true</prop>
 				<prop key="mail.debug">true</prop>
+				<!-- 프로토콜 관련 예외처리를 위해 TLS버전을 지정 -->
+				<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+				<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
 			</props>
 		</property>		
 	</bean>

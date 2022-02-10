@@ -49,6 +49,9 @@
 <body>
 <div class="center">
 	<h1>판매자상세정보</h1>
+<c:if test="${not empty message}">
+=> ${message}<br>
+</c:if>
 	<table>
 		<tr>
 			<th>I  D</th>
@@ -63,11 +66,11 @@
 			<td>${apple.representative}</td>
 		</tr>
 		<tr>
-			<th>업태코드</th>
+			<th>업태</th>
 			<td>${apple.business_type}</td>
 		</tr>
 		<tr>
-			<th>종목코드</th>
+			<th>종목</th>
 			<td>${apple.business_items}</td>
 		</tr>
 		<tr>
@@ -113,10 +116,6 @@
 			<td><img src="${apple.logo}" width="100" height="120"></td>
 		</tr>
 	</table>
-<c:if test="${not empty message}">
-=> ${message}<br>
-<hr>
-</c:if>
 <c:if test="${loginID==apple.member_id or loginID=='admin'}">
 	<a href="supdatef?member_id=${apple.member_id}">판매자정보수정</a>&nbsp;
 	<a href="mdetail?member_id=${apple.member_id}">회원상세정보</a>&nbsp;

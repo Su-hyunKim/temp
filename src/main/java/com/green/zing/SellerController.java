@@ -156,7 +156,7 @@ public class SellerController {
 			
 		if ( service.insert(vo) > 0 ) { // insert 성공
 			// 인증 email 발송
-			String key = mailsender.mailSendWithMemberKey(vo.getBusiness_email(),vo.getMember_id(),request);
+			String key = mailsender.mailSendWithMemberKey(vo.getBusiness_email(),vo.getMember_id());
 			if(key==null) key="";	
 			mv.addObject("key",key);
 			mv.addObject("R","sreg");

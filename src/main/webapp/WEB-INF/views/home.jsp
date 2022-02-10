@@ -11,6 +11,18 @@
 	<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
 	<script src="resources/lib/jquery-3.2.1.min.js"></script> 
 	<script src="resources/lib/menu.js"></script>
+	<script>
+	$(function(){
+		if("${message}"!="") alert("${message}");
+		if("${role}".indexOf("ROLE_SELLER")!=-1){
+			$('#sregf').hide();
+			$('#supdatef').show();
+		}else {
+			$('#sregf').show();
+			$('#supdatef').hide();
+		}
+	});
+	</script>
 </head>
 <body>
 <a id="home" href="home"><img src="resources/image/home.png" width="30" height="30"></a>
@@ -50,11 +62,7 @@
 					<li id="mupdatef"><span>회원정보수정</span>
 					<li id="sregf"><span>판매자전환</span>
 				</c:if>
-				<c:forEach var="r" items="${role}">
-					<c:if test="${r=='ROLE_SELLER'}">			
-						<li id="supdatef"><span>판매자정보수정</span>
-					</c:if>
-				</c:forEach>
+					<li id="supdatef"><span>판매자정보수정</span>
 				<script>
 				</script>
 				<c:if test="${loginID=='admin'}">			
@@ -79,9 +87,6 @@
 <P>${serverTime}</P>
 <c:if test="${not empty loginID}">
 <span>${loginID}님 환영합니다.</span>
-</c:if>
-<c:if test="${not empty message}">
-<span>${message}</span>
 </c:if>
 </div>
 <div class="modal"></div><div class="modal_content"></div>

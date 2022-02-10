@@ -42,6 +42,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public List<MemberVO> findIdByBirthday(MemberVO vo) {
+		return dao.findIdByBirthday(vo);
+	}
+	
+	@Override
+	public List<MemberVO> findIdByEmail(MemberVO vo) {
+		return dao.findIdByEmail(vo);
+	}
+	
+	@Override
 	public int searchRowsCount(MultiCheckSearchCriteria cri) {
 		return dao.searchRowsCount(cri);
 	}

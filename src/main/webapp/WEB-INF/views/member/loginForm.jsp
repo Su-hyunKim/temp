@@ -11,6 +11,7 @@
 	</style>
 	<script src="resources/lib/jquery-3.2.1.min.js"></script>
  	<script>
+$(function(){
  	var header = '${_csrf.headerName}';
  	var token = '${_csrf.token}';
  	var context = '${pageContext.request.contextPath}';
@@ -57,10 +58,27 @@
 			return false;
 		}); //jslogin_click 
 		
+		
+		$('#findpwf').click(function(e){
+			$.ajax({
+				type:"get",
+				url: context + "/findpwf",
+				success:function(resultPage) {
+							$('.modal_content').html(resultPage);
+						},
+				error: function() {
+							$('#message').html("~~ 서버 오류 입니다 ~~");
+						}
+			});//ajax
+			return false;
+		}); //findpwf_click
+			
 /* 	$('.modalClose').click(function(e){
 		$('.modal,.modal_content').hide();
 		e.stopPropagation();
 	}); */
+	
+});
  	</script>
 </head>
 <body>
@@ -76,8 +94,8 @@
 			<button id="login">Login</button>&nbsp; 
 			<input type="reset" value="Reset"><br>
 			<a href="joinf?R=joinf">[회원가입]</a>&nbsp;
-			<a href="**findid**">[아이디 찾기]</a>&nbsp;
-			<a href="**findpw**">[비밀번호 찾기]</a>			
+			<a href="findidf">[아이디 찾기]</a>&nbsp;
+			<a href="findpwf" id="findpwf">[비밀번호 찾기]</a>			
 		</td>
 	</tr> 
 </table>
@@ -85,7 +103,5 @@
 <!-- <div class="modalClose">X</div> -->
 <span id="message"></span>
 </div>
-
-
 </body>
 </html> 

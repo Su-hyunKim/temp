@@ -165,9 +165,19 @@
 		<include refid="purchase"></include>
 		<include refid="follower"></include>		
 	</select>
-	
+
 	<select id="totalRowCount" resultType="int">
-		select count(*) from member m where member_id!='admin' and status!='0'	
+		select count(*) from member where member_id!='admin' and status!='0'	
+	</select>
+
+	<select id="findIdByBirthday" resultType="vo.MemberVO">
+		select member_id from member
+		where name=#{name} and birthday=#{birthday} and gender=#{gender}
+	</select>
+	
+	<select id="findIdByEmail" resultType="vo.MemberVO">
+		select member_id from member
+		where name=#{name} and email=#{email}
 	</select>
 
 <!-- myPage, 로그아웃form 요청시 last access 수정 -->

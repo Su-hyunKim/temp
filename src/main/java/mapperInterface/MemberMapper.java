@@ -10,6 +10,8 @@ public interface MemberMapper {
 	
 	List<AuthVO> authList(MemberVO vo);
 	List<MemberVO> checkList(MultiCheckSearchCriteria cri);	
+	List<MemberVO> findIdByBirthday(MemberVO vo);
+	List<MemberVO> findIdByEmail(MemberVO vo);
 	int searchRowsCount(MultiCheckSearchCriteria cri);
 	int totalRowCount();
 	int updateLastAccess(MemberVO vo);
