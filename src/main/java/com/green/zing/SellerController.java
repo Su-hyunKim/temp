@@ -60,7 +60,7 @@ public class SellerController {
 	} //ssearchlist
 	
 	@RequestMapping(value = "/sdetail")
-	public ModelAndView mdetail(ModelAndView mv, SellerVO vo, RedirectAttributes rttr) {
+	public ModelAndView sdetail(ModelAndView mv, SellerVO vo, RedirectAttributes rttr) {
 		String uri = "seller/sellerDetail";
 		String id = vo.getMember_id();
 		List<ProductVO> list = service.productList(vo);
@@ -78,7 +78,7 @@ public class SellerController {
 	}
 
 	@RequestMapping(value = "/sregf")
-	public ModelAndView joinf(ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView sregf(ModelAndView mv, HttpServletRequest request) {
 		if("sregf".equals(request.getParameter("R"))) {
 			mv.addObject("R","sregf");
 			mv.setViewName("home");
@@ -175,7 +175,7 @@ public class SellerController {
 	} //sreg
 	
 	@RequestMapping(value = "/supdatef")
-	public ModelAndView mupdatef(ModelAndView mv, HttpServletRequest request, SellerVO vo) {
+	public ModelAndView supdatef(ModelAndView mv, HttpServletRequest request, SellerVO vo) {
 		// ** 마지막 접속시간 update
 		service.updateLastAccess(vo);
 		
@@ -187,7 +187,7 @@ public class SellerController {
 	
 	// ** Seller Update
 	@RequestMapping(value = "/supdate")
-	public ModelAndView mupdate(HttpServletRequest request, 
+	public ModelAndView supdate(HttpServletRequest request, 
 			ModelAndView mv, SellerVO vo, RedirectAttributes rttr) throws IOException {
 		String uri = null; 
 

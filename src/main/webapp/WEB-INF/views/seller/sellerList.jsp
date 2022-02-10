@@ -59,8 +59,6 @@
 			url += 'column='+ $('#searchBar select[name="column"]').val()+"&order="+$('#searchBar input[name="order"]:checked').val();
 			for(var i=0; i<$('#searchBar input[name="check1"]:checked').length; i++)
 				url+='&check1='+$($('#searchBar input[name="check1"]:checked')[i]).val();
-			for(var i=0; i<$('#searchBar select[name="check2"]>option:selected').length; i++)
-				url+='&check2='+$($('#searchBar select[name="check2"]>option:selected')[i]).val();
 			for(var i=1; i<=$('#searchBar input[name^="range"]').length/2; i++){
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[0]).val();
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[1]).val();
@@ -87,8 +85,6 @@
 			let url = query;
 			for(var i=0; i<$('#searchBar input[name="check1"]:checked').length; i++)
 				url+='&check1='+$($('#searchBar input[name="check1"]:checked')[i]).val();
-			for(var i=0; i<$('#searchBar select[name="check2"]>option:selected').length; i++)
-				url+='&check2='+$($('#searchBar select[name="check2"]>option:selected')[i]).val();
 			for(var i=1; i<=$('#searchBar input[name^="range"]').length/2; i++){
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[0]).val();
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[1]).val();
@@ -123,6 +119,7 @@
 					<option value="c">업체명</option>
 					<option value="r">대표자</option>
 					<option value="cr">업체명 or 대표자</option>
+					<option value="type">업태</option>
 				</select>
 				<input type="text" name="keyword" id="keyword">
 			</td>
@@ -144,18 +141,7 @@
 				<input type="text" name="range3" value="0">명&nbsp;~&nbsp;
 				<input type="text" name="range3" value="1000000">명
 			</td>
-		</tr>
-		<tr><th><label for="check2">업태</label></th>
-			<td>
-				<select name='check2' id="check2">
-					<option value="00">00
-					<option value="01">01
-					<option value="02">02
-					<option value="03">03
-					<option value="04">04
-				</select>
-			</td>
-		</tr>		
+		</tr>	
 		<tr><th>사업장</th>
 			<td>
 				<label><input type="checkbox" name="check1" value="서울">서울&nbsp;</label>

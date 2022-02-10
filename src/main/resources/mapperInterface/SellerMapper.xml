@@ -42,17 +42,6 @@
    		</if>	
 	</sql>
 
-	<sql id="type">
-		<if test="check2 != null">
-		and
-		business_type
-		in
-   		<foreach collection="check2" item="it" open="(" close=")" separator=",">
-   			#{it}
-   		</foreach>  		
-   		</if>	
-	</sql>
-
 	<sql id="date">
 		<if test="range1 != null">
 		and
@@ -94,7 +83,6 @@
 		) rnum from seller s where member_id!='admin'
 		<include refid="search"></include>
 		<include refid="address"></include>
-		<include refid="type"></include>
 		<include refid="date"></include>
 		<include refid="product"></include>
 		<include refid="follower"></include>
@@ -149,6 +137,9 @@
 		  		and (company_name Like #{keyVal}
 		  		or representative Like #{keyVal})
 		  	</when>
+		  	<when test="searchType=='type'.toString()">
+		  		and business_type Like #{keyVal}
+		  	</when>
 		  	<otherwise></otherwise>
 		</choose>
 	</sql>
@@ -157,7 +148,6 @@
 		select count(*) from seller s where member_id!='admin' 
 		<include refid="search"></include>
 		<include refid="address"></include>
-		<include refid="type"></include>
 		<include refid="date"></include>
 		<include refid="product"></include>
 		<include refid="follower"></include>	
