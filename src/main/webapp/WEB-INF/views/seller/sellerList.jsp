@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>판매자검색</title>
+	<title>징검다리 : 판매자검색</title>
 	<style>
 		#searchBar input[type="checkbox"]{
 			width:20px;

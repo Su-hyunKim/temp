@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>** My Page **</title>
+<title>징검다리 : My Page</title>
 <link rel="stylesheet" type="text/css" href="resources/lib/myinfo.css">
 </head>
 <body>

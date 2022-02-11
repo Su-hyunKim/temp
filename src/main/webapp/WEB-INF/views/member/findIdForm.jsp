@@ -6,10 +6,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0,
 	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
-<title>ID 찾기</title>
+<title>징검다리 : ID 찾기</title>
 <script src="resources/lib/jquery-3.2.1.min.js"></script>
 <script>
-$(function(){
+$(function(){		
 	// EL 값을 읽어오려면 페이지가 완전히 로드된 시점이어야함.
 	var header = '${_csrf.headerName}';
 	var token = '${_csrf.token}';

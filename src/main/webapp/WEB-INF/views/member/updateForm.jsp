@@ -164,7 +164,7 @@
 		$('#email_direct').val( "${apple.email}".substring("${apple.email}".indexOf("@")+1) );
 	}
 
-	$(function(){		
+	$(function(){
 		$('#myForm input[type="reset"]').click(function(){
 			$('#name').val("${apple.name}");
 			$('#birthday').val("${apple.birthday}");

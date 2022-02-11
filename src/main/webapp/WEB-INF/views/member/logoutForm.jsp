@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>** Logout Page **</title>
+<title>징검다리 : Logout</title>
 </head>
 <body>
 <div class="wrapped">
-<h1>Logout Page</h1>
+<h1>로그아웃</h1>
 <!-- => 스프링 시큐리티로 로그아웃을 전달하려면
    form Tag , Post 로 전달해야함.
 => 그러므로 a Tag 요청은 컨트롤러로 넘어가 404 발생    -->

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0,
 	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
-<title>휴면계정활성화</title>
+<title>징검다리 : 휴면계정활성화</title>
 </head>
 <body>
 <div align="center">
@@ -15,6 +15,5 @@
 <a href="activate?member_id=${loginID}">[활성화]</a>&nbsp;&nbsp;<a href="home">[HOME]</a>			
 <span id="message"></span>
 </div>
-
 </body>
 </html> 

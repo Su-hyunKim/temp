@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원ID 확인</title>
+<title>징검다리 : 회원ID 확인</title>
 	<style>
 		table{text-align:center;}
 	</style>

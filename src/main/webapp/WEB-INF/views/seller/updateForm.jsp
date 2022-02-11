@@ -217,7 +217,7 @@
 		$('#email_direct').val( "${apple.business_email}".substring("${apple.business_email}".indexOf("@")+1) );
 	}
 
-	$(function(){		
+	$(function(){
 		$('#myForm input[type="reset"]').click(function(){
 			$('#company_name').val("${apple.company_name}");
 			$('#representative').val("${apple.representative}");
