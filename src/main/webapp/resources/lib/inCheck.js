@@ -5,6 +5,7 @@ $(function(){
 			if(focusoutCheck.bool) $('#'+focusoutCheck.id).css({border:original});
 			else $('#'+focusoutCheck.id).css({border:redbox});
 		}); //focusout
+			
 	}); //forEach
 /*	$('#myForm input[type="reset"]').click(function(){
 		$('#myForm #idDup').prop('disabled',false);
@@ -30,7 +31,45 @@ if(typeof FocusoutCheck!=='class'){
 }
 
 function inCheck(result){
-	let check=1;
+	if(result=='판매자 전환'){
+		$.ajax({
+			url: "entrepreneurcheck", 
+			type: "POST",
+			data: {
+// 				employer_id: "1138621886",
+// 				launch_date: "20080530",
+// 				representative: "강창석",
+// 				company_name: "주식회사 미리디",
+// 				corporation_id: "1101113902651",
+// 				business_type: "서비스",
+// 				business_items: "소프트웨어개발공급"
+				employer_id: $('#employer_id').val(),
+				launch_date: $('#launch_date').val(),
+				representative: $('#representative').val(),
+				company_name: $('#company_name').val(),
+				corporation_id: $('#corporation_id').val(),
+				business_type: $('#business_type').val(),
+				business_items: $('#business_items').val()
+		},
+			beforeSend : function(xhr){
+				// 전송전에 헤더에 csrf의 값을 설정 해야함
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(result) {
+				console.log(result.status_code);
+				if(result.valid!="01" || result.b_stt!="계속사업자"){
+					alert("입력하신 정보에 문제가 있습니다. 다시 확인해 주십시오");
+					return false;
+				}
+			},
+			error: function(result) {
+				console.log(result.responseText); //responseText의 에러메세지 확인
+				alert("~~ 서버오류!!! 잠시후 다시 하세요 ~~");
+				return false;
+			}
+		});
+	}
+	let check = 1;
 	fChecks.forEach(function(focusoutCheck){
 		if(!focusoutCheck.bool){
 			$('#'+focusoutCheck.mId).html(focusoutCheck.name+' 확인하세요');
@@ -38,7 +77,6 @@ function inCheck(result){
 			check*=0;
 		}
 	});
-	if(result=='판매자 전환') check *= checkentrepreneurCheck();
 	if(check!=0){
 		if (confirm("정말 "+result+" 하시겠습니까 ? (Yes:확인 / No:취소)")==false) {   
 			alert(result+'이(가) 취소 되었습니다.');
@@ -53,8 +91,11 @@ function inCheck(result){
 					else $('#email').val( $('#email').val()+'@'+$('#email_tail').val() );
 				}
 			});
-			if($('#else').is(':checked'))
-				$('#else').val($('#else').val()+':'+$('#else_direct').val());
+			
+			if(document.getElementById('else')){
+				if( $('#else').is(':checked'))
+					$('#else').val($('#else').val()+':'+$('#else_direct').val());
+			}
 			return true;
 		} 
 	}else{

@@ -1,11 +1,22 @@
 package com.green.zing;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -232,6 +243,116 @@ public class SellerController {
 		service.updateLastAccess(vo);
 		service.delete(vo);
 		mv.setViewName("redirect:srwithdraw?member_id="+vo.getMember_id());
+		return mv;
+	}
+	
+	@RequestMapping(value = "/entrepreneurcheck")
+	public ModelAndView entrepreneurcheck(ModelAndView mv, SellerVO vo, HttpServletResponse response) throws IOException {
+		StringBuilder urlBuilder = new StringBuilder("https://api.odcloud.kr/api/nts-businessman/v1/validate"); /*URL*/
+		// ** jsonView 사용시 response 의 한글 처리
+		response.setContentType("text/html; charset=UTF-8");
+		
+		// 2. 오픈 API의요청 규격에 맞는 파라미터 생성, 발급받은 인증키 적용.
+		//gR214+X/dVCCYEH9wwnr+ohOiI3tMd/D3yUYOdR+2KGZBCn8qG4MQRczOsT9hm/jhMiMjokwNqxJN++4Cf50xQ==
+		//gR214%2BX%2FdVCCYEH9wwnr%2BohOiI3tMd%2FD3yUYOdR%2B2KGZBCn8qG4MQRczOsT9hm%2FjhMiMjokwNqxJN%2B%2B4Cf50xQ%3D%3D
+	    urlBuilder.append("?serviceKey=gR214%2BX%2FdVCCYEH9wwnr%2BohOiI3tMd%2FD3yUYOdR%2B2KGZBCn8qG4MQRczOsT9hm%2FjhMiMjokwNqxJN%2B%2B4Cf50xQ%3D%3D"); /*Service Key*/
+	    
+	    // ** 요청
+	    // 3. URL 객체 생성.
+	    URL url = new URL(urlBuilder.toString());
+	    // 4. 요청하고자 하는 URL과 통신하기 위한 Connection 객체 생성.
+	    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	    // 5. 통신을 위한 메소드 SET.
+	    conn.setRequestMethod("POST");
+	    conn.setDoOutput(true); 
+	    
+	    // 6. 통신을 위한 Content-type, Accept SET. 
+	    conn.setRequestProperty("Content-type", "application/json");
+	    conn.setRequestProperty("Accept", "application/json");
+	    
+	    // 7. json형태의 request data stream
+	    String launch_date = vo.getLaunch_date().replace("-", "");
+	    String jsonString = "{"
+		    					+ "\"businesses\":["
+		    						+ "{"
+			    						+ "\"b_no\":\"" + vo.getEmployer_id() + "\","
+			    						+ "\"start_dt\":\"" + launch_date + "\","
+			    						+ "\"p_nm\":\"" + vo.getRepresentative() + "\","					
+			    						+ "\"b_nm\":\"" + vo.getCompany_name() + "\","
+			    						+ "\"corp_no\":\"" + vo.getCorporation_id() + "\","
+			    						+ "\"b_sector\":\"" + vo.getBusiness_type() + "\","
+			    						+ "\"b_type\":\"" + vo.getBusiness_items() + "\""
+			    					+ "}"
+		    					+ "]"
+	    					+ "}";
+	    byte[] out = jsonString.getBytes(StandardCharsets.UTF_8);
+	    int length = out.length;	    
+	    conn.setFixedLengthStreamingMode(length);
+	    
+	    OutputStream os = conn.getOutputStream();
+	    os.write(out);
+	    os.flush();  
+	    	    
+	    // ** 응답 & 응답 결과 처리
+	    // 8. 통신 응답 코드 확인.
+	    System.out.println("Response code: " + conn.getResponseCode());
+	    
+	    // 9. 전달받은 데이터를 BufferedReader 객체로 저장.
+	    BufferedReader rd;
+	    if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+	        rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	    } else {
+	        rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+	    }
+	    // 10. 저장된 데이터를 라인별로 읽어 StringBuilder 객체로 저장.
+	    StringBuilder sb = new StringBuilder();
+	    String line;
+	    while ((line = rd.readLine()) != null) {
+	        sb.append(line);
+	    }
+	    // 11. BufferedReader 객체 해제.
+	    rd.close();
+	    conn.disconnect();
+	    // 12. 전달받은 데이터 확인.
+	    // => Console 에서 줄바꿈이 안되면 우클릭 후 팝업메뉴에서 -> Word Wrap 을 선택
+	    //System.out.println(sb.toString());
+	    
+	    // ** 전달된 자료를 JSON 형태로 변환 
+	    // => 현재 sb 에 저장된 자료는 문자형태로 되어있지만, 
+	    //    API 문서의 데이터 표준은 JSON 이므로 JSON 형태로 변환해야 사용가능함  
+	    
+	    // 1. 문자열 형태의 JSON을 파싱하기 위한 JSONParser 객체 생성.
+	    JSONParser parser = new JSONParser();
+	    JSONObject obj = null;
+	    
+	    // 2. JSON 을 파싱 : 문자열을 JSON 형태로 JSONObject 객체에 저장. 	
+	    try {
+	    	 obj = (JSONObject)parser.parse(sb.toString());  // Checked Exception
+		} catch (ParseException e) {
+			System.out.println("response 변환(파싱) 실패");
+	        e.printStackTrace();
+		}
+	           
+	    // 3. 필요한 자료들을 타입별로 가져와 사용하기 	    
+	    // ** Jsp 사용시 model에 담아준다.
+	    String status_code = (String)obj.get("status_code");
+	    mv.addObject("status_code", status_code);
+	    
+	    JSONArray ja = (JSONArray)obj.get("data");
+	    if(ja!=null) {
+	    	JSONObject data = (JSONObject)ja.get(0);
+	    	if(data!=null) {
+	    		String valid = (String)data.get("valid");
+	    		mv.addObject("valid", valid);
+		    	JSONObject status = (JSONObject)data.get("status");
+		    	if(status!=null) {
+		    		String b_stt = (String)status.get("b_stt");
+		    		mv.addObject("b_stt", b_stt);
+		    	}
+	    	}	    		
+	    }
+		
+		mv.setViewName("jsonView");
 		return mv;
 	}
 }

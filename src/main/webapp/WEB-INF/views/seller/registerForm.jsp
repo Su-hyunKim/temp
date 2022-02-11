@@ -52,11 +52,11 @@
 	
 	function rnCheck() {
 		let name=$('#representative').val();
-		if (name.length<2) {
-			$('#rMessage').html(' ~~ 대표자명은 2자 이상 입니다 ~~');
+		if (name=="") {
+			$('#rMessage').html(' ~~ 대표자명을 입력해주세요 ~~');
 			return false;
-		}else if (name.replace(/[a-z.가-힣]/gi,'').length > 0) {
-			$('#rMessage').html(' ~~ 대표자명은 한글 또는 영문 으로만 입력 하세요 ~~');
+		}else if (name.replace(/[가-힣 .a-z ]/gi,'').length > 0) {
+			$('#rMessage').html(' ~~ 대표자명은 한글 또는 영어로만 입력 하세요 ~~');
 			return false;
 		}else {
 			$('#rMessage').html('');
@@ -213,41 +213,7 @@
 
  	var header;
  	var token;
-	
-	function entrepreneurCheck() {
-		var data = {
-			      "b_no": "0000000000",
-			      "start_dt": "20000101",
-			      "p_nm": "홍길동",
-			      "p_nm2": "홍길동",
-			      "b_nm": "(주)테스트",
-			      "corp_no": "0000000000000",
-			      "b_sector": "",
-			      "b_type": ""
-			   }; 			   
-		$.ajax({
-			url: "https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=gR214+X/dVCCYEH9wwnr+ohOiI3tMd/D3yUYOdR+2KGZBCn8qG4MQRczOsT9hm/jhMiMjokwNqxJN++4Cf50xQ==",
-			//gR214+X/dVCCYEH9wwnr+ohOiI3tMd/D3yUYOdR+2KGZBCn8qG4MQRczOsT9hm/jhMiMjokwNqxJN++4Cf50xQ==
-			//gR214%2BX%2FdVCCYEH9wwnr%2BohOiI3tMd%2FD3yUYOdR%2B2KGZBCn8qG4MQRczOsT9hm%2FjhMiMjokwNqxJN%2B%2B4Cf50xQ%3D%3D
-			type: "POST",
-			data: JSON.stringify(data), // json 을 string으로 변환하여 전송
-			beforeSend : function(xhr){
-				// 전송전에 헤더에 csrf의 값을 설정 해야함
-				xhr.setRequestHeader(header, token);
-			},
-			dataType: "JSON",
-			contentType: "application/json",
-			accept: "application/json",
-			success: function(result) {
-				console.log(result);
-			},
-			error: function(result) {
-				console.log(result.responseText); //responseText의 에러메세지 확인
-			}
-		});
-		if(1!=1) return 0;
-		else return 1;
-	}
+ 
 </script>
 <style>
 		.input_div {
@@ -301,7 +267,9 @@
 </head>
 <body>
 <div class="wrapped">
-<button onclick=entrepreneurCheck()>test</button>
+	<c:if test="${not empty message}">
+	<br>=> ${message}<br><br> 
+	</c:if>
 	<h1>징검다리 판매자전환</h1>
 	<div class="input_div">사업자등록을 하신 징검다리 회원이시면 판매자전환을 통해 판매자 자격을 얻을 수 있습니다.</div>
  	<form action="sreg" method="post" enctype="multipart/form-data" id="myForm">
@@ -335,7 +303,7 @@
 	<div class="input_div">
 		<label for="representative">
 			<span>*대표자명</span>
-			<input type="text" name="representative" id="representative" placeholder="2자 이상 한글 또는 영문" size="20"><br>
+			<input type="text" name="representative" id="representative" placeholder="사업자등록된 정보와 일치해야함" size="20"><br>
 			<span id="rMessage" class="eMessage"></span>
 		</label>
 	</div>
@@ -487,7 +455,7 @@
 				<option value="nate.com">nate.com</option>
 				<option value="direct">직접입력</option>
 			</select>
-			<input type="text" name="email_direct" id="email_direct" class="direct" placeholder="직접입력"><br>
+			<input type="text" id="email_direct" class="direct" placeholder="직접입력"><br>
 			<script>					
 				$('#email_tail').change(function(){
 					if($('#email_tail').val()=='direct') $('#email_direct').show();
@@ -536,9 +504,6 @@
 	</div>
 	<s:csrfInput/> 
 	</form>
-	<c:if test="${not empty message}">
-	<br>=> ${message}<br><br> 
-	</c:if>
 </div> 
 </body>
 </html>

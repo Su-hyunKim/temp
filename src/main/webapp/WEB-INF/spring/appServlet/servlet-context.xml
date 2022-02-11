@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
@@ -16,10 +16,10 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<mvc:annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -50,7 +50,7 @@
       ( 둘은 같은기능 이지만 사용 속성이 다르며 스프링 트랜잭션 관리에 사용되는 어드바이스의 경우
           우리가 메서드명을 알 수 없기 때문에  <aop:advisor> 를 사용함 )  -->
    
-<!-- 1. 트랜잭션 관리자 클래스 등록  :
+	<!-- 1. 트랜잭션 관리자 클래스 등록  :
    => PlattformTransactionManager 인터페이스를 구현한 클래스 들
    => DataSourceTransactionManager : JDBC, Mybatis 모두 지원 
    => commit, rollback 지원  
@@ -68,7 +68,7 @@
       <beans:property name="dataSource" ref="dataSource" />
    </beans:bean>
   
- <!-- 2. Transaction 관리 Advice 설정  
+	<!-- 2. Transaction 관리 Advice 설정  
    => 스프링 컨테이너가 <tx:advice> 설정을 참조하여 자동으로 생성  
     => 어드바이스 txAdvice는 앞서 설정한 txManeger를 이용하여 트랜잭션을 관리 
       자식 엘리먼트인 <tx:method> 이용하여 트랜잭션 적용메서드를 지정함 -->
@@ -81,7 +81,7 @@
        </tx:attributes>
     </tx:advice> 
   
- <!-- 3. Transaction AOP 설정 -->
+ 	<!-- 3. Transaction AOP 설정 -->
  	<aop:config>
 		<aop:pointcut expression="execution(* com.green.zing..*join(..)) ||
 			execution(* com.green.zing..*update(..)) ||

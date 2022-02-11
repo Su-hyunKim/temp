@@ -44,11 +44,11 @@
 	
 	function rnCheck() {
 		let name=$('#representative').val();
-		if (name.length<2) {
-			$('#rMessage').html(' ~~ 대표자명은 2자 이상 입니다 ~~');
+		if (name=="") {
+			$('#rMessage').html(' ~~ 대표자명을 입력해주세요 ~~');
 			return false;
-		}else if (name.replace(/[a-z.가-힣]/gi,'').length > 0) {
-			$('#rMessage').html(' ~~ 대표자명은 한글 또는 영문 으로만 입력 하세요 ~~');
+		}else if (name.replace(/[가-힣 .a-z ]/gi,'').length > 0) {
+			$('#rMessage').html(' ~~ 대표자명은 한글 또는 영어로만 입력 하세요 ~~');
 			return false;
 		}else {
 			$('#rMessage').html('');
