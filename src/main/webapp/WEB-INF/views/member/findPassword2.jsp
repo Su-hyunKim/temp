@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>임시 비밀번호 발급</title>
+<title>징검다리 : 임시 비밀번호 발급</title>
 </head>
 <body>
 <div class="wrapped">

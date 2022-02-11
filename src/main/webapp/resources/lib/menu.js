@@ -12,16 +12,16 @@ $(function(){
 	// 스크롤 초기화
 	window.scrollTo(0,0);
 	
-	// 뒤로가기 막기
+	// 뒤로가기 이벤트를 home화면으로 연결
 	window.onpopstate = function(){
-		history.go(1);
+		if(confirm("홈으로 이동합니다."))
+			location.href="home";		
 	};
 	
-/*	// 새로고침 및 종료 이벤트
-	window.onbeforeunload = function(){
-		location.href="https://localhost:8080/Project/home";		
-		return "변경된 내용이 저장되지 않을 수 있습니다.";
-	};*/
+	// 새로고침 및 종료 전 확인 메세지
+//	window.onbeforeunload = function(){	
+//		return "변경된 내용이 저장되지 않을 수 있습니다.";
+//	};
 	
 	// 서버 통신용 버튼에 click이벤트를 연결(AjaxBnt객체 배열의 forEach)
 	ajaxBnts.forEach(function(ajaxButton){
@@ -56,8 +56,10 @@ $(function(){
 				else if(ajaxButton.opt.includes('hideBanner')) $('.banner').css({display:"none"});
 				/*if(document.getElementById("R")) history.replaceState({data:url},ajaxButton.id,context+'/'+url);
 				else history.pushState({data:url},ajaxButton.id,context+'/'+url);*/
-				if(document.getElementById("R")) history.replaceState(null,ajaxButton.id,context+'/'+url);
-				else history.pushState(null,ajaxButton.id,context+'/'+url);
+//				if(document.getElementById("R")) history.replaceState(null,ajaxButton.id,context+'/'+url);
+//				else history.pushState(null,ajaxButton.id,context+'/'+url);
+				if(document.getElementById("R")) history.replaceState(null,ajaxButton.id,context+'/');
+				else history.pushState(null,ajaxButton.id,context+'/');
 				$.ajax({
 					type:ajaxButton.method,
 					url:url,

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>새 비밀번호 설정</title>
+<title>징검다리 : 새 비밀번호 설정</title>
 <script src="resources/lib/inCheck.js"></script>
 <script>
 fChecks = [new FocusoutCheck(false,'password',pwCheck,'pMessage','비밀번호를')];

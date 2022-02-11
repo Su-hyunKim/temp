@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>** ID 중복 확인 **</title>
+<title>징검다리 : ID 중복 확인</title>
 <script>
 //** 사용자가 입력한 id 를 사용가능하도록 해주고, 현재(this)창은 close
 // => this 창의 id 를 부모창의 id 로

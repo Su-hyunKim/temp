@@ -8,9 +8,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0,
 	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
-<title>Email 인증페이지</title>
+<title>징검다리 : Email 인증</title>
 <link rel="stylesheet" type="text/css" href="resources/lib/main.css">
-<script>	
+<script>
 	let second = 300;
 	
 	function clock(){
@@ -28,7 +28,7 @@
 </head>
 <body onload="clock()">
 <div class="wrapped">
-	<h1>Email 인증페이지</h1>
+	<h1>Email 인증</h1>
 	<p>남은시간 이내에 인증을 완료해 주십시오</p>
 	<p id="clock">종료</p>
 	<form action="emailauth" method="post">

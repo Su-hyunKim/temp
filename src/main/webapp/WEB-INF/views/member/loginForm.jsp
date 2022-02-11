@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>로그인</title>
+	<title>징검다리 : Login</title>
 
 	<style>
 		table{text-align:center;}
