@@ -9,6 +9,7 @@
 	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
 <title>게시판 상세정보</title>
 <script src="resources/lib/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
 </head>
 <body>
 <h1>게시판 상세정보</h1>
@@ -17,8 +18,8 @@
 		<td>글번호</td><td>${apple.root_seq}</td>
 	</tr>
 	<tr height="40">
-		<td>I D</td><td>${apple.member_id}  <a href="#" id="followFlag">팔로우</a>
-		팔로워: ${follower}, 팔로잉: ${following}</td>
+		<td>I D</td><td>${apple.member_id}&nbsp;&nbsp;<button type='button'><a href="#" id="followFlag">팔로우</a></button>
+		팔로워 ${follower}, 팔로잉 ${following}</td>
 	<!-- 	팔로잉 팔로워 카운트 표시 -->
 	</tr>
 	<tr height="40">
@@ -50,7 +51,7 @@
  -->
  <hr>
 <c:if test="${loginID==apple.member_id  || loginID=='admin'}">
-	<a href="rdetail?jcode=U&root_seq=${apple.root_seq}">글수정</a>&nbsp;&nbsp;
+	<a href="rdetail?jcode=U&root_seq=${apple.root_seq} &follower=${apple.member_id}&following=${loginID}">글수정</a>&nbsp;&nbsp;
 	<a href="rdelete?root_seq=${apple.root_seq}">글삭제</a>
 		<!-- 삭제시 원글삭제 or 답글삭제 확인을 위함 -->
 </c:if> 
