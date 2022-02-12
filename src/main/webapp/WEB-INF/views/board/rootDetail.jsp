@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시판 상세정보</title>
+<script src="resources/lib/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 <h1>게시판 상세정보</h1>
@@ -14,9 +15,8 @@
 		<td>글번호</td><td>${apple.root_seq}</td>
 	</tr>
 	<tr height="40">
-		<td>I D</td><td>${apple.member_id}</td>
-		<a href="#" id="followFlag">팔로우</a>
-		${follower}, ${following}
+		<td>I D</td><td>${apple.member_id}  <a href="#" id="followFlag">팔로우</a>
+		팔로워: ${follower}, 팔로잉: ${following}</td>
 	<!-- 	팔로잉 팔로워 카운트 표시 -->
 	</tr>
 	<tr height="40">
@@ -59,11 +59,13 @@
 <a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp;
 <a href="home">HOME</a>
 <script>
-window.onload(function(){
+$(function(){
+	if('${followflag}'=='0') $(this).html('팔로우');
+	else $(this).html('팔로잉');
 	// follow 서블릿 호출 
 	// var data = [jsonType data ]
 	$("#followFlag").click(function(){
-		var tag=$(this).html();
+		var tag = $(this).html();
 		if(tag=='팔로우'){
 			tag='insert'
 		}else{
@@ -79,19 +81,22 @@ window.onload(function(){
 			}, 
 			success: function(data){  // true or false
 				if(data.success=="T"){
+					
 					if(tag=='insert'){ 
-						$("$followFlag").val("팔로잉");
+						$("#followFlag").val("팔로잉");
 					}else{
-						$("$followFlag").val("팔로우"); 
+						$("#followFlag").val("팔로우"); 
 					}
 				}else{
-					alert("팔로우처리가 정상적으로 실행되지 않았습니다")
+					alert("팔로우처리가 정상적으로 실행되지 않았습니다");
 				}
 			}, 
 			error: function (request, status, error){ 
-				
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
 			} 
 		});
+		return false;
 	})
 	
 	

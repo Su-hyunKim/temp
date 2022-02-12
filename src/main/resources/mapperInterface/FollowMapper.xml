@@ -11,12 +11,12 @@
 		select following from follow where follower=#{following} order by follow_seq desc
 	</select>
    
+	<select id="followflag" resultType="int">
+	   select count(*) from follow where following=#{following} and follower=#{follower}
+	</select>
 
 	<insert id="insert">
-		<selectKey keyProperty="follow_seq" resultType="int" order="BEFORE">
-			select nvl(max(follow_seq),0)+1 from follow
-		</selectKey>
-			insert into follow values (#{follow_seq},#{following},#{follower},SYSDATE)
+			insert into follow values (#{following},#{follower},SYSDATE,#{tag})
 	</insert>
 	
 	<select id="countfollowing" resultType="int">

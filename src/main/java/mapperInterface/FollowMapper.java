@@ -18,7 +18,9 @@ public interface FollowMapper {
 
 	int countfollowing(FollowVO vo);
 	int countfollower(FollowVO vo);
-
+	int countmyfollowing(FollowVO vo);
+	int countmyfollower(FollowVO vo);
+	int followflag(FollowVO vo);
 	List<FollowVO> checkList(FollowVO vo);
 	
 } //interface
