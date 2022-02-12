@@ -20,15 +20,19 @@ import criteria.PageMaker;
 import criteria.SearchCriteria;
 import lombok.extern.log4j.Log4j;
 import service.RootService;
+import vo.FollowVO;
 import vo.MemberVO;
 import vo.PageVO;
 import vo.RootVO;
+import service.FollowService;
 
 @Log4j
 @Controller
 public class RootController {
 	@Autowired
 	RootService service;
+	@Autowired
+	FollowService fservice;
 
 	// ** @Log4j Test
 	@RequestMapping(value = "/logj")
@@ -99,19 +103,13 @@ public class RootController {
 	} //aidblist
 	
 	// ** Ajax BoardList 
-	@RequestMapping(value = "/axblist")
-	public ModelAndView axblist(ModelAndView mv) {
-		List<RootVO> list = service.selectList();
-		// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
-		if (list != null && list.size()>0 ) {
-			mv.addObject("banana", list);
-		}else {
-			mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다. ~~");
-		}
-		mv.setViewName("axTest/axBoardList");
-		return mv;
-	} //axblist
-	// **********************************************************
+	/*
+	 * @RequestMapping(value = "/axblist") public ModelAndView axblist(ModelAndView
+	 * mv) { List<RootVO> list = service.selectList(); // => Mapper 는 null 을 return
+	 * 하지 않으므로 길이로 확인 if (list != null && list.size()>0 ) { mv.addObject("banana",
+	 * list); }else { mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다. ~~"); }
+	 * mv.setViewName("axTest/axBoardList"); return mv; } //axblist
+	 */	// **********************************************************
 	
 	/*
 	 * // ** Member PageList 2. SearchCriteria PageList
@@ -132,63 +130,45 @@ public class RootController {
 	 * return mv; } //rcplist
 	 */	
 	// ** Board PageList 1.
-	@RequestMapping(value = "/rpagelist")
-	public ModelAndView rpagelist(ModelAndView mv, PageVO<RootVO> pvo) {
-		// 1) Paging 준비
-		// => 한 Page당 출력할 Row 갯수 : PageVO 에 지정
-		// => 요청 Page 확인 : currPage ( Parameter )
-		// => sno , eno 계산후 List 읽어오기
-		// => totalRowCount : 전체Page수 계산
-		int currPage = 1;
-		if (pvo.getCurrPage() > 1) currPage = pvo.getCurrPage();
-		else pvo.setCurrPage(currPage) ;
-		
-		int sno = (currPage-1)*pvo.getRowsPerPage() + 1 ;
-		int eno = sno + pvo.getRowsPerPage() - 1 ;
-		pvo.setSno(sno);
-		pvo.setEno(eno);
-		
-		// 2) Service 처리
-		// => List 읽어오기, 전체Row수(totalRowCount) 
-		// => 전체 PageNo 계산하기
-		pvo = service.pageList(pvo) ;
-		int totalPageNo = pvo.getTotalRowCount()/pvo.getRowsPerPage();
-		// 20/3 -> 6 나머지 2 : 6 page 와 2개 -> 7page
-		if ( pvo.getTotalRowCount()%pvo.getRowsPerPage() !=0 )
-			totalPageNo +=1;
-		
-		// 3) View 처리
-		// ** view02 
-		// => PageBlock 기능 추가 : sPageNo, ePageNo
-		// => 이를 위해 currPage, pageNoCount
-		// => 유형 1) currPage 가 항상 중앙에 위치하도록 할때 (ex. 쿠팡)
-		// int sPageNo = currPage - (pageNoCount/2) ;      
-		// int ePageNo = currPage + (pageNoCount/2) ;
-		
-		// => 유형 2) 11번가의 상품List, Naver 카페글 유형
-		// 예를들어 currPage=3 이고 pageNoCount 가 3 이면 1,2,3 page까지 출력 되어야 하므로
-		// 아래 처럼 currPage-1 을 pageNoCount 으로 나눈후 다시 곱하고 +1
-		// currPage=11 -> 10,11,12, => (11-1)/3 * 3 +1 = 10
-		// 연습 ( pageNoCount=5 )
-		// -> currPage=11 인경우 : 11,12,13,14,15 -> ((11-1)/5)*5 +1 : 11
-		// -> currPage=7 인경우 : 6,7,8,9,10 -> ((7-1)/5)*5 +1 : 6
-		int sPageNo = ((currPage-1)/pvo.getPageNoCount())*pvo.getPageNoCount() + 1 ;
-		int ePageNo = sPageNo + pvo.getPageNoCount() - 1 ;
-		// 계산으로 얻어진 ePageNo가 실제 LastPage 인 totalPageNo 보다 크면 수정 필요.
-		if ( ePageNo > totalPageNo ) ePageNo = totalPageNo ;
-		mv.addObject("sPageNo", sPageNo);
-		mv.addObject("ePageNo", ePageNo);
-		mv.addObject("pageNoCount", pvo.getPageNoCount());
-		
-		// ** view01
-		mv.addObject("currPage",currPage);
-		mv.addObject("totalPageNo",totalPageNo);
-		mv.addObject("banana", pvo.getList());
-		
-		mv.setViewName("board/pageRList");
-		return mv;
-	}//rpagelist
-	
+	/*
+	 * @RequestMapping(value = "/rpagelist") public ModelAndView
+	 * rpagelist(ModelAndView mv, PageVO<RootVO> pvo) { // 1) Paging 준비 // => 한
+	 * Page당 출력할 Row 갯수 : PageVO 에 지정 // => 요청 Page 확인 : currPage ( Parameter ) //
+	 * => sno , eno 계산후 List 읽어오기 // => totalRowCount : 전체Page수 계산 int currPage = 1;
+	 * if (pvo.getCurrPage() > 1) currPage = pvo.getCurrPage(); else
+	 * pvo.setCurrPage(currPage) ;
+	 * 
+	 * int sno = (currPage-1)*pvo.getRowsPerPage() + 1 ; int eno = sno +
+	 * pvo.getRowsPerPage() - 1 ; pvo.setSno(sno); pvo.setEno(eno);
+	 * 
+	 * // 2) Service 처리 // => List 읽어오기, 전체Row수(totalRowCount) // => 전체 PageNo 계산하기
+	 * pvo = service.pageList(pvo) ; int totalPageNo =
+	 * pvo.getTotalRowCount()/pvo.getRowsPerPage(); // 20/3 -> 6 나머지 2 : 6 page 와 2개
+	 * -> 7page if ( pvo.getTotalRowCount()%pvo.getRowsPerPage() !=0 ) totalPageNo
+	 * +=1;
+	 * 
+	 * // 3) View 처리 // ** view02 // => PageBlock 기능 추가 : sPageNo, ePageNo // => 이를
+	 * 위해 currPage, pageNoCount // => 유형 1) currPage 가 항상 중앙에 위치하도록 할때 (ex. 쿠팡) //
+	 * int sPageNo = currPage - (pageNoCount/2) ; // int ePageNo = currPage +
+	 * (pageNoCount/2) ;
+	 * 
+	 * // => 유형 2) 11번가의 상품List, Naver 카페글 유형 // 예를들어 currPage=3 이고 pageNoCount 가 3
+	 * 이면 1,2,3 page까지 출력 되어야 하므로 // 아래 처럼 currPage-1 을 pageNoCount 으로 나눈후 다시 곱하고 +1
+	 * // currPage=11 -> 10,11,12, => (11-1)/3 * 3 +1 = 10 // 연습 ( pageNoCount=5 )
+	 * // -> currPage=11 인경우 : 11,12,13,14,15 -> ((11-1)/5)*5 +1 : 11 // ->
+	 * currPage=7 인경우 : 6,7,8,9,10 -> ((7-1)/5)*5 +1 : 6 int sPageNo =
+	 * ((currPage-1)/pvo.getPageNoCount())*pvo.getPageNoCount() + 1 ; int ePageNo =
+	 * sPageNo + pvo.getPageNoCount() - 1 ; // 계산으로 얻어진 ePageNo가 실제 LastPage 인
+	 * totalPageNo 보다 크면 수정 필요. if ( ePageNo > totalPageNo ) ePageNo = totalPageNo ;
+	 * mv.addObject("sPageNo", sPageNo); mv.addObject("ePageNo", ePageNo);
+	 * mv.addObject("pageNoCount", pvo.getPageNoCount());
+	 * 
+	 * // ** view01 mv.addObject("currPage",currPage);
+	 * mv.addObject("totalPageNo",totalPageNo); mv.addObject("banana",
+	 * pvo.getList());
+	 * 
+	 * mv.setViewName("board/pageRList"); return mv; }//rpagelist
+	 */
 	/*
 	 * // ** Reply Insert **
 	 * 
@@ -236,7 +216,7 @@ public class RootController {
 	} //rlist
 	
 	@RequestMapping(value = "/rdetail")
-	public ModelAndView rdetail(HttpServletRequest request, ModelAndView mv, RootVO vo) {
+	public ModelAndView rdetail(HttpServletRequest request, ModelAndView mv, RootVO vo, FollowVO fvo) {
 		
 		String uri = "board/rootDetail";
 		
@@ -248,8 +228,7 @@ public class RootController {
     	if ( vo!=null ) {
     		// 조회수 증가 추가
     		String loginID = (String)request.getSession().getAttribute("loginID") ;
-    		if ( !vo.getMember_id().equals(loginID) &&    
-    			 !"U".equals(request.getParameter("jcode")) ) {
+    		if ( !vo.getMember_id().equals(loginID) ) {
     			// 조회수 증가
     			if ( service.countUp(vo) > 0 )
     					vo.setCnt(vo.getCnt()+1) ;
@@ -257,19 +236,23 @@ public class RootController {
     		
     		mv.addObject("apple", vo);
     		// 글 수정인지 확인
-    		if ( "U".equals(request.getParameter("jcode")) ) 
+    		/*if ( "U".equals(request.getParameter("jcode")) ) 
     			uri = "board/rupdateForm";
+    			*/
     	}else {
     		mv.addObject("message", "~~ 글번호에 해당하는 자료가 없습니다 ~~");
     	}
-		
+    	//following, follower 카운트
+    	fvo.setFollower(vo.getMember_id());
+    	mv.addObject("following",fservice.countfollowing(fvo));
+    	mv.addObject("follower",fservice.countfollower(fvo));
 		mv.setViewName(uri);
 		return mv;
 	} //rdetail
 	
 	@RequestMapping(value = "/rinsertf")
 	public ModelAndView rinsertf(ModelAndView mv, RootVO vo) {
-		mv.addObject("type",vo.getType());
+		mv.addObject("Type",vo.getType());
 		mv.setViewName("board/rinsertForm");
 		return mv;
 	} //rinsertf
@@ -328,9 +311,9 @@ public class RootController {
 			// Image 를 선택했음 -> Image 처리 (realPath+화일명)
 			// 1) 물리적 위치에 Image 저장 
 			file1 = realPath + vo.getMember_id() + "_" + filesf.getOriginalFilename(); //  전송된File명 추출 & 연결
-			filesf.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
-			// 2) Table 저장위한 경로 
-			file2 = "resources/uploadImage/" + vo.getMember_id() + "_" + filesf.getOriginalFilename();
+	        filesf.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
+	         // 2) Table 저장위한 경로 
+	         file2 = "resources/uploadImage/" + vo.getMember_id() + "_" + filesf.getOriginalFilename();
 		}
 		vo.setFiles(file2);
 

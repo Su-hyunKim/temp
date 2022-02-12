@@ -106,9 +106,7 @@
 		<selectKey keyProperty="root_seq" resultType="int" order="BEFORE">
 			select nvl(max(root_seq),0)+1 from root
 		</selectKey>
-		insert into root values ( 
-			(select nvl(max(root_seq),0)+1 from root),
-			#{type},#{title},#{member_id},SYSDATE,#{content},#{files},#{product_id},
+		insert into root values (#{root_seq},#{type},#{title},#{member_id},SYSDATE,#{content},#{files},#{product_id},
 			0,'0',0)
 	</insert>
 	

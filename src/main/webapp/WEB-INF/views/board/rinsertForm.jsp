@@ -12,7 +12,7 @@
 <body>
 <h1>징검다리 : 글쓰기</h1>
 <form action="rinsert" enctype="multipart/form-data" method="post">
-<input type="hidden" name="type" value="${type}">
+<input type="hidden" name="type" value="${Type}">
 <table>
 	<tr height="40"><td bgcolor="aqua">아이디</td>
 		<td><input type="text" name="member_id" value="${loginID}" size="20" readonly></td></tr>
