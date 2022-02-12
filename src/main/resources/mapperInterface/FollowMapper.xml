@@ -5,10 +5,10 @@
 
 
     <select id="followingselectList" resultType="vo.FollowVO">
-		select follower from follow where following=member_id order by follow_seq asc
+		select follower from follow where following=#{following} order by follow_seq desc
 	</select>
 	<select id="followerselectList" resultType="vo.FollowVO">
-		select following from follow where follower=member_id order by follow_seq asc
+		select following from follow where follower=#{following} order by follow_seq desc
 	</select>
    
 
@@ -16,20 +16,26 @@
 		<selectKey keyProperty="follow_seq" resultType="int" order="BEFORE">
 			select nvl(max(follow_seq),0)+1 from follow
 		</selectKey>
-			insert into follow values (#{loginID}팔로워한사람로그인아이디,#{memeber_id}팔로워당한사람글작성자아이디,SYSDATE)
+			insert into follow values (#{follow_seq},#{following},#{follower},SYSDATE)
 	</insert>
 	
-	<select id="countfollowing">
-		select count(*) from follow where following=member_id
+	<select id="countfollowing" resultType="int">
+		select count(*) from follow where following=#{follower}
 	</select>
 	
-	<select id="countfollower">
-		select count(*) from follow where follower=member_id
+	<select id="countfollower" resultType="int">
+		select count(*) from follow where follower=#{follower}
 	</select>
-		
+	<select id="countmyfollowing" resultType="int">
+		select count(*) from follow where following=#{following}
+	</select>
+	
+	<select id="countmyfollower" resultType="int">
+		select count(*) from follow where follower=#{following}
+	</select>	
 		
 	<delete id="delete">
-		DELETE from follow where following=#{loginID}팔로워한사람 and follower=#{member_id}글작성자아이디
+		DELETE from follow where following=#{following} and follower=#{follower}
 	</delete>
 
 </mapper>

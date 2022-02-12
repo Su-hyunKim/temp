@@ -15,7 +15,8 @@
 	</tr>
 	<tr height="40">
 		<td>I D</td><td>${apple.member_id}</td>
-		<a href="/followMember" id="followFlag"></a>
+		<a href="#" id="followFlag">팔로우</a>
+		${follower}, ${following}
 	<!-- 	팔로잉 팔로워 카운트 표시 -->
 	</tr>
 	<tr height="40">
@@ -27,7 +28,7 @@
 	</tr>
 	<tr height="40">
 		<td>첨부파일</td>
-		<td><img src="${apple.uploadfilef}" width="150" height="150"></td>
+		<td><img src="${apple.filesf}" width="150" height="150"></td>
 	</tr>
 	<tr height="40">
 		<td>글등록일</td><td>${apple.regdate}</td>
@@ -61,23 +62,38 @@
 window.onload(function(){
 	// follow 서블릿 호출 
 	// var data = [jsonType data ]
-	$.ajax({ 
-		url: "/followChkMember", 
-		type: "GET", 
-		dataType: "json", 
-		data: data, 
-		success: function(data){  // true or false
-			if(data){ 
-				$("$followFlag").val("팔로잉");
-			}else{
-				$("$followFlag").val("팔로우"); 
-			}
-		}, 
-		error: function (request, status, error){ 
-			
-		} 
-	});
-
+	$("#followFlag").click(function(){
+		var tag=$(this).html();
+		if(tag=='팔로우'){
+			tag='insert'
+		}else{
+			tag='delete'
+		}
+		$.ajax({ 
+			url: "followMember", 
+			type: "GET", 
+			data: {
+				following:'${loginID}',
+				follower:'${apple.member_id}',
+				tag:tag		
+			}, 
+			success: function(data){  // true or false
+				if(data.success=="T"){
+					if(tag=='insert'){ 
+						$("$followFlag").val("팔로잉");
+					}else{
+						$("$followFlag").val("팔로우"); 
+					}
+				}else{
+					alert("팔로우처리가 정상적으로 실행되지 않았습니다")
+				}
+			}, 
+			error: function (request, status, error){ 
+				
+			} 
+		});
+	})
+	
 	
 });
 </script>
