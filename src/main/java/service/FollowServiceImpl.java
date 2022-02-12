@@ -40,16 +40,30 @@ import vo.FollowVO;
 		@Override
 		public int countfollowing(FollowVO vo) {
 			return dao.countfollowing(vo) ;
-		} //cnt
+		} //countfollowing
 		
 		@Override
 		public int countfollower(FollowVO vo) {
 			return dao.countfollower(vo) ;
-		} //cnt
-				
+		} //countfollower
+		@Override
+		public int countmyfollowing(FollowVO vo) {
+			return dao.countmyfollowing(vo) ;
+		} //countmyfollowing
+		
+		@Override
+		public int countmyfollower(FollowVO vo) {
+			return dao.countmyfollower(vo) ;
+		} //countmyfollower
+
+		@Override
+		public int followflag(FollowVO vo) {
+			return dao.followflag(vo);
+		}
+		
 		@Override
 		public List<FollowVO> checkList(FollowVO vo) {
 			return dao.checkList(vo);
-		}
+		}//checkList
 	} //class
 

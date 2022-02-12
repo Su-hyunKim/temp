@@ -246,6 +246,7 @@ public class RootController {
     	fvo.setFollower(vo.getMember_id());
     	mv.addObject("following",fservice.countfollowing(fvo));
     	mv.addObject("follower",fservice.countfollower(fvo));
+    	mv.addObject("followflag",fservice.followflag(fvo));
 		mv.setViewName(uri);
 		return mv;
 	} //rdetail
