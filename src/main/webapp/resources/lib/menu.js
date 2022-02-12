@@ -87,6 +87,7 @@ $(function(){
 			case 'joinf': $('#joinf').trigger('click'); break;
 			case 'sregf': $('#sregf').trigger('click'); break;
 			case 'mypage': $('#mypage').trigger('click'); break;
+			case 'rlist': $('#rlist').trigger('click'); break;
 		}
 	}	
 }); //ready

@@ -202,7 +202,7 @@ public class RootController {
 	 */	
 	// ** Board CRUD *****
 	@RequestMapping(value = "/rlist")
-	public ModelAndView rlist(ModelAndView mv) {
+	public ModelAndView rlist(ModelAndView mv, HttpServletRequest request) {
 		
 		List<RootVO> list = new ArrayList<RootVO>();
     	list = service.selectList();
@@ -210,8 +210,11 @@ public class RootController {
     	// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
     	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
     	else mv.addObject("message", "~~ 출력 자료가 없습니다 ~~");
-		
-    	mv.setViewName("board/rootList");
+    	
+    	if("rlist".equals(request.getParameter("R"))) {
+			mv.addObject("R","rlist");
+			mv.setViewName("home");
+		}else mv.setViewName("board/rootList");
 		return mv;
 	} //rlist
 	
@@ -219,15 +222,14 @@ public class RootController {
 	public ModelAndView rdetail(HttpServletRequest request, ModelAndView mv, RootVO vo, FollowVO fvo) {
 		
 		String uri = "board/rootDetail";
-		
+
 		// ** Service 처리
     	// => 조회수 증가 추가하기 ( 조회수 증가의 조건 )
     	//    글보는이(loginID)와 글쓴이가 다를때 && jcode!="U" -> countUp 메서드
-		
+		String loginID = (String)request.getSession().getAttribute("loginID") ;		
 		vo = service.selectOne(vo);
     	if ( vo!=null ) {
     		// 조회수 증가 추가
-    		String loginID = (String)request.getSession().getAttribute("loginID") ;
     		if ( !vo.getMember_id().equals(loginID) ) {
     			// 조회수 증가
     			if ( service.countUp(vo) > 0 )
@@ -243,10 +245,10 @@ public class RootController {
     		mv.addObject("message", "~~ 글번호에 해당하는 자료가 없습니다 ~~");
     	}
     	//following, follower 카운트
-    	fvo.setFollower(vo.getMember_id());
     	mv.addObject("following",fservice.countfollowing(fvo));
     	mv.addObject("follower",fservice.countfollower(fvo));
     	mv.addObject("followflag",fservice.followflag(fvo));
+    	
 		mv.setViewName(uri);
 		return mv;
 	} //rdetail
