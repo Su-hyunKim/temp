@@ -34,7 +34,7 @@
 	
 	 <!-- 글내용보기 기능 추가하기 -> login한 경우에만 허용 -->
 	<c:if test="${not empty loginID}">
-		<a href="rdetail?root_seq=${list.root_seq}&follower=${loginID}&following=${list.member_id}">${list.title}</a>
+		<a href="rdetail?root_seq=${list.root_seq}&follower=${list.member_id}&following=${loginID}">${list.title}</a>
 	</c:if>
 	<c:if test="${empty loginID}">
 		${list.title} 

@@ -5,6 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,
+	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
 <title>게시판 상세정보</title>
 <script src="resources/lib/jquery-3.2.1.min.js"></script>
 </head>
@@ -60,8 +62,8 @@
 <a href="home">HOME</a>
 <script>
 $(function(){
-	if('${followflag}'=='0') $(this).html('팔로우');
-	else $(this).html('팔로잉');
+	if('${followflag}'=='0') $("#followFlag").html('팔로우');
+	else $("#followFlag").html('팔로잉');
 	// follow 서블릿 호출 
 	// var data = [jsonType data ]
 	$("#followFlag").click(function(){
@@ -81,12 +83,12 @@ $(function(){
 			}, 
 			success: function(data){  // true or false
 				if(data.success=="T"){
-					
-					if(tag=='insert'){ 
-						$("#followFlag").val("팔로잉");
-					}else{
-						$("#followFlag").val("팔로우"); 
-					}
+					location.reload();
+// 					if(tag=='insert'){ 
+// 						$("#followFlag").val("팔로잉");
+// 					}else{
+// 						$("#followFlag").val("팔로우"); 
+// 					}
 				}else{
 					alert("팔로우처리가 정상적으로 실행되지 않았습니다");
 				}
