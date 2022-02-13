@@ -52,7 +52,6 @@
 					</div> 
 				</div> 
 				<div>
-					<%-- <input type="text" name="root_seq" value="${RootVO.root_seq}" hidden> --%>
 					<input type="text" name="root_seq" value="${apple.root_seq}" hidden>
 				</div>
 			</div> 

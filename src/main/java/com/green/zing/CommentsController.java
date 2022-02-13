@@ -100,12 +100,22 @@ public class CommentsController {
 	public ModelAndView cinsert(ModelAndView mv, CommentsVO vo, HttpServletRequest request, RedirectAttributes rttr) {
 		
 		String uri = "redirect:rdetail?root_seq="+vo.getRoot_seq()+"&follower="+request.getSession()+"&following="+request.getAttribute("loginID");
-		if ( service.insert(vo) > 0 ) { 
-    		rttr.addFlashAttribute("message", "~~ 새글 등록 완료 !!! ~~");
-    	}else {
-    		mv.addObject("message", "~~ 새글 등록 실패 !!! ~~");
-    		uri = "board/commentsForm";
-    	}
+		
+		if (vo.getRating()==null) {
+			rttr.addFlashAttribute("message", "별점을 선택해 주세요.");
+		} else {
+			if ( service.insert(vo) > 0 ) { 
+	    		rttr.addFlashAttribute("message", "~~ 새글 등록 완료 !!! ~~");
+	    	}else {
+	    		mv.addObject("message", "~~ 새글 등록 실패 !!! ~~");
+	    		uri = "board/commentsForm";
+	    	}
+		}
+		/*
+		 * if ( service.insert(vo) > 0 ) { rttr.addFlashAttribute("message",
+		 * "~~ 새글 등록 완료 !!! ~~"); }else { mv.addObject("message", "~~ 새글 등록 실패 !!! ~~");
+		 * uri = "board/commentsForm"; }
+		 */
 		mv.setViewName(uri);
 		return mv;
 	} //cinsert
@@ -114,12 +124,18 @@ public class CommentsController {
 	public ModelAndView cupdate(ModelAndView mv, CommentsVO vo, HttpServletRequest request, RedirectAttributes rttr) {
 		
 		String uri = "redirect:rdetail?root_seq="+vo.getRoot_seq()+"&follower="+request.getSession()+"&following="+request.getAttribute("loginID");
-		if ( service.update(vo) > 0 ) { 
-    		rttr.addFlashAttribute("message", "~~ 글수정 성공 !!! ~~");
-    	}else {
-    		rttr.addFlashAttribute("message", "~~ 글수정 실패 !!! 다시 하세요 ~~");
-    		uri = "redirect:cdetail?jcode=U&seq="+vo.getRoot_seq();
-    	}
+		
+		if (vo.getRating()==null) {
+			rttr.addFlashAttribute("message", "별점을 선택해 주세요.");
+			uri = "redirect:cdetail?reply_seq="+vo.getReply_seq();
+		} else {
+			if ( service.update(vo) > 0 ) { 
+	    		rttr.addFlashAttribute("message", "~~ 글수정 성공 !!! ~~");
+	    	}else {
+	    		rttr.addFlashAttribute("message", "~~ 글수정 실패 !!! 다시 하세요 ~~");
+	    		uri = "redirect:cdetail?jcode=U&seq="+vo.getRoot_seq();
+	    	}
+		}
 		mv.setViewName(uri);
 		return mv;
 	} //cupdate
@@ -128,12 +144,18 @@ public class CommentsController {
 	public ModelAndView cmyupdate(ModelAndView mv, CommentsVO vo, HttpServletRequest request, RedirectAttributes rttr) {
 		
 		String uri = "redirect:cmylist";
-		if ( service.update(vo) > 0 ) { 
-    		rttr.addFlashAttribute("message", "~~ 글수정 성공 !!! ~~");
-    	}else {
-    		rttr.addFlashAttribute("message", "~~ 글수정 실패 !!! 다시 하세요 ~~");
-    		uri = "redirect:cdetail?jcode=U&seq="+vo.getRoot_seq();
-    	}
+		
+		if (vo.getRating()==null) {
+			rttr.addFlashAttribute("message", "별점을 선택해 주세요.");
+			uri = "redirect:cmydetail?reply_seq="+vo.getReply_seq();
+		} else {
+			if ( service.update(vo) > 0 ) { 
+	    		rttr.addFlashAttribute("message", "~~ 글수정 성공 !!! ~~");
+	    	}else {
+	    		rttr.addFlashAttribute("message", "~~ 글수정 실패 !!! 다시 하세요 ~~");
+	    		uri = "redirect:cdetail?jcode=U&seq="+vo.getRoot_seq();
+	    	}
+		}
 		mv.setViewName(uri);
 		return mv;
 	} //cupdate
