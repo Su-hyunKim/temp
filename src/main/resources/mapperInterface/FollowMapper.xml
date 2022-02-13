@@ -5,10 +5,10 @@
 
 
     <select id="followingselectList" resultType="vo.FollowVO">
-		select follower from follow where following=#{following} order by follow_seq desc
+		select follower from follow where following=#{following}
 	</select>
 	<select id="followerselectList" resultType="vo.FollowVO">
-		select following from follow where follower=#{following} order by follow_seq desc
+		select following from follow where follower=#{following}
 	</select>
    
 	<select id="followflag" resultType="int">

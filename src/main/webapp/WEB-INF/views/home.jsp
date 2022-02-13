@@ -39,7 +39,6 @@
 			<ul>
 				<li id="rlist"><span>전체글조회</span>
 				<li id="rlist0"><span>홍보글조회</span>
-				<li id="comment"><span>댓글화면</span>
 				<li id="rlist1"><span>리뷰글조회</span>
 			</ul>
 		</div>

@@ -12,6 +12,8 @@ public interface MemberMapper {
 	List<MemberVO> checkList(MultiCheckSearchCriteria cri);	
 	List<MemberVO> findIdByBirthday(MemberVO vo);
 	List<MemberVO> findIdByEmail(MemberVO vo);
+	List<MemberVO> followerList(MemberVO vo);
+	List<MemberVO> followingList(MemberVO vo);
 	int searchRowsCount(MultiCheckSearchCriteria cri);
 	int totalRowCount();
 	int countFollower(MemberVO vo);

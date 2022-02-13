@@ -139,6 +139,18 @@ public class MemberController {
 		return mv;
 	} //msearchlist
 	
+	@RequestMapping(value = "/followmlist")
+	public ModelAndView followlist(ModelAndView mv, MemberVO vo, HttpServletRequest request) {		
+		List<MemberVO> list;
+		if("follower".equals(request.getParameter("R"))) list = service.followerList(vo);
+		else list = service.followingList(vo);
+		// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
+		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
+		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");
+		mv.setViewName("member/followList");
+		return mv;
+	} //msearchlist
+	
 	@RequestMapping(value = "/mdetail")
 	public ModelAndView mdetail(ModelAndView mv, MemberVO vo, RedirectAttributes rttr) {
 		String uri = "member/memberDetail";
