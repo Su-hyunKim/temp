@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>게시판 목록</title>
+	<title><c:if test="${not empty title}">${title}</c:if>글 목록</title>
 	<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
 	<script src="resources/lib/jquery-3.2.1.min.js"></script>
 	<script>
@@ -19,7 +19,7 @@
 	</script>
 </head>
 <body>
-<h1>게시판 목록</h1>
+<h1><c:if test="${not empty title}">${title}</c:if>글 목록</h1>
 <br>
 <c:if test="${not empty message}">
 => ${message}<br>
@@ -107,7 +107,12 @@
 	<c:if test='${type!="0"}'><a href="rinsertf?type=1">리뷰글등록</a></c:if>
 	<br>
 </c:if>
-<a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp;
+<c:if test="${not empty title}">
+	<c:if test='${title=="내 홍보" || title=="내 리뷰"}'>
+	<a href="mypage?R=mypage">[mypage]</a>
+	</c:if>
+</c:if>
+<!-- <a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp; -->
 <a href="home" >[Home]</a>
 </body>
 </html>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="mapperInterface.AdminMapper">
+	
+	<!-- 판매자 등록 -->
+	
+	<insert id="pregist">
+		
+		insert into product(product_name, seller_id, seller_name, product_date, company_name, product_catecode, product_price, product_stock, product_dc, product_desc)
+		values(#{product_name},#{seller_id}, #{seller_name}, #{product_date},#{company_name},#{product_catecode},#{product_price},#{product_stock},#{product_dc},#{product_desc})
+	
+	</insert>
+	
+	<select id="procateList" resultType="vo.procateVO">
+	
+		select * from procate order by product_catecode
+	
+	</select>
+	
+	<!-- 상품 리스트 -->
+	
+	<select id="productGetList" resultType="vo.ProductVO">
+  	
+	  	<![CDATA[
+		select * from(
+		--------------수정필요----------------- 
+		    select /*+INDEX_DESC(product SYS_C007551)*/ rownum as rn, product_id, product_name,
+		-----------------------------------
+		        (select seller_name from seller where product.seller_id =product.product_id) product_name,
+		        (select cate_name from procate where product.product_catecode = procate.product_catecode) cate_name,product_stock,product_regdate
+		    from product 
+		    where 
+		]]>    
+		
+		    <if test="keyword != null">
+		    
+			    product_name like '%' || #{keyword} || '%' and
+			    
+		    </if>
+		--------------수정필요-----------------     
+		<![CDATA[    
+		    rownum <= #{currPage} * #{rowsPerPage} 
+		    )
+		where rn > (#{currPage} -1) * #{rowsPerPage}		  	
+  		]]>
+  		-----------------------------------
+  	</select>
+  	
+  	<!-- 상품 총 개수 -->
+  	<select id="productGetTotal" resultType="int">
+  	
+  		select count(*) from product
+  		
+  		<if test="keyword != null">
+  		
+  			where product_name like '%' || #{keyword} || '%'
+  		</if>
+  		
+  	</select> 
+  	
+  	<!-- 상품 조회 페이지 -->
+	<select id="productGetDetail" resultType="vo.ProductVO">
+	
+		select product_id, product_name, (select seller_name from seller where seller_id =product.seller_id) seller_name, 
+			product_id, product_date, company_name, product_cateCode, product_price, product_stock, product_dc, product_desc,product_regdate, product_update 
+		from product where product_id = #{product_id}
+	
+	</select>
+	
+		<!-- 상품 정보 수정 -->
+	<update id="productUpdate">
+		
+		update product set product_name = #{product_name}, seller_id = #{seller_id}, product_date = #{product_date}, company_name = #{company_name}, product_catecode = ${product_catecode}, 
+		product_price = #{product_price}, product_stock = #{product_stock}, product_dc = #{product_dc}, product_desc = #{product_desc}, product_update = sysdate
+		where product_id = ${product_id}
+		
+	</update>
+	
+	<!-- 상품 정보 삭제 -->
+	<delete id="productDelete">
+	
+		delete from product where product_id = #{product_id}
+	
+	</delete>
+
+  </mapper>

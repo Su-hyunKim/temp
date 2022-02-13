@@ -52,7 +52,10 @@
 	<table>
 		<tr>
 			<th>I  D</th>
-			<td>${apple.member_id}</td>
+			<td>${apple.member_id}
+				<a href="followmlist?R=follower&member_id=${loginID}">팔로워</a>${myfollower}
+      			<a href="followmlist?member_id=${loginID}">팔로잉</a>${myfollowing}
+			</td>
 		</tr>
 		<tr>
 			<th>이름</th>

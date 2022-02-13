@@ -12,6 +12,11 @@
 		select authority from member_auth where member_id=#{member_id}
 	</select>
 
+<!-- reviewList -->
+	<select id="reviewList" resultType="vo.RootVO">
+		select * from root where member_id=#{member_id} and type='1'
+	</select>
+
 <!-- 검색결과 리스트 -->
 	<sql id="list">
 		select member_id,name,gender,point,

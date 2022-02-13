@@ -21,6 +21,7 @@ import service.MemberMailSendService;
 import service.MemberService;
 import vo.AuthVO;
 import vo.MemberVO;
+import vo.RootVO;
 
 //=> Mapper 는 null 을 return 하지 않으므로 길이로 확인 
 
@@ -142,12 +143,27 @@ public class MemberController {
 	@RequestMapping(value = "/followmlist")
 	public ModelAndView followlist(ModelAndView mv, MemberVO vo, HttpServletRequest request) {		
 		List<MemberVO> list;
-		if("follower".equals(request.getParameter("R"))) list = service.followerList(vo);
-		else list = service.followingList(vo);
+		if("follower".equals(request.getParameter("R"))) {
+			list = service.followerList(vo);
+			mv.addObject("title", "팔로워");
+		}else{
+			list = service.followingList(vo);
+			mv.addObject("title", "팔로잉");
+		}
 		// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
 		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
 		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");
 		mv.setViewName("member/followList");
+		return mv;
+	} //msearchlist
+	
+	@RequestMapping(value = "/mreviewlist")
+	public ModelAndView reviewlist(ModelAndView mv, MemberVO vo) {		
+		List<RootVO> list = service.reviewList(vo);
+		mv.addObject("title", "내 리뷰");
+		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
+		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");
+		mv.setViewName("board/rootList");
 		return mv;
 	} //msearchlist
 	
@@ -160,7 +176,9 @@ public class MemberController {
 		vo=service.selectOne(vo);
 		if (vo != null && list!=null && list.size()>0 ) {
 			vo.setAuthList(list);
-			mv.addObject("apple", vo);	
+			mv.addObject("apple", vo);
+			mv.addObject("myfollower",service.countFollower(vo));
+			mv.addObject("myfollowing",service.countFollowing(vo));
 		}else {
 			rttr.addFlashAttribute("message","~~ "+id+"님의 자료는 존재하지 않습니다 ~~");
 			uri = "redirect:home";
@@ -171,6 +189,8 @@ public class MemberController {
 	
 	@RequestMapping(value = "/mypage")
 	public ModelAndView mypage(ModelAndView mv, MemberVO vo, RedirectAttributes rttr, HttpServletRequest request) {
+		vo.setMember_id((String)request.getSession().getAttribute("loginID"));
+		
 		// ** 마지막 접속시간 update
 		service.updateLastAccess(vo);
 		
@@ -192,7 +212,7 @@ public class MemberController {
 		mv.setViewName(uri);
 		return mv;
 	}
-
+	
 	@RequestMapping(value = "/joinf")
 	public ModelAndView joinf(ModelAndView mv, HttpServletRequest request) {
 		if("joinf".equals(request.getParameter("R"))) {
