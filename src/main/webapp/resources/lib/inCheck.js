@@ -36,13 +36,6 @@ function inCheck(result){
 			url: "entrepreneurcheck", 
 			type: "POST",
 			data: {
-// 				employer_id: "1138621886",
-// 				launch_date: "20080530",
-// 				representative: "강창석",
-// 				company_name: "주식회사 미리디",
-// 				corporation_id: "1101113902651",
-// 				business_type: "서비스",
-// 				business_items: "소프트웨어개발공급"
 				employer_id: $('#employer_id').val(),
 				launch_date: $('#launch_date').val(),
 				representative: $('#representative').val(),

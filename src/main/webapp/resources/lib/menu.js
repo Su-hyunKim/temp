@@ -54,10 +54,6 @@ $(function(){
 			$('#'+ajaxButton.id).click(function(e){	
 				if(ajaxButton.opt.includes('banner')) $('.banner').css({display:"block"});
 				else if(ajaxButton.opt.includes('hideBanner')) $('.banner').css({display:"none"});
-				/*if(document.getElementById("R")) history.replaceState({data:url},ajaxButton.id,context+'/'+url);
-				else history.pushState({data:url},ajaxButton.id,context+'/'+url);*/
-//				if(document.getElementById("R")) history.replaceState(null,ajaxButton.id,context+'/'+url);
-//				else history.pushState(null,ajaxButton.id,context+'/'+url);
 				if(document.getElementById("R")) history.replaceState(null,ajaxButton.id,context+'/');
 				else history.pushState(null,ajaxButton.id,context+'/');
 				$.ajax({
