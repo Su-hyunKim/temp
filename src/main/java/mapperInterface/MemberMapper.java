@@ -14,6 +14,8 @@ public interface MemberMapper {
 	List<MemberVO> findIdByEmail(MemberVO vo);
 	int searchRowsCount(MultiCheckSearchCriteria cri);
 	int totalRowCount();
+	int countFollower(MemberVO vo);
+	int countFollowing(MemberVO vo);
 	int updateLastAccess(MemberVO vo);
 	int changeStatus(MemberVO vo);
 	int updatePassword(MemberVO vo);

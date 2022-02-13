@@ -62,6 +62,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public int countFollower(MemberVO vo) {
+		return dao.countFollower(vo);
+	}
+	
+	@Override
+	public int countFollowing(MemberVO vo) {
+		return dao.countFollowing(vo);
+	}
+	
+	@Override
 	public int updateLastAccess(MemberVO vo) {
 		return dao.updateLastAccess(vo);
 	}
