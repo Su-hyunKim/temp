@@ -20,10 +20,12 @@ import criteria.PageMaker;
 import criteria.SearchCriteria;
 import lombok.extern.log4j.Log4j;
 import service.RootService;
+import vo.CommentsVO;
 import vo.FollowVO;
 import vo.MemberVO;
 import vo.PageVO;
 import vo.RootVO;
+import service.CommentsService;
 import service.FollowService;
 
 @Log4j
@@ -33,6 +35,8 @@ public class RootController {
 	RootService service;
 	@Autowired
 	FollowService fservice;
+	@Autowired 
+	CommentsService cservice;
 
 	// ** @Log4j Test
 	@RequestMapping(value = "/logj")
@@ -223,10 +227,14 @@ public class RootController {
 	} //rlist
 	
 	@RequestMapping(value = "/rdetail")
-	public ModelAndView rdetail(HttpServletRequest request, ModelAndView mv, RootVO vo, FollowVO fvo) {
+	public ModelAndView rdetail(HttpServletRequest request, ModelAndView mv, RootVO vo, FollowVO fvo, CommentsVO cvo) {
 		
 		String uri = "board/rootDetail";
-
+		
+		List<CommentsVO> list = new ArrayList<CommentsVO>();
+    	list = cservice.selectList(cvo);
+    	
+    	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
 		// ** Service 처리
     	// => 조회수 증가 추가하기 ( 조회수 증가의 조건 )
     	//    글보는이(loginID)와 글쓴이가 다를때 && jcode!="U" -> countUp 메서드

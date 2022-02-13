@@ -22,9 +22,9 @@ public class CommentsController {
 	CommentsService service;
 		
 	@RequestMapping(value = "/comment")
-	public ModelAndView comment(ModelAndView mv) {
+	public ModelAndView comment(ModelAndView mv, CommentsVO vo) {
 		List<CommentsVO> list = new ArrayList<CommentsVO>();
-    	list = service.selectList();
+    	list = service.selectList(vo);
     	
     	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
 		mv.setViewName("board/commentsForm");
@@ -70,10 +70,10 @@ public class CommentsController {
 	} //cdetail
 	
 	@RequestMapping(value = "/clist")
-	public ModelAndView clist(ModelAndView mv, PageVO<CommentsVO> pvo) {
+	public ModelAndView clist(HttpServletRequest request, ModelAndView mv, PageVO<CommentsVO> pvo, CommentsVO vo) {
 		
 		List<CommentsVO> list = new ArrayList<CommentsVO>();
-    	list = service.selectList();
+    	list = service.selectList(vo);
     	
     	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
     	else mv.addObject("message", "~~ 출력 자료가 없습니다 ~~");
@@ -141,7 +141,7 @@ public class CommentsController {
 	@RequestMapping(value = "/cdelete")
 	public ModelAndView cdelete(ModelAndView mv, CommentsVO vo, HttpServletRequest request, RedirectAttributes rttr) {
 		
-		String uri = "redirect:rdetail?root_seq="+vo.getRoot_seq()+"&follower="+request.getSession()+"&following="+request.getAttribute("loginID");
+		String uri = "redirect:rlist";
 		if ( service.delete(vo) > 0 ) { 
 			rttr.addFlashAttribute("message", "~~ 글삭제 성공 !!! ~~");
     	}else {
