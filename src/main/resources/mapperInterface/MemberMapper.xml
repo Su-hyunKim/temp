@@ -179,6 +179,14 @@
 		select member_id from member
 		where name=#{name} and email=#{email}
 	</select>
+	
+	<select id="countFollower" resultType="int">
+		select count(*) from follow where following=#{member_id}	
+	</select>
+	
+	<select id="countFollowing" resultType="int">
+		select count(*) from follow where follower=#{member_id}	
+	</select>
 
 <!-- myPage, 로그아웃form 요청시 last access 수정 -->
 	<update id="updateLastAccess">
@@ -191,6 +199,11 @@
 		set (enabled, status, last_access)
 		= (select #{enabled}, #{status}, sysdate from dual)
 		where member_id=#{member_id}
+	</update>
+	
+<!-- password 수정 -->
+	<update id="updatePassword">
+		update member set password = #{password} where member_id=#{member_id}
 	</update>
 	
 <!-- password 수정 -->

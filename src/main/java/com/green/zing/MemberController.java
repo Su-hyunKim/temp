@@ -167,6 +167,8 @@ public class MemberController {
 		vo=service.selectOne(vo);
 		if (vo != null) {
 			mv.addObject("apple", vo);
+			mv.addObject("myfollower",service.countFollower(vo));
+			mv.addObject("myfollowing",service.countFollowing(vo));
 			if("mypage".equals(request.getParameter("R"))) {
 				mv.addObject("R","mypage");
 				uri="home";
