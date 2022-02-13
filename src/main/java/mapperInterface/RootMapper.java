@@ -20,6 +20,7 @@ public interface RootMapper {
 	// ** PageList1.
 	int totalRowCount();
 	List<RootVO> pageList(PageVO<RootVO> pvo);  
+	List<RootVO> typeList(RootVO vo); //selectList
 	// **  CRUD
 	List<RootVO> selectList(); //selectList
 	RootVO selectOne(RootVO vo); //selectOne

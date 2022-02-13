@@ -55,11 +55,17 @@ public class RootServiceImpl implements RootService {
 		pvo.setList(dao.pageList(pvo));
 		return pvo;
 	} //pageList
+
+	@Override
+	public List<RootVO> typeList(RootVO vo) {
+		return dao.typeList(vo);
+	} //selectList
 	
 	@Override
 	public List<RootVO> selectList() {
 		return dao.selectList();
 	} //selectList
+	
 	@Override
 	public RootVO selectOne(RootVO vo) {
 		return dao.selectOne(vo);

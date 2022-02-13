@@ -115,6 +115,8 @@ let ajaxBnts = [
 	new AjaxButton(['hideBanner','loginID'],'mypage','mypage?member_id=','get','page'),
 	new AjaxButton(['hideBanner'],'msearchlist','msearchlist','get','page'),
 	new AjaxButton(['hideBanner'],'rlist','rlist','get','page'),
+	new AjaxButton(['hideBanner'],'rlist0','rlist?type=0','get','page'),
+	new AjaxButton(['hideBanner'],'rlist1','rlist?type=1','get','page'),
 	new AjaxButton(['hideBanner'],'pregistf','pregistf','get','page'),
 	new AjaxButton(['hideBanner'],'plist','plist','get','page'),
 	new AjaxButton(['hideBanner','loginID'],'mupdatef','mupdatef?member_id=','get','page'),

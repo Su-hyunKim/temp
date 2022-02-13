@@ -62,7 +62,7 @@ public class RootController {
 		// 1) Check_Box 처리
 		// 2) Service 실행
 		List<RootVO> list = null;
-		if ( vo.getCheck() != null ) list = service.checkList(vo) ;
+		if ( vo.getCheck() != null ) list = service.checkList(vo);
 		else list = service.selectList();
 		
 		// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
@@ -202,10 +202,11 @@ public class RootController {
 	 */	
 	// ** Board CRUD *****
 	@RequestMapping(value = "/rlist")
-	public ModelAndView rlist(ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView rlist(ModelAndView mv, HttpServletRequest request, RootVO vo) {
 		
 		List<RootVO> list = new ArrayList<RootVO>();
-    	list = service.selectList();
+		if( vo.getType()==null || "".equals(vo.getType()) ) list = service.selectList();
+		else list = service.typeList(vo);
     	
     	// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
     	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
