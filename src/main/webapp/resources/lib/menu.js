@@ -113,13 +113,13 @@ let ajaxBnts = [
 	new AjaxButton(['hideBanner'],'joinf','joinf','get','page'),
 	new AjaxButton(['hideBanner'],'comment','comment','get','page'),
 	new AjaxButton(['hideBanner','loginID'],'mypage','mypage?member_id=','get','page'),
-	new AjaxButton(['hideBanner'],'mlist','mlist','get','page'),
+	new AjaxButton(['hideBanner'],'msearchlist','msearchlist','get','page'),
 	new AjaxButton(['hideBanner'],'rlist','rlist','get','page'),
 	new AjaxButton(['hideBanner'],'pregistf','pregistf','get','page'),
 	new AjaxButton(['hideBanner'],'plist','plist','get','page'),
 	new AjaxButton(['hideBanner','loginID'],'mupdatef','mupdatef?member_id=','get','page'),
 	new AjaxButton(['hideBanner'],'sregf','sregf','get','page'),
-	new AjaxButton(['hideBanner'],'slist','slist','get','page'),
+	new AjaxButton(['hideBanner'],'ssearchlist','ssearchlist','get','page'),
 	new AjaxButton(['hideBanner','loginID'],'supdatef','supdatef?member_id=','get','page')
 ];
 
