@@ -117,7 +117,7 @@
 	</insert>
 	
 	<update id="update">
-		update root set title=#{title}, content=#{content} where root_seq=#{root_seq}
+		update root set title=#{title}, content=#{content}, files=#{files}, product_id=#{product_id} where root_seq=#{root_seq}
 	</update>
 	
 	

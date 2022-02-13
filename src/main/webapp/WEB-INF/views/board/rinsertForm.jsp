@@ -10,21 +10,22 @@
 	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
 <title>징검다리 : 글쓰기</title>
 <script src="resources/lib/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
 </head>
 <body>
 <h1>징검다리 : 글쓰기</h1>
 <form action="rinsert" enctype="multipart/form-data" method="post">
 <input type="hidden" name="type" value="${Type}">
 <table>
-	<tr height="40"><td bgcolor="aqua">아이디</td>
+	<tr height="40"><td>아이디</td>
 		<td><input type="text" name="member_id" value="${loginID}" size="20" readonly></td></tr>
-	<tr height="40"><td bgcolor="aqua">제목</td>
+	<tr height="40"><td>제목</td>
 		<td><input type="text" name="title"></td></tr>	
-	<tr height="40"><td bgcolor="aqua">내용</td>
+	<tr height="40"><td>내용</td>
 		<td><textarea name="content" rows="5" cols="50"></textarea></td></tr>
 <c:choose>
 	<c:when test="${type=='0'}">
-	<tr height="40"><td bgcolor="aqua">상품</td>
+	<tr height="40"><td>상품</td>
 		<td><input type="text" name="product_id" id="product_id" size="20"></td>
 		<!-- 여기서 상품태그 걸어야 하나요? -->
 	</tr>
@@ -34,7 +35,7 @@
 	</c:when>
 	<c:otherwise><input type="hidden" name="product_id" value=""></c:otherwise>	
 </c:choose>	
-	<tr height="40"><td bgcolor="aqua">첨부파일</td>
+	<tr height="40"><td>첨부파일</td>
 		<td><img src="" class="select_img"><br>
 			<input type="file" name="filesf" id="filesf">
 			<script>
@@ -75,7 +76,7 @@
 <br>=> ${message}<br><br> 
 </c:if>
 <hr>
-<a href="rlist?R=rlist">rList</a>&nbsp;&nbsp;
+<a href="rlist?R=rlist">글목록</a>&nbsp;&nbsp;
 <a href="home">[Home]</a>
 </body>
 </html>

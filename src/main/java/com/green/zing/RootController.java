@@ -231,7 +231,8 @@ public class RootController {
 		vo = service.selectOne(vo);
     	if ( vo!=null ) {
     		// 조회수 증가 추가
-    		if ( !vo.getMember_id().equals(loginID) ) {
+    		if ( !vo.getMember_id().equals(loginID) &&
+    				!"U".equals(request.getParameter("jcode"))) {
     			// 조회수 증가
     			if ( service.countUp(vo) > 0 )
     					vo.setCnt(vo.getCnt()+1) ;
@@ -239,9 +240,8 @@ public class RootController {
     		
     		mv.addObject("apple", vo);
     		// 글 수정인지 확인
-    		/*if ( "U".equals(request.getParameter("jcode")) ) 
+    		if ( "U".equals(request.getParameter("jcode")) ) 
     			uri = "board/rupdateForm";
-    			*/
     	}else {
     		mv.addObject("message", "~~ 글번호에 해당하는 자료가 없습니다 ~~");
     	}
