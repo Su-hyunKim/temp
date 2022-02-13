@@ -7,7 +7,7 @@ import vo.CommentsVO;
 public interface CommentsService {
 	
 	// **  CRUD
-	List<CommentsVO> selectList();
+	List<CommentsVO> selectList(CommentsVO vo);
 	CommentsVO selectOne(CommentsVO vo);
 	int insert(CommentsVO vo); //insert
 	int update(CommentsVO vo); //update

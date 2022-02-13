@@ -30,6 +30,7 @@
 			texts,
 			rating 
 		from comments
+		where root_seq=#{root_seq}
 	</select>
 	
 	<select id="selectmyList" resultType="vo.CommentsVO">
@@ -41,7 +42,7 @@
 			texts,
 			rating 
 		from comments
-		where comments.member_id=#{member_id}
+		where member_id=#{member_id}
 	</select>
 	
 	<select id="selectOne" resultType="vo.CommentsVO">
