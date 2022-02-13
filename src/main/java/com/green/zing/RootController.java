@@ -203,17 +203,20 @@ public class RootController {
 	// ** Board CRUD *****
 	@RequestMapping(value = "/rlist")
 	public ModelAndView rlist(ModelAndView mv, HttpServletRequest request, RootVO vo) {
-		
+		String r = "rlist";
 		List<RootVO> list = new ArrayList<RootVO>();
 		if( vo.getType()==null || "".equals(vo.getType()) ) list = service.selectList();
-		else list = service.typeList(vo);
+		else{
+			list = service.typeList(vo);
+			r += "?type=" + vo.getType();
+		}
     	
     	// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
     	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
     	else mv.addObject("message", "~~ 출력 자료가 없습니다 ~~");
     	
     	if("rlist".equals(request.getParameter("R"))) {
-			mv.addObject("R","rlist");
+			mv.addObject("R",r);
 			mv.setViewName("home");
 		}else mv.setViewName("board/rootList");
 		return mv;
@@ -235,7 +238,7 @@ public class RootController {
     				!"U".equals(request.getParameter("jcode"))) {
     			// 조회수 증가
     			if ( service.countUp(vo) > 0 )
-    					vo.setCnt(vo.getCnt()+1) ;
+    				vo.setCnt(vo.getCnt()+1) ;
     		} //if
     		
     		mv.addObject("apple", vo);
@@ -283,7 +286,7 @@ public class RootController {
 			//    D:\MTest\IDESet\apache-tomcat-9.0.41\webapps\Spring02\
 			
 	
-		String uri = "redirect:rlist";
+		String uri = "redirect:rlist?type=" + vo.getType();
 		String realPath = request.getRealPath("/"); // deprecated Method
 		System.out.println("** realPath => "+realPath);
 		
@@ -325,8 +328,8 @@ public class RootController {
     		// 글등록 성공 -> rlist , redirect
     		rttr.addFlashAttribute("message", "~~ 새글 등록 완료 !!! ~~");
     	}else {
-    		mv.addObject("message", "~~ 새글 등록 실패 !!! ~~");
-    		uri = "board/rinsertForm";
+    		rttr.addFlashAttribute("message", "~~ 새글 등록 실패 !!! ~~");
+    		uri = "redirect:rinsertf?" + vo.getType();
     	}
 		mv.setViewName(uri);
 		return mv;
@@ -335,7 +338,7 @@ public class RootController {
 	@RequestMapping(value = "/rupdate")
 	public ModelAndView bupdate(ModelAndView mv, RootVO vo, RedirectAttributes rttr) {
 		
-		String uri = "redirect:rlist";
+		String uri = "redirect:rlist?type=" + vo.getType();
 		if ( service.update(vo) > 0 ) { 
     		// 글수정 성공 -> blist : redirect
     		rttr.addFlashAttribute("message", "~~ 글수정 성공 !!! ~~");
@@ -350,7 +353,7 @@ public class RootController {
 	@RequestMapping(value = "/rdelete")
 	public ModelAndView rdelete(ModelAndView mv, RootVO vo, RedirectAttributes rttr) {
 		
-		String uri = "redirect:rlist";
+		String uri = "redirect:rlist?type=" + vo.getType();
 		if ( service.delete(vo) > 0 ) { 
     		// 글삭제 성공 -> blist  : redirect
 			rttr.addFlashAttribute("message", "~~ 글삭제 성공 !!! ~~");
