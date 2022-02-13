@@ -208,17 +208,23 @@ public class RootController {
 	@RequestMapping(value = "/rlist")
 	public ModelAndView rlist(ModelAndView mv, HttpServletRequest request, RootVO vo) {
 		String r = "rlist";
+		String type = vo.getType();
 		List<RootVO> list = new ArrayList<RootVO>();
-		if( vo.getType()==null || "".equals(vo.getType()) ) list = service.selectList();
+		if( vo.getType()==null || "".equals(vo.getType()) ) {
+			mv.addObject("title","전체");
+			list = service.selectList();
+		}
 		else{
+			if("0".equals(type)) mv.addObject("title","홍보");
+			else if("1".equals(type)) mv.addObject("title","리뷰");
 			list = service.typeList(vo);
-			r += "?type=" + vo.getType();
+			r += "?type=" + type;
 		}
     	
     	// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
     	if ( list!=null && list.size()>0 ) {
     		mv.addObject("banana", list);
-    		mv.addObject("type",vo.getType());
+    		mv.addObject("type", type);
     	}else mv.addObject("message", "~~ 출력 자료가 없습니다 ~~");
     	
     	if("rlist".equals(request.getParameter("R"))) {

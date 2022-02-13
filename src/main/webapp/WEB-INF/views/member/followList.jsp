@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0,
 	user-scalable=no, maximum-scale=1.0,minimum-scale=1.0">
-	<title>징검다리 : 팔로우 팔로잉 리스트</title>
+	<title>징검다리 : ${title} 리스트</title>
 	<style>
 		table {
 			width:100%;
@@ -51,7 +51,7 @@
 </head>
 <body>
 <div class="wrapped">
-	<h1>팔로우 팔로잉 리스트</h1>
+	<h1>${title} 리스트</h1>
 <c:if test="${not empty message}">
 => ${message}<br>
 </c:if>
@@ -86,7 +86,9 @@
 </c:forEach>
 			</tbody>
 		</table>
-<a href="mypage?member_id=${loginID}&R=mypage">[mypage]</a>&nbsp;	
+<c:if test="${not empty loginID}">
+<a href="mypage?R=mypage">[mypage]</a>&nbsp;
+</c:if>	
 <a href="home">[HOME]</a>				
 </div>
 </body>

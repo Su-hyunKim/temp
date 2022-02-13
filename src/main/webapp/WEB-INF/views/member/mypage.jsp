@@ -7,6 +7,11 @@
 <meta charset="UTF-8">
 <title>징검다리 : My Page</title>
 <link rel="stylesheet" type="text/css" href="resources/lib/myinfo.css">
+<style>
+.small{
+	font-size:70%;	
+}
+</style>
 </head>
 <body>
 <div class="myContainer">
@@ -16,9 +21,10 @@
   <div class="mintContainer">
     <div>
       <div class="grade">Rank</div>
-      <div class="name">${apple.name}</div>
-      <a href="followmlist?R=follower&member_id=${loginID}">팔로워</a>${myfollower}
-      <a href="followmlist?member_id=${loginID}">팔로잉</a>${myfollowing}
+      <div class="name">${apple.name}&nbsp;
+      <a href="followmlist?R=follower&member_id=${loginID}" class="small">follower${myfollower}</a>
+      <a href="followmlist?member_id=${loginID}" class="small">following${myfollowing}</a>
+      </div>
     </div>    
   </div>
   <div class="summaryContainer">
@@ -83,7 +89,7 @@
         <div class="text">내 상품</div>
         <div class="right"> > </div>
     </a>
-    <a href="#" class="item">
+    <a href="mreviewlist?member_id=${loginID}" class="item">
         <div class="icon"><img src="resources/image/footprint.jpg" width="30" height="30"></div>
         <div class="text">내 리뷰</div>
         <div class="right"> > </div>
@@ -113,10 +119,10 @@
     </a>
   </div>
   <div class="infoContainer">
-    <a href="mdetail?jcode=U&id=${apple.member_id}" class="item">
+    <a href="mupdatef?member_id=${loginID}" class="item">
       <div><h3>내 정보수정</h3></div>
     </a>    
-    <a href="mdelete?id=${apple.member_id}" class="item">
+    <a href="mwithdraw?member_id=${loginID}" class="item">
       <div><h3>회원탈퇴</h3></div>
     </a>    
     <a href="home" class="item">

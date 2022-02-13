@@ -9,6 +9,7 @@ import criteria.MultiCheckSearchCriteria;
 import mapperInterface.MemberMapper;
 import vo.AuthVO;
 import vo.MemberVO;
+import vo.RootVO;
 
 //** interface 자동완성 
 //=> Alt + Shift + T  
@@ -34,6 +35,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<AuthVO> authList(MemberVO vo) {
 		return dao.authList(vo);
+	}
+	
+	@Override
+	public List<RootVO> reviewList(MemberVO vo) {
+		return dao.reviewList(vo);
 	}
 	
 	@Override

@@ -5,10 +5,12 @@ import java.util.List;
 import criteria.MultiCheckSearchCriteria;
 import vo.AuthVO;
 import vo.MemberVO;
+import vo.RootVO;
 
 public interface MemberMapper {
 	
 	List<AuthVO> authList(MemberVO vo);
+	List<RootVO> reviewList(MemberVO vo);
 	List<MemberVO> checkList(MultiCheckSearchCriteria cri);	
 	List<MemberVO> findIdByBirthday(MemberVO vo);
 	List<MemberVO> findIdByEmail(MemberVO vo);

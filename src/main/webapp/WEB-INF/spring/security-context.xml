@@ -26,11 +26,9 @@
 <!-- 		<s:intercept-url pattern="/pregistf" 
 		                   access="hasAuthority('ROLE_SELLER')" /> -->
 		<s:intercept-url pattern="/mlist" 
-		                   access="hasAuthority('ROLE_ADMIN')" />
-<!--		<s:intercept-url pattern="/b*" 
-		                   access="hasRole('ROLE_USER')" />
-		<s:intercept-url pattern="/green*" access="isAuthenticated()" />
-		<s:intercept-url pattern="/**" access="permitAll"/>  -->
+		                   access="hasAuthority('ROLE_USER')" />
+		<s:intercept-url pattern="/mypage" 
+		                   access="hasAuthority('ROLE_USER')" />
 		
 		<s:access-denied-handler error-page="/accessError"/> <!-- HomeController 참고 -->
 		<s:form-login login-page="/loginf"
