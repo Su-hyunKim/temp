@@ -57,8 +57,8 @@
 </c:if> 
 <!-- 새글, 답글등록 추가하기 -->
 &nbsp;&nbsp;<a href="rinsertf">새글등록</a>
-<%-- &nbsp;&nbsp;<a href="rinsertf?root=${apple.root}&step=${apple.step}&indent=${apple.indent}">답글등록</a><br>
- --%><hr>
+<jsp:include page="commentsForm.jsp" />
+<hr>
 <a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp;
 <a href="home">HOME</a>
 <script>
