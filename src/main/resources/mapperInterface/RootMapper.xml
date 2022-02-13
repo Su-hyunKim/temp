@@ -89,8 +89,14 @@
 	</select>
 
 	<select id="selectList" resultType="vo.RootVO">
-		select root_seq,title,member_id,RegDate,cnt,good,status from 
-		root order by root_seq asc
+		select root_seq,title,member_id,RegDate,cnt,good,status from root
+		order by root_seq asc
+	</select>
+	
+	<select id="typeList" resultType="vo.RootVO">
+		select root_seq,title,member_id,RegDate,cnt,good,status from root
+		where type=#{type}
+		order by root_seq asc
 	</select>
 	
 	<select id="selectOne" resultType="vo.RootVO">

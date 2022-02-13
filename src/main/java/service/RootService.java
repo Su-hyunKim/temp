@@ -19,6 +19,7 @@ public interface RootService {
 	List<RootVO> searchList(SearchCriteria cri) ;
 	// ** PageList1.
 	PageVO<RootVO> pageList(PageVO<RootVO> pvo); // pageList 1 
+	List<RootVO> typeList(RootVO vo); //selectList
 	// **  CRUD
 	List<RootVO> selectList(); //selectList
 	RootVO selectOne(RootVO vo); //selectOne
