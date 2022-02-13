@@ -55,7 +55,7 @@
 	<script src="resources/lib/jquery-3.2.1.min.js"></script> 
 	<script>	
 		$('#searchBar #listSearch').click(function(e){
-			let url = '';
+			let url = '?';
 			url += 'column='+ $('#searchBar select[name="column"]').val()+"&order="+$('#searchBar input[name="order"]:checked').val();
 			for(var i=0; i<$('#searchBar input[name="check1"]:checked').length; i++)
 				url+='&check1='+$($('#searchBar input[name="check1"]:checked')[i]).val();
@@ -69,7 +69,7 @@
 			console.log(url);
 			$.ajax({
 				type:'get',
-				url:'msearchlist?'+url,
+				url:'msearchlist'+url,
 				success:function(resultPage){
 					resultPage = resultPage.substring(
 							resultPage.lastIndexOf('"targetList">')+13,
@@ -85,6 +85,7 @@
 		
 		function paging(query){
 			let url = query;
+			url += '&column='+ $('#searchBar select[name="column"]').val()+"&order="+$('#searchBar input[name="order"]:checked').val();
 			for(var i=0; i<$('#searchBar input[name="check1"]:checked').length; i++)
 				url+='&check1='+$($('#searchBar input[name="check1"]:checked')[i]).val();
 			for(var i=0; i<$('#searchBar input[name="check2"]:checked').length; i++)
@@ -93,10 +94,11 @@
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[0]).val();
 				url+='&range'+i+'='+$($('#searchBar input[name="range'+i+'"]')[1]).val();
 			}
+			url += "&searchType="+$('#searchType').val()+'&keyword='+$('#keyword').val();
 			console.log(url);
 			$.ajax({
 				type:'get',
-				url:'mlist'+url,
+				url:'msearchlist'+url,
 				success:function(resultPage){
 					resultPage = resultPage.substring(
 							resultPage.lastIndexOf('"targetList">')+13,
@@ -235,8 +237,8 @@
 				SearchCriteria 적용 -> pageMaker.searchQuery(?) 		
 				 1)  First << ,  Prev <  처리 -->
 			<c:if test="${pageMaker.prev && pageMaker.spageNo>1}">
-				<a onclick="paging(${pageMaker.searchQuery(1)})">FF</a>&nbsp;
-				<a onclick="paging(${pageMaker.searchQuery(pageMaker.spageNo-1)})">Prev</a>
+				<a onclick="paging('${pageMaker.makeQuery(1)}')">FF</a>&nbsp;
+				<a onclick="paging('${pageMaker.makeQuery(pageMaker.spageNo-1)}')">Prev</a>
 			</c:if>
 			<!-- 2) sPageNo ~ ePageNo 까지, displayPageNo 만큼 표시 -->
 			<c:forEach var="i" begin="${pageMaker.spageNo}" end="${pageMaker.epageNo}">
@@ -244,14 +246,14 @@
 					<font size="5" color="#036">${i}</font>&nbsp;
 				</c:if>
 				<c:if test="${i!=pageMaker.cri.currPage}">
-					<a onclick="paging(${pageMaker.searchQuery(i)})">${i}</a>&nbsp;
+					<a onclick="paging('${pageMaker.makeQuery(i)}')">${i}</a>&nbsp;
 				</c:if>
 			</c:forEach>
 			&nbsp;
 			<!-- 3) Next >  ,  Last >>  처리 -->
 			<c:if test="${pageMaker.next && pageMaker.epageNo>0}">
-				<a onclick="paging(${pageMaker.searchQuery(pageMaker.epageNo+1)})">Next</a>&nbsp;
-				<a onclick="paging(${pageMaker.searchQuery(pageMaker.lastPageNo)})">LL</a>&nbsp;&nbsp;
+				<a onclick="paging('${pageMaker.makeQuery(pageMaker.epageNo+1)}')">Next</a>&nbsp;
+				<a onclick="paging('${pageMaker.makeQuery(pageMaker.lastPageNo)}')">LL</a>&nbsp;&nbsp;
 			</c:if>
 		</div>
 	</div>

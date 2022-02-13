@@ -66,9 +66,9 @@
 				<script>
 				</script>
 				<c:if test="${loginID=='admin'}">			
-					<li id="mlist"><span>회원검색</span>
+					<li id="msearchlist"><span>회원검색</span>
 				</c:if>
-				<li id="slist"><span>판매자검색</span>
+				<li id="ssearchlist"><span>판매자검색</span>
 			</ul>
 		</div>
 	</ul>

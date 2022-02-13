@@ -123,21 +123,6 @@ public class MemberController {
 		mv.setViewName("member/logoutForm");
 		return mv;
 	} //logoutf
-
-	@RequestMapping(value = "/mlist")
-	public ModelAndView mlist(ModelAndView mv, MultiCheckSearchCriteria cri, PageMakerE pageMaker) {
-		cri.setRowsPerPage(5);
-		cri.setSnoEno();		
-		List<MemberVO> list = service.selectList();
-		// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
-		if ( list != null && list.size()>0 ) mv.addObject("banana", list);
-		else mv.addObject("message", "~~ 출력할 자료가 1건도 없습니다 ~~");
-		pageMaker.setCri(cri);
-		pageMaker.setTotalRowCount(service.totalRowCount());
-		mv.addObject("pageMaker", pageMaker);
-		mv.setViewName("member/memberList");
-		return mv;
-	} //mlist
 	
 	@RequestMapping(value = "/msearchlist")
 	public ModelAndView msearchlist(ModelAndView mv, MultiCheckSearchCriteria cri, PageMakerE pageMaker) {
