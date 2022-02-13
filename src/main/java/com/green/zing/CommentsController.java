@@ -1,6 +1,5 @@
 package com.green.zing;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +50,25 @@ public class CommentsController {
 		return mv;
 	} //cdetail
 	
+	@RequestMapping(value = "/cmydetail")
+	public ModelAndView cmydetail(HttpServletRequest request, ModelAndView mv, CommentsVO vo) {
+		
+		String uri = "board/commentsMyupdateForm";
+		
+		vo = service.selectOne(vo);
+		mv.addObject("apple", vo);
+    	if ( vo!=null ) {
+    		// 글 수정인지 확인
+    		if ( "U".equals(request.getParameter("jcode")) ) 
+    			uri = "board/commentsMyupdateForm";
+    	}else {
+    		mv.addObject("message", "~~ 글번호에 해당하는 자료가 없습니다 ~~");
+    	}
+		
+		mv.setViewName(uri);
+		return mv;
+	} //cdetail
+	
 	@RequestMapping(value = "/clist")
 	public ModelAndView clist(ModelAndView mv, PageVO<CommentsVO> pvo) {
 		
@@ -74,14 +92,14 @@ public class CommentsController {
     	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
     	else mv.addObject("message", "~~ 출력 자료가 없습니다 ~~");
 		
-    	mv.setViewName("board/commentsList");
+    	mv.setViewName("board/commentsMyList");
 		return mv;
 	} //clist
 	
 	@RequestMapping(value = "/cinsert")
-	public ModelAndView cinsert(ModelAndView mv, CommentsVO vo, RedirectAttributes rttr) {
+	public ModelAndView cinsert(ModelAndView mv, CommentsVO vo, HttpServletRequest request, RedirectAttributes rttr) {
 		
-		String uri = "redirect:comment";
+		String uri = "redirect:rdetail?root_seq="+vo.getRoot_seq()+"&follower="+request.getSession()+"&following="+request.getAttribute("loginID");
 		if ( service.insert(vo) > 0 ) { 
     		rttr.addFlashAttribute("message", "~~ 새글 등록 완료 !!! ~~");
     	}else {
@@ -93,9 +111,23 @@ public class CommentsController {
 	} //cinsert
 	
 	@RequestMapping(value = "/cupdate")
-	public ModelAndView cupdate(ModelAndView mv, CommentsVO vo, RedirectAttributes rttr) {
+	public ModelAndView cupdate(ModelAndView mv, CommentsVO vo, HttpServletRequest request, RedirectAttributes rttr) {
 		
-		String uri = "redirect:comment";
+		String uri = "redirect:rdetail?root_seq="+vo.getRoot_seq()+"&follower="+request.getSession()+"&following="+request.getAttribute("loginID");
+		if ( service.update(vo) > 0 ) { 
+    		rttr.addFlashAttribute("message", "~~ 글수정 성공 !!! ~~");
+    	}else {
+    		rttr.addFlashAttribute("message", "~~ 글수정 실패 !!! 다시 하세요 ~~");
+    		uri = "redirect:cdetail?jcode=U&seq="+vo.getRoot_seq();
+    	}
+		mv.setViewName(uri);
+		return mv;
+	} //cupdate
+	
+	@RequestMapping(value = "/cmyupdate")
+	public ModelAndView cmyupdate(ModelAndView mv, CommentsVO vo, HttpServletRequest request, RedirectAttributes rttr) {
+		
+		String uri = "redirect:cmylist";
 		if ( service.update(vo) > 0 ) { 
     		rttr.addFlashAttribute("message", "~~ 글수정 성공 !!! ~~");
     	}else {
@@ -107,9 +139,23 @@ public class CommentsController {
 	} //cupdate
 	
 	@RequestMapping(value = "/cdelete")
-	public ModelAndView cdelete(ModelAndView mv, CommentsVO vo, RedirectAttributes rttr) {
+	public ModelAndView cdelete(ModelAndView mv, CommentsVO vo, HttpServletRequest request, RedirectAttributes rttr) {
 		
-		String uri = "redirect:comment";
+		String uri = "redirect:rdetail?root_seq="+vo.getRoot_seq()+"&follower="+request.getSession()+"&following="+request.getAttribute("loginID");
+		if ( service.delete(vo) > 0 ) { 
+			rttr.addFlashAttribute("message", "~~ 글삭제 성공 !!! ~~");
+    	}else {
+    		rttr.addFlashAttribute("message", "~~ 글삭제 실패 !!! ~~");
+    		uri = "redirect:cdetail?seq="+vo.getRoot_seq();
+    	}
+		mv.setViewName(uri);
+		return mv;
+	} //cdelete	
+	
+	@RequestMapping(value = "/cmydelete")
+	public ModelAndView cmydelete(ModelAndView mv, CommentsVO vo, HttpServletRequest request, RedirectAttributes rttr) {
+		
+		String uri = "redirect:cmylist";
 		if ( service.delete(vo) > 0 ) { 
 			rttr.addFlashAttribute("message", "~~ 글삭제 성공 !!! ~~");
     	}else {
