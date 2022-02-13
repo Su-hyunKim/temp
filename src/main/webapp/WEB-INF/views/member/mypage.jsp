@@ -17,6 +17,8 @@
     <div>
       <div class="grade">Rank</div>
       <div class="name">${apple.name}</div>
+      <a href="followmlist?R=follower&member_id=${loginID}">팔로워</a>${myfollower}
+      <a href="followmlist?member_id=${loginID}">팔로잉</a>${myfollowing}
     </div>    
   </div>
   <div class="summaryContainer">

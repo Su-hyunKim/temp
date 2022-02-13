@@ -10,8 +10,8 @@ public interface FollowService {
 	
 	//기본 CRUD
 	//List<FollowVO> selectList(); //selectList
-	List<FollowVO> followingselectList(); //followingselectList
-	List<FollowVO> followerselectList(); //followerselectList
+	List<FollowVO> followingselectList(FollowVO vo); //followingselectList
+	List<FollowVO> followerselectList(FollowVO vo); //followerselectList
 	FollowVO selectOne(FollowVO vo); //selectOne
 	int insert(FollowVO vo); //insert
 	//int update(FollowVO vo); //update

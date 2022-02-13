@@ -47,6 +47,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public List<MemberVO> followerList(MemberVO vo) {
+		return dao.followerList(vo);
+	}
+	
+	@Override
+	public List<MemberVO> followingList(MemberVO vo) {
+		return dao.followingList(vo);
+	}
+	
+	@Override
 	public List<MemberVO> findIdByEmail(MemberVO vo) {
 		return dao.findIdByEmail(vo);
 	}

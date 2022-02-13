@@ -216,8 +216,10 @@ public class RootController {
 		}
     	
     	// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
-    	if ( list!=null && list.size()>0 ) mv.addObject("banana", list);
-    	else mv.addObject("message", "~~ 출력 자료가 없습니다 ~~");
+    	if ( list!=null && list.size()>0 ) {
+    		mv.addObject("banana", list);
+    		mv.addObject("type",vo.getType());
+    	}else mv.addObject("message", "~~ 출력 자료가 없습니다 ~~");
     	
     	if("rlist".equals(request.getParameter("R"))) {
 			mv.addObject("R",r);
@@ -227,8 +229,7 @@ public class RootController {
 	} //rlist
 	
 	@RequestMapping(value = "/rdetail")
-	public ModelAndView rdetail(HttpServletRequest request, ModelAndView mv, RootVO vo, FollowVO fvo, CommentsVO cvo) {
-		
+	public ModelAndView rdetail(HttpServletRequest request, ModelAndView mv, FollowVO fvo,RootVO vo, CommentsVO cvo) {
 		String uri = "board/rootDetail";
 		
 		List<CommentsVO> list = new ArrayList<CommentsVO>();
@@ -256,6 +257,8 @@ public class RootController {
     	}else {
     		mv.addObject("message", "~~ 글번호에 해당하는 자료가 없습니다 ~~");
     	}
+    	fvo.setFollower(vo.getMember_id());
+    	fvo.setFollowing(loginID);
     	//following, follower 카운트
     	mv.addObject("following",fservice.countfollowing(fvo));
     	mv.addObject("follower",fservice.countfollower(fvo));
@@ -301,8 +304,8 @@ public class RootController {
 		// 2) 위 의 값을 이용해서 실제저장위치 확인 
 		// => 개발중인지, 배포했는지 에 따라 결정
 		if (realPath.contains(".eclipse."))
-			 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
-	//		realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+	//		 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+			realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
 		else realPath += "resources\\uploadImage\\";
 		//uploadImage폴더에 상품사진 넣어놓기 
 		// ** 폴더 만들기 (File 클래스활용)

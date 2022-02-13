@@ -56,10 +56,10 @@ public class FollowController {
 	 */
 	
 	@RequestMapping(value = "/followinglist")
-	public ModelAndView followinglist(ModelAndView mv) {
+	public ModelAndView followinglist(ModelAndView mv, FollowVO vo) {
 		
 		List<FollowVO> followinglist = new ArrayList<FollowVO>();
-    	followinglist = service.followingselectList();
+    	followinglist = service.followingselectList(vo);
     	
     	// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
     	if ( followinglist!=null && followinglist.size()>0 ) mv.addObject("apple", followinglist);
@@ -70,10 +70,10 @@ public class FollowController {
 	} //followinglist
 	
 	@RequestMapping(value = "/followerlist")
-	public ModelAndView followerlist(ModelAndView mv) {
+	public ModelAndView followerlist(ModelAndView mv, FollowVO vo) {
 		
 		List<FollowVO> followerlist = new ArrayList<FollowVO>();
-    	followerlist = service.followerselectList();
+    	followerlist = service.followerselectList(vo);
     	
     	// => Mapper 는 null 을 return 하지 않으므로 길이로 확인 
     	if ( followerlist!=null && followerlist.size()>0 ) mv.addObject("apple", followerlist);

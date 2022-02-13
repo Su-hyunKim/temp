@@ -4,9 +4,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>게시판 목록</title>
-<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
+	<meta charset="UTF-8">
+	<title>게시판 목록</title>
+	<link rel="stylesheet" type="text/css" href="resources/lib/main.css">
+	<script src="resources/lib/jquery-3.2.1.min.js"></script>
+	<script>
+	$(function(){
+		if("${role}".indexOf("ROLE_SELLER")!=-1){
+			$('#seller_root').show();
+		}else {
+			$('#seller_root').hide();
+		}
+	});
+	</script>
 </head>
 <body>
 <h1>게시판 목록</h1>
@@ -34,7 +44,7 @@
 	
 	 <!-- 글내용보기 기능 추가하기 -> login한 경우에만 허용 -->
 	<c:if test="${not empty loginID}">
-		<a href="rdetail?root_seq=${list.root_seq}&follower=${list.member_id}&following=${loginID}">${list.title}</a>
+		<a href="rdetail?root_seq=${list.root_seq}">${list.title}</a>
 	</c:if>
 	<c:if test="${empty loginID}">
 		${list.title} 
@@ -93,8 +103,9 @@
 <hr>
 
 <c:if test="${not empty loginID}">
-	<a href="rinsertf?type=0">홍보글등록</a>&nbsp;&nbsp;
-	<a href="rinsertf?type=1">리뷰글등록</a><br>
+	<c:if test='${type!="1"}'><a href="rinsertf?type=0" id="seller_root">홍보글등록</a>&nbsp;&nbsp;</c:if>
+	<c:if test='${type!="0"}'><a href="rinsertf?type=1">리뷰글등록</a></c:if>
+	<br>
 </c:if>
 <a href='javascript:history.go(-1)'>이전으로</a>&nbsp;&nbsp;
 <a href="home" >[Home]</a>

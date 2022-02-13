@@ -16,12 +16,12 @@ import vo.FollowVO;
 		
 		//기본 CRUD
 		@Override
-		public List<FollowVO> followingselectList() {
-			return dao.followingselectList();
+		public List<FollowVO> followingselectList(FollowVO vo) {
+			return dao.followingselectList(vo);
 		} //selectList
 		@Override
-		public List<FollowVO> followerselectList() {
-			return dao.followerselectList();
+		public List<FollowVO> followerselectList(FollowVO vo) {
+			return dao.followerselectList(vo);
 		} //selectList
 		@Override
 		public FollowVO selectOne(FollowVO vo) {

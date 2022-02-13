@@ -18,7 +18,7 @@
 		<td>글번호</td><td>${apple.root_seq}</td>
 	</tr>
 	<tr height="40">
-		<td>I D</td><td>${apple.member_id}&nbsp;&nbsp;<button type='button'><a href="#" id="followFlag">팔로우</a></button>
+		<td>I D</td><td>${apple.member_id}&nbsp;&nbsp;<button id="followFlag">팔로우</button>
 		팔로워 ${follower}, 팔로잉 ${following}</td>
 	<!-- 	팔로잉 팔로워 카운트 표시 -->
 	</tr>
@@ -51,7 +51,7 @@
  -->
  <hr>
 <c:if test="${loginID==apple.member_id  || loginID=='admin'}">
-	<a href="rdetail?jcode=U&root_seq=${apple.root_seq} &follower=${apple.member_id}&following=${loginID}">글수정</a>&nbsp;&nbsp;
+	<a href="rdetail?jcode=U&root_seq=${apple.root_seq}">글수정</a>&nbsp;&nbsp;
 	<a href="rdelete?root_seq=${apple.root_seq}">글삭제</a>
 		<!-- 삭제시 원글삭제 or 답글삭제 확인을 위함 -->
 </c:if> 
@@ -63,6 +63,8 @@
 <a href="home">HOME</a>
 <script>
 $(function(){
+	if('${loginID}'=='${apple.member_id}') $("#followFlag").hide();
+	else  $("#followFlag").show();
 	if('${followflag}'=='0') $("#followFlag").html('팔로우');
 	else $("#followFlag").html('팔로잉');
 	// follow 서블릿 호출 

@@ -210,6 +210,16 @@
 	<delete id="deleteSeller">
 		delete from seller where member_id=#{member_id}
 	</delete> 
+
+	<select id="followerList" resultType="vo.MemberVO">
+ 		<include refid="list"></include> from member where status!='0'
+ 		and member_id in(select follower from follow where following=#{member_id})
+ 	</select>
+ 	
+ 	<select id="followingList" resultType="vo.MemberVO">
+ 		<include refid="list"></include> from member where status!='0'
+ 		and member_id in(select following from follow where follower=#{member_id})
+ 	</select>
  	
 <!-- CRUD 기본 -->
  	<select id="selectList" resultType="vo.MemberVO">
