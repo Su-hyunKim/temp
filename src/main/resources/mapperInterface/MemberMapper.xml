@@ -205,11 +205,6 @@
 	<update id="updatePassword">
 		update member set password = #{password} where member_id=#{member_id}
 	</update>
-	
-<!-- password 수정 -->
-	<update id="updatePassword">
-		update member set password = #{password} where member_id=#{member_id}
-	</update>
  
 <!-- 판매자 삭제 -->
 	<delete id="deleteSeller">
