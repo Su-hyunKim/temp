@@ -304,8 +304,8 @@ public class RootController {
 		// 2) 위 의 값을 이용해서 실제저장위치 확인 
 		// => 개발중인지, 배포했는지 에 따라 결정
 		if (realPath.contains(".eclipse."))
-			 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
-	//		realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+	//		 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+			realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
 		else realPath += "resources\\uploadImage\\";
 		//uploadImage폴더에 상품사진 넣어놓기 
 		// ** 폴더 만들기 (File 클래스활용)
@@ -347,9 +347,45 @@ public class RootController {
 	} //rinsert
 	
 	@RequestMapping(value = "/rupdate")
-	public ModelAndView bupdate(ModelAndView mv, RootVO vo, RedirectAttributes rttr) {
+	public ModelAndView bupdate(HttpServletRequest request, ModelAndView mv, RootVO vo, RedirectAttributes rttr) throws IOException {
 		
 		String uri = "redirect:rlist?type=" + vo.getType();
+		String realPath = request.getRealPath("/"); // deprecated Method
+		System.out.println("** realPath => "+realPath);
+		
+		// 2) 위 의 값을 이용해서 실제저장위치 확인 
+		// => 개발중인지, 배포했는지 에 따라 결정
+		if (realPath.contains(".eclipse."))
+			 realPath = "D:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+	//		realPath = "C:/MTest/MyWork/Project/src/main/webapp/resources/uploadImage/";
+		else realPath += "resources\\uploadImage\\";
+		//uploadImage폴더에 상품사진 넣어놓기 
+		// ** 폴더 만들기 (File 클래스활용)
+		// => 위의 저장경로에 폴더가 없는 경우 (uploadImage가 없는경우)  만들어 준다
+		File f1 = new File(realPath);
+		if ( !f1.exists() ) f1.mkdir();
+		// realPath 디렉터리가 존재하는지 검사 (uploadImage 폴더 존재 확인)
+		// => 존재하지 않으면 디렉토리 생성
+		
+		// ** 기본 이미지 지정하기 
+		String file1, file2="resources/uploadImage/banana.png";
+		
+		// ** MultipartFile
+		// => 업로드한 파일에 대한 모든 정보를 가지고 있으며 이의 처리를 위한 메서드를 제공한다.
+		//    -> String getOriginalFilename(), 
+		//    -> void transferTo(File destFile),
+		//    -> boolean isEmpty()
+		
+		MultipartFile filesf = vo.getFilesf();
+		if ( filesf !=null && !filesf.isEmpty() ) {
+			// Image 를 선택했음 -> Image 처리 (realPath+화일명)
+			// 1) 물리적 위치에 Image 저장 
+			file1 = realPath + vo.getMember_id() + "_" + filesf.getOriginalFilename(); //  전송된File명 추출 & 연결
+	        filesf.transferTo(new File(file1)); // real 위치에 전송된 File 붙여넣기
+	         // 2) Table 저장위한 경로 
+	         file2 = "resources/uploadImage/" + vo.getMember_id() + "_" + filesf.getOriginalFilename();
+		}
+		vo.setFiles(file2);
 		if ( service.update(vo) > 0 ) { 
     		// 글수정 성공 -> blist : redirect
     		rttr.addFlashAttribute("message", "~~ 글수정 성공 !!! ~~");
