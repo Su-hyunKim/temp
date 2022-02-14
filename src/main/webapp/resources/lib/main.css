@@ -125,7 +125,8 @@ ul li span:hover {
 	cursor:pointer;
 }
 .banner{
-	height:250px;
+/* 	height:250px; */
+ 	height:400px;
 	width:100%;
 	padding:0;
 	border:0;

@@ -31,7 +31,7 @@
 	</tr>
 	<tr height="40">
 		<td>첨부파일</td>
-		<td><img src="${apple.filesf}" width="150" height="150"></td>
+		<td><img src="${apple.files}" width="150" height="150"></td>
 	</tr>
 	<tr height="40">
 		<td>글등록일</td><td>${apple.regdate}</td>
