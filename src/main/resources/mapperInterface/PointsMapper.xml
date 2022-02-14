@@ -16,7 +16,7 @@
 			select nvl(max(seq),0)+1 from points
 		</selectKey>
 		insert into points values ( 
-			#{seq},SYSDATE,#{giver},#{grantee},#{mypoint},#{point}
+			#{seq},SYSDATE,#{giver},#{grantee},#{mypoint}
 		)
 	</insert>
 	
