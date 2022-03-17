@@ -1,6 +1,6 @@
 #WAS for an ecommerce and social website
 
-OS : Window10  /  IDE : Eclipse  /  Version Management Tool : git
+OS : Window10  /  IDE : Eclipse  /  Version Management Tool : git \n
 Language: HTML5, CSS3, jsp, java1.8, javascript, jQuery, ajax, SQL(Oracle gXE11), xml
 Architecture: Spring MVC
 Framework : Spring, Mybatis
